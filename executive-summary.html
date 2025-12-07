@@ -1,0 +1,318 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SAIL Framework - Executive Summary</title>
+    <style>
+        :root {
+            --color-navy: #1B365D;
+            --color-gold: #B8860B;
+            --color-text: #333;
+            --color-text-light: #666;
+            --color-bg: #fafafa;
+            --color-white: #fff;
+            --color-border: #e0e0e0;
+            --font-serif: 'Georgia', 'Times New Roman', serif;
+            --font-sans: 'Helvetica Neue', Arial, sans-serif;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: var(--font-serif);
+            font-size: 17px;
+            line-height: 1.6;
+            color: var(--color-text);
+            background: var(--color-bg);
+        }
+
+        .hero {
+            background: linear-gradient(135deg, var(--color-navy) 0%, #2a4a7a 100%);
+            color: white;
+            padding: 2.5rem 2rem;
+            text-align: center;
+        }
+
+        .hero h1 {
+            font-family: var(--font-sans);
+            font-size: 2rem;
+            font-weight: 700;
+            margin-bottom: 0.25rem;
+        }
+
+        .hero .subtitle {
+            font-size: 1.1rem;
+            opacity: 0.9;
+            font-style: italic;
+        }
+
+        .hero .badge {
+            display: inline-block;
+            background: var(--color-gold);
+            color: white;
+            font-family: var(--font-sans);
+            font-size: 0.75rem;
+            font-weight: 600;
+            padding: 0.25rem 0.75rem;
+            border-radius: 4px;
+            margin-top: 0.75rem;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        article {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 2rem;
+            background: var(--color-white);
+        }
+
+        h2 {
+            font-family: var(--font-sans);
+            font-size: 1.1rem;
+            color: var(--color-navy);
+            margin-top: 1.75rem;
+            margin-bottom: 0.5rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        h2:first-of-type {
+            margin-top: 0;
+        }
+
+        p {
+            margin-bottom: 0.75rem;
+        }
+
+        strong {
+            color: var(--color-navy);
+        }
+
+        .challenge-box {
+            background: #fff5f5;
+            border-left: 4px solid #c53030;
+            padding: 1rem 1.25rem;
+            margin: 0.75rem 0;
+            border-radius: 0 6px 6px 0;
+        }
+
+        .insight-box {
+            background: linear-gradient(135deg, #f0f7ff 0%, #e6f0ff 100%);
+            border-left: 4px solid var(--color-navy);
+            padding: 1rem 1.25rem;
+            margin: 0.75rem 0;
+            border-radius: 0 6px 6px 0;
+        }
+
+        .pillar-grid {
+            display: grid;
+            grid-template-columns: auto 1fr;
+            gap: 0;
+            margin: 0.75rem 0;
+            border: 1px solid var(--color-border);
+            border-radius: 6px;
+            overflow: hidden;
+            font-size: 0.95rem;
+        }
+
+        .pillar-letter {
+            background: var(--color-navy);
+            color: white;
+            font-family: var(--font-sans);
+            font-size: 1.25rem;
+            font-weight: 700;
+            padding: 0.6rem 1rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .pillar-content {
+            padding: 0.6rem 1rem;
+            background: white;
+            border-bottom: 1px solid var(--color-border);
+        }
+
+        .pillar-content:last-child {
+            border-bottom: none;
+        }
+
+        .pillar-name {
+            font-family: var(--font-sans);
+            font-weight: 600;
+            color: var(--color-navy);
+        }
+
+        .phase-list {
+            margin: 0.75rem 0;
+            padding-left: 0;
+            list-style: none;
+        }
+
+        .phase-list li {
+            padding: 0.5rem 0;
+            padding-left: 2rem;
+            position: relative;
+            border-bottom: 1px solid var(--color-border);
+        }
+
+        .phase-list li:last-child {
+            border-bottom: none;
+        }
+
+        .phase-list .phase-num {
+            position: absolute;
+            left: 0;
+            font-family: var(--font-sans);
+            font-weight: 700;
+            color: var(--color-navy);
+        }
+
+        blockquote {
+            background: #f8f9fa;
+            border-left: 3px solid var(--color-gold);
+            padding: 0.75rem 1rem;
+            margin: 0.75rem 0;
+            font-style: italic;
+            font-size: 0.95rem;
+            border-radius: 0 6px 6px 0;
+        }
+
+        blockquote cite {
+            display: block;
+            margin-top: 0.5rem;
+            font-size: 0.85rem;
+            color: var(--color-text-light);
+            font-style: normal;
+        }
+
+        .promise-box {
+            background: var(--color-navy);
+            color: white;
+            padding: 1.25rem;
+            margin: 1rem 0;
+            border-radius: 8px;
+            text-align: center;
+        }
+
+        .promise-box .main {
+            font-family: var(--font-sans);
+            font-size: 1.2rem;
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+        }
+
+        .promise-box .sub {
+            font-size: 1rem;
+            opacity: 0.9;
+        }
+
+        .footer-links {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-top: 1.5rem;
+            padding-top: 1rem;
+            border-top: 1px solid var(--color-border);
+            font-size: 0.9rem;
+        }
+
+        .footer-links a {
+            color: var(--color-navy);
+            text-decoration: none;
+        }
+
+        .footer-links a:hover {
+            text-decoration: underline;
+        }
+
+        .contact {
+            color: var(--color-text-light);
+        }
+
+        @media (max-width: 600px) {
+            .hero h1 {
+                font-size: 1.5rem;
+            }
+            article {
+                padding: 1.5rem 1rem;
+            }
+            .footer-links {
+                flex-direction: column;
+                gap: 0.5rem;
+                text-align: center;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header class="hero">
+        <h1>The SAIL Framework</h1>
+        <p class="subtitle">Critical Thinking for an AI-Augmented World</p>
+        <span class="badge">Executive Summary</span>
+    </header>
+
+    <article>
+        <h2>The Challenge</h2>
+        
+        <div class="challenge-box">
+            <p style="margin-bottom: 0;">Students can <em>use</em> AI but cannot <em>evaluate</em> it. Each time they accept output without evaluation, they accumulate <strong>cognitive debt</strong> (Kosmyna et al., 2025, MIT Media Lab). The debt compounds until they lack the capacity to catch AI errors.</p>
+        </div>
+
+        <h2>The SAIL Framework</h2>
+        
+        <div class="pillar-grid">
+            <div class="pillar-letter">S</div>
+            <div class="pillar-content"><span class="pillar-name">Social Intelligence</span> — Communicating about AI to colleagues, clients, stakeholders</div>
+            
+            <div class="pillar-letter">A</div>
+            <div class="pillar-content"><span class="pillar-name">AI Literacy</span> — Understanding AI capabilities, limitations, biases, and failure modes</div>
+            
+            <div class="pillar-letter">I</div>
+            <div class="pillar-content"><span class="pillar-name">Innovation/Inquiry</span> — Questioning AI outputs; treating AI as thought partner, not oracle</div>
+            
+            <div class="pillar-letter">L</div>
+            <div class="pillar-content"><span class="pillar-name">Leadership</span> — Taking responsibility for Human-AI collaboration outcomes</div>
+        </div>
+
+        <h2>The Key Insight</h2>
+        
+        <div class="insight-box">
+            <p style="margin-bottom: 0.5rem;"><strong>Critical thinking isn't a fifth pillar—it's what makes the other four function.</strong></p>
+            <p style="margin-bottom: 0; font-size: 0.95rem;">The Greek <em>kritikos</em> means "able to discern." The APA Delphi Report (Facione, 1990) defines CT as "purposeful, self-regulatory <strong>judgment</strong>"—integrating analytical skills with dispositional qualities like open-mindedness and truth-seeking.</p>
+        </div>
+
+        <h2>The Evidence: Three-Phase Scaffold</h2>
+        
+        <ul class="phase-list">
+            <li><span class="phase-num">1.</span><strong>Foundation:</strong> Students own intellectual work; AI constrained to research assistance</li>
+            <li><span class="phase-num">2.</span><strong>Integration:</strong> Full AI use with required evaluation for hallucinations</li>
+            <li><span class="phase-num">3.</span><strong>Leadership:</strong> Design Human-AI collaboration frameworks as CSO</li>
+        </ul>
+
+        <blockquote>
+            <p>"The more I was depending on it, the less I was thinking about the concepts of underlying strategies."</p>
+            <cite>— Student reflection, Strategic Management, Fall 2025 (Rosen)</cite>
+        </blockquote>
+
+        <h2>The Promise</h2>
+        
+        <div class="promise-box">
+            <p class="main">Skills can be automated. Judgment cannot.</p>
+            <p class="sub">Not just AI-literate graduates. Graduates with judgment.</p>
+        </div>
+
+        <div class="footer-links">
+            <a href="index.html">← Read Full Document</a>
+            <span class="contact">SAIL Collaborative · Suffolk University · harslan@suffolk.edu</span>
+        </div>
+    </article>
+</body>
+</html>
