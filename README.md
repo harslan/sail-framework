@@ -43,13 +43,13 @@ As AI capabilities grow, the human capacity that remains irreplaceable is judgme
 
 ## View the Framework
 
-- **[Full Document](index.html)** — Complete write-up with evidence and references
-- **[Executive Summary](executive-summary.html)** — One-page overview
+- **[Full Document](https://harslan.github.io/sail-framework/)** — Complete write-up with evidence and references
+- **[Executive Summary](https://harslan.github.io/sail-framework/executive-summary.html)** — One-page overview
 
 ## Downloads
 
-- [Full Document (PDF)](downloads/SAIL-Critical-Thinking-Framework.pdf)
-- [Executive Summary (PDF)](downloads/SAIL-Framework-Executive-Summary.pdf)
+- [Full Document (PDF)](https://harslan.github.io/sail-framework/downloads/SAIL-Critical-Thinking-Framework.pdf)
+- [Executive Summary (PDF)](https://harslan.github.io/sail-framework/downloads/SAIL-Framework-Executive-Summary.pdf)
 
 ---
 
