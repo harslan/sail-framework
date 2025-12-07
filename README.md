@@ -46,6 +46,16 @@ As AI capabilities grow, the human capacity that remains irreplaceable is judgme
 - **[Full Document](https://harslan.github.io/sail-framework/)** — Complete write-up with evidence and references
 - **[Executive Summary](https://harslan.github.io/sail-framework/executive-summary.html)** — One-page overview
 
+## The SAIL Challenge
+
+A structured learning experience that develops judgment through deliberate comparison between human thinking and AI output.
+
+- **[Challenge Overview](https://harslan.github.io/sail-framework/challenge/)** — What it is and why it works
+- **[Student Guide](https://harslan.github.io/sail-framework/challenge/student-guide.html)** — Three-phase instructions
+- **[Rubric](https://harslan.github.io/sail-framework/challenge/rubric.html)** — Assessment criteria
+- **[Sample Case](https://harslan.github.io/sail-framework/challenge/sample-case.html)** — Practice example
+- **[Faculty Guide](https://harslan.github.io/sail-framework/challenge/faculty-guide.html)** — Implementation guide
+
 ## Downloads
 
 - [Full Document (PDF)](https://harslan.github.io/sail-framework/downloads/SAIL-Critical-Thinking-Framework.pdf)
