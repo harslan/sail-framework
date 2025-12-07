@@ -1,0 +1,427 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>The SAIL Challenge: Developing Judgment Through Structured AI Use</title>
+    <style>
+        :root {
+            --color-navy: #1B365D;
+            --color-gold: #B8860B;
+            --color-text: #333;
+            --color-text-light: #666;
+            --color-bg: #fafafa;
+            --color-white: #fff;
+            --color-border: #e0e0e0;
+            --font-serif: 'Georgia', 'Times New Roman', serif;
+            --font-sans: 'Helvetica Neue', Arial, sans-serif;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            font-family: var(--font-serif);
+            font-size: 18px;
+            line-height: 1.7;
+            color: var(--color-text);
+            background: var(--color-bg);
+        }
+
+        .hero {
+            background: linear-gradient(135deg, var(--color-navy) 0%, #2a4a7a 100%);
+            color: white;
+            padding: 4rem 2rem;
+            text-align: center;
+        }
+
+        .hero h1 {
+            font-family: var(--font-sans);
+            font-size: 2.5rem;
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+        }
+
+        .hero .subtitle {
+            font-size: 1.3rem;
+            opacity: 0.9;
+            font-style: italic;
+        }
+
+        nav {
+            background: white;
+            border-bottom: 1px solid var(--color-border);
+            padding: 1rem 2rem;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        nav ul {
+            max-width: 900px;
+            margin: 0 auto;
+            list-style: none;
+            display: flex;
+            gap: 2rem;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        nav a {
+            color: var(--color-navy);
+            text-decoration: none;
+            font-family: var(--font-sans);
+            font-size: 0.95rem;
+            font-weight: 500;
+        }
+
+        nav a:hover { text-decoration: underline; }
+
+        article {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 3rem 2rem;
+            background: var(--color-white);
+        }
+
+        h2 {
+            font-family: var(--font-sans);
+            font-size: 1.5rem;
+            color: var(--color-navy);
+            margin-top: 2.5rem;
+            margin-bottom: 1rem;
+            font-weight: 600;
+        }
+
+        h2:first-of-type { margin-top: 0; }
+
+        h3 {
+            font-family: var(--font-sans);
+            font-size: 1.15rem;
+            color: var(--color-text);
+            margin-top: 1.5rem;
+            margin-bottom: 0.5rem;
+        }
+
+        p { margin-bottom: 1.25rem; }
+
+        strong { color: var(--color-navy); }
+
+        .problem-box {
+            background: #fff5f5;
+            border-left: 4px solid #c53030;
+            padding: 1.5rem;
+            margin: 1.5rem 0;
+            border-radius: 0 8px 8px 0;
+        }
+
+        .insight-box {
+            background: linear-gradient(135deg, #f0f7ff 0%, #e6f0ff 100%);
+            border-left: 4px solid var(--color-navy);
+            padding: 1.5rem;
+            margin: 1.5rem 0;
+            border-radius: 0 8px 8px 0;
+        }
+
+        .phase-overview {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 1rem;
+            margin: 1.5rem 0;
+        }
+
+        .phase-card {
+            background: white;
+            border: 1px solid var(--color-border);
+            border-radius: 8px;
+            padding: 1.25rem;
+            text-align: center;
+        }
+
+        .phase-card .number {
+            font-family: var(--font-sans);
+            font-size: 2rem;
+            font-weight: 700;
+            color: var(--color-navy);
+        }
+
+        .phase-card .name {
+            font-family: var(--font-sans);
+            font-weight: 600;
+            color: var(--color-gold);
+            margin: 0.5rem 0;
+        }
+
+        .phase-card .desc {
+            font-size: 0.9rem;
+            color: var(--color-text-light);
+        }
+
+        .research-box {
+            background: #f8f9fa;
+            border: 1px solid var(--color-border);
+            border-radius: 8px;
+            padding: 1.25rem;
+            margin: 1rem 0;
+        }
+
+        .research-box h4 {
+            font-family: var(--font-sans);
+            font-size: 0.95rem;
+            color: var(--color-navy);
+            margin-bottom: 0.5rem;
+        }
+
+        .research-box p {
+            font-size: 0.95rem;
+            margin-bottom: 0;
+        }
+
+        .citation {
+            font-size: 0.85rem;
+            color: var(--color-text-light);
+            font-style: italic;
+        }
+
+        .sail-connection {
+            display: grid;
+            grid-template-columns: auto 1fr;
+            gap: 0;
+            margin: 1.5rem 0;
+            border: 1px solid var(--color-border);
+            border-radius: 8px;
+            overflow: hidden;
+        }
+
+        .sail-letter {
+            background: var(--color-navy);
+            color: white;
+            font-family: var(--font-sans);
+            font-size: 1.25rem;
+            font-weight: 700;
+            padding: 0.75rem 1rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .sail-content {
+            padding: 0.75rem 1rem;
+            background: white;
+            border-bottom: 1px solid var(--color-border);
+            font-size: 0.95rem;
+        }
+
+        .sail-content:last-child { border-bottom: none; }
+
+        .nav-cards {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 1rem;
+            margin: 2rem 0;
+        }
+
+        .nav-card {
+            background: white;
+            border: 2px solid var(--color-navy);
+            border-radius: 8px;
+            padding: 1.5rem;
+            text-decoration: none;
+            color: var(--color-text);
+            transition: all 0.2s;
+        }
+
+        .nav-card:hover {
+            background: var(--color-navy);
+            color: white;
+        }
+
+        .nav-card:hover .nav-card-title { color: white; }
+
+        .nav-card-title {
+            font-family: var(--font-sans);
+            font-weight: 600;
+            color: var(--color-navy);
+            margin-bottom: 0.5rem;
+        }
+
+        .nav-card-desc {
+            font-size: 0.9rem;
+            opacity: 0.8;
+        }
+
+        .references {
+            background: #f8f9fa;
+            padding: 1.5rem;
+            margin-top: 2rem;
+            border-radius: 8px;
+        }
+
+        .references h3 { margin-top: 0; }
+
+        .references p {
+            font-size: 0.85rem;
+            margin-bottom: 0.5rem;
+            padding-left: 1.5rem;
+            text-indent: -1.5rem;
+        }
+
+        .footer {
+            text-align: center;
+            padding: 2rem;
+            background: var(--color-navy);
+            color: white;
+        }
+
+        .footer a { color: var(--color-gold); }
+
+        @media (max-width: 700px) {
+            .hero h1 { font-size: 1.8rem; }
+            .phase-overview { grid-template-columns: 1fr; }
+            .nav-cards { grid-template-columns: 1fr; }
+            nav ul { gap: 1rem; }
+        }
+    </style>
+</head>
+<body>
+    <header class="hero">
+        <h1>The SAIL Challenge</h1>
+        <p class="subtitle">Developing Judgment Through Structured AI Use</p>
+    </header>
+
+    <nav>
+        <ul>
+            <li><a href="index.html">Overview</a></li>
+            <li><a href="student-guide.html">Student Guide</a></li>
+            <li><a href="rubric.html">Rubric</a></li>
+            <li><a href="sample-case.html">Sample Case</a></li>
+            <li><a href="faculty-guide.html">Faculty Guide</a></li>
+        </ul>
+    </nav>
+
+    <article>
+        <h2>The Problem</h2>
+
+        <div class="problem-box">
+            <p style="margin-bottom: 0.75rem;"><strong>Students can use AI. They struggle to evaluate it.</strong></p>
+            <p style="margin-bottom: 0;">Each time a student accepts AI output without critical evaluation, they accumulate what researchers call <strong>cognitive debt</strong> — the gap between apparent competence (what AI produces) and actual competence (what they understand). The debt compounds. Eventually, when AI makes a mistake — and it will — they lack the capacity to catch it.</p>
+        </div>
+
+        <div class="research-box">
+            <h4>Research Evidence</h4>
+            <p>EEG studies at MIT's Media Lab found that students using LLMs for essay writing showed the weakest brain connectivity and lowest sense of essay ownership compared to other groups — empirical evidence of cognitive debt accumulating in real time.</p>
+            <p class="citation">Kosmyna, N., et al. (2025). "Your Brain on ChatGPT: Accumulation of Cognitive Debt." MIT Media Lab.</p>
+        </div>
+
+        <p>The solution is not to restrict AI use. It is to <strong>structure AI use so that judgment develops alongside it.</strong></p>
+
+        <h2>The SAIL Challenge</h2>
+
+        <p>The SAIL Challenge is a structured learning experience that develops critical thinking through deliberate comparison between human judgment and AI output. Students work through three phases on a single problem:</p>
+
+        <div class="phase-overview">
+            <div class="phase-card">
+                <div class="number">1</div>
+                <div class="name">Foundation</div>
+                <div class="desc">Analyze without AI</div>
+            </div>
+            <div class="phase-card">
+                <div class="number">2</div>
+                <div class="name">Integration</div>
+                <div class="desc">Collaborate with AI</div>
+            </div>
+            <div class="phase-card">
+                <div class="number">3</div>
+                <div class="name">Leadership</div>
+                <div class="desc">Own the decision</div>
+            </div>
+        </div>
+
+        <p>The power is in the <strong>comparison</strong>. By establishing their own thinking first (Phase 1), then engaging AI (Phase 2), students can see clearly where AI adds value, where it falls short, and where their judgment must prevail. Phase 3 requires them to own the final decision — AI cannot answer "where did <em>you</em> override AI?"</p>
+
+        <h2>Why This Works</h2>
+
+        <p>The SAIL Challenge design is grounded in established learning research:</p>
+
+        <div class="research-box">
+            <h4>Desirable Difficulties</h4>
+            <p>Learning conditions that appear to slow immediate performance often enhance long-term retention and transfer. Requiring students to think before AI assists creates productive struggle that strengthens learning.</p>
+            <p class="citation">Bjork, R. A., & Bjork, E. L. (2011). "Making things hard on yourself, but in a good way."</p>
+        </div>
+
+        <div class="research-box">
+            <h4>Metacognition</h4>
+            <p>Awareness and regulation of one's own thinking processes can be developed through structured reflection. Phase 3's requirement to articulate "where did you change your mind?" builds metacognitive capacity.</p>
+            <p class="citation">Flavell, J. H. (1979). "Metacognition and cognitive monitoring." American Psychologist.</p>
+        </div>
+
+        <div class="research-box">
+            <h4>Transfer of Learning</h4>
+            <p>Knowledge taught in a single context is less likely to transfer than knowledge practiced across multiple contexts. The Challenge structure remains constant while cases vary by discipline — enabling both low-road (automatic) and high-road (mindful) transfer.</p>
+            <p class="citation">Perkins, D. N., & Salomon, G. (1988). "Teaching for transfer." Educational Leadership.</p>
+        </div>
+
+        <div class="research-box">
+            <h4>Critical Thinking as Judgment</h4>
+            <p>Critical thinking is "purposeful, self-regulatory judgment" that integrates both cognitive skills (analysis, evaluation) and dispositional qualities (open-mindedness, truth-seeking). The Challenge develops both dimensions.</p>
+            <p class="citation">Facione, P. A. (1990). The Delphi Report. APA Expert Consensus.</p>
+        </div>
+
+        <h2>Connection to SAIL</h2>
+
+        <p>Each phase of the Challenge exercises the four SAIL competencies:</p>
+
+        <div class="sail-connection">
+            <div class="sail-letter">S</div>
+            <div class="sail-content"><strong>Social Intelligence</strong> — Phase 3 requires communicating your reasoning clearly in the judgment memo</div>
+            
+            <div class="sail-letter">A</div>
+            <div class="sail-content"><strong>AI Literacy</strong> — Phase 2 requires identifying AI's strengths, limitations, and errors in your specific context</div>
+            
+            <div class="sail-letter">I</div>
+            <div class="sail-content"><strong>Innovation/Inquiry</strong> — Phase 2 requires questioning AI output, not accepting it as oracle</div>
+            
+            <div class="sail-letter">L</div>
+            <div class="sail-content"><strong>Leadership</strong> — Phase 3 requires taking responsibility for the final decision and owning the outcome</div>
+        </div>
+
+        <div class="insight-box">
+            <p style="margin-bottom: 0;"><strong>Critical thinking is not a fifth pillar. It is the connective tissue that makes the other four function.</strong> The Greek root <em>kritikos</em> means "able to discern." The SAIL Challenge develops discernment through structured practice.</p>
+        </div>
+
+        <h2>Get Started</h2>
+
+        <div class="nav-cards">
+            <a href="student-guide.html" class="nav-card">
+                <div class="nav-card-title">📋 Student Guide</div>
+                <div class="nav-card-desc">Step-by-step instructions for completing the three phases</div>
+            </a>
+            <a href="rubric.html" class="nav-card">
+                <div class="nav-card-title">✓ Rubric</div>
+                <div class="nav-card-desc">How your work will be assessed</div>
+            </a>
+            <a href="sample-case.html" class="nav-card">
+                <div class="nav-card-title">📁 Sample Case</div>
+                <div class="nav-card-desc">A practice case to see how it works</div>
+            </a>
+            <a href="faculty-guide.html" class="nav-card">
+                <div class="nav-card-title">🎓 Faculty Guide</div>
+                <div class="nav-card-desc">How to adapt the Challenge for your course</div>
+            </a>
+        </div>
+
+        <div class="references">
+            <h3>References</h3>
+            <p>Bjork, R. A., & Bjork, E. L. (2011). Making things hard on yourself, but in a good way: Creating desirable difficulties to enhance learning. In M. A. Gernsbacher et al. (Eds.), <em>Psychology and the real world</em> (pp. 56-64). Worth Publishers.</p>
+            <p>Facione, P. A. (1990). <em>Critical thinking: A statement of expert consensus for purposes of educational assessment and instruction (The Delphi Report)</em>. California Academic Press.</p>
+            <p>Flavell, J. H. (1979). Metacognition and cognitive monitoring: A new area of cognitive-developmental inquiry. <em>American Psychologist</em>, 34, 906-911.</p>
+            <p>Kosmyna, N., et al. (2025). Your brain on ChatGPT: Accumulation of cognitive debt when using an AI assistant. <em>arXiv preprint arXiv:2506.08872</em>. MIT Media Lab.</p>
+            <p>Perkins, D. N., & Salomon, G. (1988). Teaching for transfer. <em>Educational Leadership</em>, 46(1), 22-32.</p>
+        </div>
+    </article>
+
+    <footer class="footer">
+        <p><strong>SAIL Challenge</strong></p>
+        <p>Part of the <a href="../index.html">SAIL Framework</a> · Suffolk University · Sawyer Business School</p>
+    </footer>
+</body>
+</html>

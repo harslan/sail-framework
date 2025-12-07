@@ -1,0 +1,417 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Student Guide | The SAIL Challenge</title>
+    <style>
+        :root {
+            --color-navy: #1B365D;
+            --color-gold: #B8860B;
+            --color-text: #333;
+            --color-text-light: #666;
+            --color-bg: #fafafa;
+            --color-white: #fff;
+            --color-border: #e0e0e0;
+            --font-serif: 'Georgia', 'Times New Roman', serif;
+            --font-sans: 'Helvetica Neue', Arial, sans-serif;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            font-family: var(--font-serif);
+            font-size: 18px;
+            line-height: 1.7;
+            color: var(--color-text);
+            background: var(--color-bg);
+        }
+
+        .hero {
+            background: linear-gradient(135deg, var(--color-navy) 0%, #2a4a7a 100%);
+            color: white;
+            padding: 3rem 2rem;
+            text-align: center;
+        }
+
+        .hero h1 {
+            font-family: var(--font-sans);
+            font-size: 2rem;
+            font-weight: 700;
+            margin-bottom: 0.25rem;
+        }
+
+        .hero .subtitle {
+            font-size: 1.1rem;
+            opacity: 0.9;
+        }
+
+        nav {
+            background: white;
+            border-bottom: 1px solid var(--color-border);
+            padding: 1rem 2rem;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        nav ul {
+            max-width: 900px;
+            margin: 0 auto;
+            list-style: none;
+            display: flex;
+            gap: 2rem;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        nav a {
+            color: var(--color-navy);
+            text-decoration: none;
+            font-family: var(--font-sans);
+            font-size: 0.95rem;
+            font-weight: 500;
+        }
+
+        nav a:hover { text-decoration: underline; }
+        nav a.active { border-bottom: 2px solid var(--color-gold); }
+
+        article {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 3rem 2rem;
+            background: var(--color-white);
+        }
+
+        h2 {
+            font-family: var(--font-sans);
+            font-size: 1.5rem;
+            color: var(--color-navy);
+            margin-top: 2.5rem;
+            margin-bottom: 1rem;
+            font-weight: 600;
+        }
+
+        h2:first-of-type { margin-top: 0; }
+
+        p { margin-bottom: 1.25rem; }
+
+        strong { color: var(--color-navy); }
+
+        .time-estimate {
+            display: inline-block;
+            background: var(--color-gold);
+            color: white;
+            font-family: var(--font-sans);
+            font-size: 0.8rem;
+            font-weight: 600;
+            padding: 0.25rem 0.75rem;
+            border-radius: 4px;
+            margin-left: 0.5rem;
+        }
+
+        .phase-section {
+            border: 2px solid var(--color-border);
+            border-radius: 12px;
+            margin: 2rem 0;
+            overflow: hidden;
+        }
+
+        .phase-header {
+            background: var(--color-navy);
+            color: white;
+            padding: 1.25rem 1.5rem;
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .phase-number {
+            font-family: var(--font-sans);
+            font-size: 2rem;
+            font-weight: 700;
+            background: white;
+            color: var(--color-navy);
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .phase-title {
+            font-family: var(--font-sans);
+            font-size: 1.25rem;
+            font-weight: 600;
+        }
+
+        .phase-subtitle {
+            font-size: 0.95rem;
+            opacity: 0.9;
+        }
+
+        .phase-body {
+            padding: 1.5rem;
+        }
+
+        .phase-body h4 {
+            font-family: var(--font-sans);
+            font-size: 1rem;
+            color: var(--color-navy);
+            margin-top: 1.25rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .phase-body h4:first-child { margin-top: 0; }
+
+        .phase-body ul {
+            margin: 0.75rem 0 1rem 1.5rem;
+        }
+
+        .phase-body li {
+            margin-bottom: 0.5rem;
+        }
+
+        .warning-box {
+            background: #fff5f5;
+            border-left: 4px solid #c53030;
+            padding: 1rem 1.25rem;
+            margin: 1rem 0;
+            border-radius: 0 6px 6px 0;
+        }
+
+        .tip-box {
+            background: #f0fff4;
+            border-left: 4px solid #38a169;
+            padding: 1rem 1.25rem;
+            margin: 1rem 0;
+            border-radius: 0 6px 6px 0;
+        }
+
+        .deliverable-box {
+            background: #f8f9fa;
+            border: 1px solid var(--color-border);
+            border-radius: 8px;
+            padding: 1rem 1.25rem;
+            margin: 1rem 0;
+        }
+
+        .deliverable-box h5 {
+            font-family: var(--font-sans);
+            font-size: 0.9rem;
+            color: var(--color-gold);
+            margin-bottom: 0.5rem;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .key-questions {
+            background: linear-gradient(135deg, #f0f7ff 0%, #e6f0ff 100%);
+            border-radius: 8px;
+            padding: 1.25rem;
+            margin: 1.5rem 0;
+        }
+
+        .key-questions h4 {
+            font-family: var(--font-sans);
+            font-size: 1rem;
+            color: var(--color-navy);
+            margin-bottom: 0.75rem;
+        }
+
+        .key-questions ul {
+            margin: 0;
+            padding-left: 1.25rem;
+        }
+
+        .key-questions li {
+            margin-bottom: 0.5rem;
+            font-style: italic;
+        }
+
+        .footer {
+            text-align: center;
+            padding: 2rem;
+            background: var(--color-navy);
+            color: white;
+        }
+
+        .footer a { color: var(--color-gold); }
+
+        @media (max-width: 600px) {
+            .hero h1 { font-size: 1.5rem; }
+            .phase-header { flex-direction: column; text-align: center; }
+            nav ul { gap: 1rem; }
+        }
+    </style>
+</head>
+<body>
+    <header class="hero">
+        <h1>Student Guide</h1>
+        <p class="subtitle">How to Complete the SAIL Challenge</p>
+    </header>
+
+    <nav>
+        <ul>
+            <li><a href="index.html">Overview</a></li>
+            <li><a href="student-guide.html" class="active">Student Guide</a></li>
+            <li><a href="rubric.html">Rubric</a></li>
+            <li><a href="sample-case.html">Sample Case</a></li>
+            <li><a href="faculty-guide.html">Faculty Guide</a></li>
+        </ul>
+    </nav>
+
+    <article>
+        <h2>What You'll Do</h2>
+
+        <p>The SAIL Challenge develops your ability to work <em>with</em> AI while maintaining your own judgment. You will analyze the same problem three times — first alone, then with AI, then as a decision-maker who must own the outcome.</p>
+
+        <p>Total time: approximately <strong>90-120 minutes</strong>, depending on case complexity.</p>
+
+        <p>The power is in the comparison. By thinking first (Phase 1) and then engaging AI (Phase 2), you can see exactly where AI helps, where it falls short, and where your judgment must lead.</p>
+
+        <!-- PHASE 1 -->
+        <div class="phase-section">
+            <div class="phase-header">
+                <div class="phase-number">1</div>
+                <div>
+                    <div class="phase-title">Foundation <span class="time-estimate">30-40 min</span></div>
+                    <div class="phase-subtitle">Establish your baseline thinking — without AI</div>
+                </div>
+            </div>
+            <div class="phase-body">
+                <h4>What You Do</h4>
+                <p>Read the case carefully. Analyze it using your own knowledge and reasoning. Produce an initial recommendation or analysis.</p>
+
+                <div class="warning-box">
+                    <strong>No AI assistance in Phase 1.</strong> This includes ChatGPT, Claude, Copilot, Gemini, Perplexity, or any other AI tool. You may use course materials, textbooks, and standard search engines for factual lookups.
+                </div>
+
+                <h4>Why This Matters</h4>
+                <p>This phase establishes your baseline — what <em>you</em> think before AI influences you. Without this baseline, you cannot evaluate what AI actually contributes. Research shows that productive struggle strengthens learning; this is a "desirable difficulty" that enhances retention and transfer.</p>
+
+                <div class="deliverable-box">
+                    <h5>Deliverable</h5>
+                    <p style="margin-bottom: 0;"><strong>Phase 1 Analysis</strong> (1-2 pages): Your analysis of the case and initial recommendation, written entirely in your own words based on your own thinking.</p>
+                </div>
+
+                <div class="tip-box">
+                    <strong>Tip:</strong> Don't worry about being "wrong." The goal is not a perfect answer — it's to establish what you think so you can compare it to AI's perspective later.
+                </div>
+            </div>
+        </div>
+
+        <!-- PHASE 2 -->
+        <div class="phase-section">
+            <div class="phase-header">
+                <div class="phase-number">2</div>
+                <div>
+                    <div class="phase-title">Integration <span class="time-estimate">30-45 min</span></div>
+                    <div class="phase-subtitle">Collaborate with AI — and evaluate critically</div>
+                </div>
+            </div>
+            <div class="phase-body">
+                <h4>What You Do</h4>
+                <p>Now engage AI to work on the same case. Use any AI tool(s) you prefer. But your task is not simply to get an answer — it is to <strong>critically evaluate</strong> what AI provides.</p>
+
+                <ul>
+                    <li>Ask AI to analyze the case</li>
+                    <li>Compare AI's analysis to your Phase 1 analysis</li>
+                    <li>Identify where AI's output differs from yours</li>
+                    <li>Evaluate AI's reasoning: What did it get right? What did it miss? Where might it be wrong?</li>
+                    <li>Check for hallucinations, unsupported claims, or shallow analysis</li>
+                </ul>
+
+                <h4>Why This Matters</h4>
+                <p>This phase develops AI Literacy — understanding what AI can and cannot do in your specific context. The comparison between your thinking and AI's thinking is where learning happens. You are not learning <em>from</em> AI; you are learning to <em>evaluate</em> AI.</p>
+
+                <div class="deliverable-box">
+                    <h5>Deliverable</h5>
+                    <p style="margin-bottom: 0.5rem;"><strong>Phase 2 AI Evaluation Log</strong> (1-2 pages):</p>
+                    <ul style="margin-bottom: 0;">
+                        <li>Key prompts you used (copy or summarize)</li>
+                        <li>Where AI's analysis differed from your Phase 1 analysis</li>
+                        <li>Where AI added genuine value (new insights, better framing, useful information)</li>
+                        <li>Where AI fell short (errors, gaps, hallucinations, shallow reasoning)</li>
+                        <li>What surprised you about the comparison</li>
+                    </ul>
+                </div>
+
+                <div class="tip-box">
+                    <strong>Tip:</strong> Don't just accept AI's first response. Push back. Ask follow-up questions. Request evidence. Treat AI as a thought partner you're testing, not an oracle you're trusting.
+                </div>
+            </div>
+        </div>
+
+        <!-- PHASE 3 -->
+        <div class="phase-section">
+            <div class="phase-header">
+                <div class="phase-number">3</div>
+                <div>
+                    <div class="phase-title">Leadership <span class="time-estimate">20-30 min</span></div>
+                    <div class="phase-subtitle">Own the decision — with your judgment</div>
+                </div>
+            </div>
+            <div class="phase-body">
+                <h4>What You Do</h4>
+                <p>Now synthesize everything into a final <strong>Judgment Memo</strong>. You are the decision-maker. You have consulted AI (like you might consult a junior analyst), but the decision is yours. You must own it.</p>
+
+                <div class="key-questions">
+                    <h4>Your Judgment Memo Must Address:</h4>
+                    <ul>
+                        <li>What is your final recommendation?</li>
+                        <li>Where did you change your mind based on AI input? Why?</li>
+                        <li>Where did you override or reject AI's suggestions? Why?</li>
+                        <li>What did you learn about your own thinking through this process?</li>
+                    </ul>
+                </div>
+
+                <h4>Why This Matters</h4>
+                <p>This phase develops Leadership and metacognition. AI cannot answer "where did <em>you</em> override AI?" — only you can. By articulating your reasoning, you strengthen your capacity for judgment. This is what employers need: not people who can prompt AI, but people who can <em>evaluate</em> AI and <em>own</em> outcomes.</p>
+
+                <div class="deliverable-box">
+                    <h5>Deliverable</h5>
+                    <p style="margin-bottom: 0;"><strong>Judgment Memo</strong> (1 page): Your final recommendation with clear articulation of where you followed AI, where you diverged, and why. Written as if you are presenting to a senior decision-maker who wants to understand your reasoning.</p>
+                </div>
+
+                <div class="tip-box">
+                    <strong>Tip:</strong> The best memos show clear thinking, not just correct answers. A well-reasoned recommendation that acknowledges uncertainty is stronger than a confident answer with shallow justification.
+                </div>
+            </div>
+        </div>
+
+        <h2>Submission Checklist</h2>
+
+        <p>Before submitting, confirm you have:</p>
+
+        <ul>
+            <li>☐ <strong>Phase 1 Analysis</strong> — Your initial analysis, completed without AI</li>
+            <li>☐ <strong>Phase 2 AI Evaluation Log</strong> — Documentation of AI interaction and critical evaluation</li>
+            <li>☐ <strong>Phase 3 Judgment Memo</strong> — Your final recommendation with reasoning</li>
+        </ul>
+
+        <p>All three phases must be completed in order. Your Phase 1 must be submitted (or timestamped) before you begin Phase 2.</p>
+
+        <h2>Common Questions</h2>
+
+        <p><strong>Can I revise my Phase 1 analysis after seeing AI's response?</strong><br>
+        No. Phase 1 is your baseline. Changing it defeats the purpose of comparison. Your growth shows in Phase 3, where you synthesize both perspectives.</p>
+
+        <p><strong>What AI tools can I use in Phase 2?</strong><br>
+        Any AI tool is permitted: ChatGPT, Claude, Gemini, Copilot, Perplexity, etc. You may use multiple tools. Document which tools you used.</p>
+
+        <p><strong>What if AI gives a better answer than mine?</strong><br>
+        That's fine — and expected sometimes. The point is not to "beat" AI. It's to develop your ability to evaluate when AI is right, when it's wrong, and when the answer requires judgment AI cannot provide.</p>
+
+        <p><strong>How long should each deliverable be?</strong><br>
+        Quality over quantity. Phase 1: 1-2 pages. Phase 2: 1-2 pages. Phase 3: 1 page. Clear, concise reasoning is valued over length.</p>
+
+    </article>
+
+    <footer class="footer">
+        <p><strong>SAIL Challenge</strong></p>
+        <p>Part of the <a href="../index.html">SAIL Framework</a> · Suffolk University · Sawyer Business School</p>
+    </footer>
+</body>
+</html>

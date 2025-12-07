@@ -1,0 +1,397 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Assessment Rubric | The SAIL Challenge</title>
+    <style>
+        :root {
+            --color-navy: #1B365D;
+            --color-gold: #B8860B;
+            --color-text: #333;
+            --color-text-light: #666;
+            --color-bg: #fafafa;
+            --color-white: #fff;
+            --color-border: #e0e0e0;
+            --font-serif: 'Georgia', 'Times New Roman', serif;
+            --font-sans: 'Helvetica Neue', Arial, sans-serif;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            font-family: var(--font-serif);
+            font-size: 18px;
+            line-height: 1.7;
+            color: var(--color-text);
+            background: var(--color-bg);
+        }
+
+        .hero {
+            background: linear-gradient(135deg, var(--color-navy) 0%, #2a4a7a 100%);
+            color: white;
+            padding: 3rem 2rem;
+            text-align: center;
+        }
+
+        .hero h1 {
+            font-family: var(--font-sans);
+            font-size: 2rem;
+            font-weight: 700;
+            margin-bottom: 0.25rem;
+        }
+
+        .hero .subtitle {
+            font-size: 1.1rem;
+            opacity: 0.9;
+        }
+
+        nav {
+            background: white;
+            border-bottom: 1px solid var(--color-border);
+            padding: 1rem 2rem;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        nav ul {
+            max-width: 900px;
+            margin: 0 auto;
+            list-style: none;
+            display: flex;
+            gap: 2rem;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        nav a {
+            color: var(--color-navy);
+            text-decoration: none;
+            font-family: var(--font-sans);
+            font-size: 0.95rem;
+            font-weight: 500;
+        }
+
+        nav a:hover { text-decoration: underline; }
+        nav a.active { border-bottom: 2px solid var(--color-gold); }
+
+        article {
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 3rem 2rem;
+            background: var(--color-white);
+        }
+
+        h2 {
+            font-family: var(--font-sans);
+            font-size: 1.5rem;
+            color: var(--color-navy);
+            margin-top: 2.5rem;
+            margin-bottom: 1rem;
+            font-weight: 600;
+        }
+
+        h2:first-of-type { margin-top: 0; }
+
+        p { margin-bottom: 1.25rem; }
+
+        strong { color: var(--color-navy); }
+
+        .rubric-intro {
+            background: linear-gradient(135deg, #f0f7ff 0%, #e6f0ff 100%);
+            border-radius: 8px;
+            padding: 1.5rem;
+            margin-bottom: 2rem;
+        }
+
+        .rubric-intro p { margin-bottom: 0; }
+
+        .rubric-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 1.5rem 0;
+            font-size: 0.9rem;
+        }
+
+        .rubric-table th {
+            background: var(--color-navy);
+            color: white;
+            font-family: var(--font-sans);
+            font-weight: 600;
+            padding: 0.75rem;
+            text-align: left;
+            vertical-align: top;
+        }
+
+        .rubric-table th:first-child {
+            width: 18%;
+        }
+
+        .rubric-table td {
+            padding: 0.75rem;
+            border: 1px solid var(--color-border);
+            vertical-align: top;
+        }
+
+        .rubric-table tr:nth-child(even) td {
+            background: #f8f9fa;
+        }
+
+        .dimension-name {
+            font-family: var(--font-sans);
+            font-weight: 600;
+            color: var(--color-navy);
+        }
+
+        .level-header {
+            text-align: center;
+            font-size: 0.85rem;
+        }
+
+        .level-4 { background: #c6f6d5 !important; }
+        .level-3 { background: #fefcbf !important; }
+        .level-2 { background: #fed7aa !important; }
+        .level-1 { background: #fed7d7 !important; }
+
+        .sail-badge {
+            display: inline-block;
+            background: var(--color-gold);
+            color: white;
+            font-family: var(--font-sans);
+            font-size: 0.7rem;
+            font-weight: 600;
+            padding: 0.15rem 0.5rem;
+            border-radius: 3px;
+            margin-left: 0.5rem;
+            vertical-align: middle;
+        }
+
+        .weight {
+            font-family: var(--font-sans);
+            font-size: 0.8rem;
+            color: var(--color-text-light);
+        }
+
+        .integrity-note {
+            background: #fff5f5;
+            border-left: 4px solid #c53030;
+            padding: 1rem 1.25rem;
+            margin: 1.5rem 0;
+            border-radius: 0 6px 6px 0;
+        }
+
+        .pass-criteria {
+            background: #f0fff4;
+            border: 2px solid #38a169;
+            border-radius: 8px;
+            padding: 1.25rem;
+            margin: 1.5rem 0;
+        }
+
+        .pass-criteria h4 {
+            font-family: var(--font-sans);
+            color: #276749;
+            margin-bottom: 0.75rem;
+        }
+
+        .footer {
+            text-align: center;
+            padding: 2rem;
+            background: var(--color-navy);
+            color: white;
+        }
+
+        .footer a { color: var(--color-gold); }
+
+        @media (max-width: 800px) {
+            .rubric-table { font-size: 0.8rem; }
+            .rubric-table th, .rubric-table td { padding: 0.5rem; }
+            nav ul { gap: 1rem; }
+        }
+    </style>
+</head>
+<body>
+    <header class="hero">
+        <h1>Assessment Rubric</h1>
+        <p class="subtitle">How Your Work Will Be Evaluated</p>
+    </header>
+
+    <nav>
+        <ul>
+            <li><a href="index.html">Overview</a></li>
+            <li><a href="student-guide.html">Student Guide</a></li>
+            <li><a href="rubric.html" class="active">Rubric</a></li>
+            <li><a href="sample-case.html">Sample Case</a></li>
+            <li><a href="faculty-guide.html">Faculty Guide</a></li>
+        </ul>
+    </nav>
+
+    <article>
+        <div class="rubric-intro">
+            <p><strong>The SAIL Challenge assesses your judgment, not just your answers.</strong> We evaluate the quality of your thinking process, your ability to critically evaluate AI, and your capacity to own decisions. A well-reasoned analysis that acknowledges uncertainty is valued over a confident answer with shallow justification.</p>
+        </div>
+
+        <h2>Phase 1: Foundation</h2>
+        <p class="weight">Weight: 25% of total grade</p>
+
+        <table class="rubric-table">
+            <thead>
+                <tr>
+                    <th>Dimension</th>
+                    <th class="level-header">Exemplary (4)</th>
+                    <th class="level-header">Proficient (3)</th>
+                    <th class="level-header">Developing (2)</th>
+                    <th class="level-header">Beginning (1)</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><span class="dimension-name">Independent Analysis</span><br><span class="sail-badge">I</span></td>
+                    <td>Demonstrates substantive, original thinking. Identifies key issues and provides reasoned analysis with clear logic.</td>
+                    <td>Shows solid independent thinking. Addresses main issues with reasonable analysis.</td>
+                    <td>Some independent thinking visible, but analysis is shallow or misses important issues.</td>
+                    <td>Minimal original analysis. Appears to be placeholder or generic content.</td>
+                </tr>
+                <tr>
+                    <td><span class="dimension-name">Use of Knowledge</span><br><span class="sail-badge">A</span></td>
+                    <td>Effectively applies relevant course concepts, frameworks, or domain knowledge to the case.</td>
+                    <td>Applies some relevant knowledge appropriately.</td>
+                    <td>Limited application of relevant knowledge; connections unclear.</td>
+                    <td>No meaningful application of domain knowledge.</td>
+                </tr>
+                <tr>
+                    <td><span class="dimension-name">Clarity</span><br><span class="sail-badge">S</span></td>
+                    <td>Well-organized, clearly written, easy to follow. Reasoning is transparent.</td>
+                    <td>Generally clear with minor organizational issues.</td>
+                    <td>Some confusion in organization or expression.</td>
+                    <td>Difficult to follow; unclear reasoning.</td>
+                </tr>
+            </tbody>
+        </table>
+
+        <h2>Phase 2: Integration</h2>
+        <p class="weight">Weight: 35% of total grade</p>
+
+        <table class="rubric-table">
+            <thead>
+                <tr>
+                    <th>Dimension</th>
+                    <th class="level-header">Exemplary (4)</th>
+                    <th class="level-header">Proficient (3)</th>
+                    <th class="level-header">Developing (2)</th>
+                    <th class="level-header">Beginning (1)</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><span class="dimension-name">AI Evaluation</span><br><span class="sail-badge">A</span></td>
+                    <td>Thorough, critical evaluation of AI output. Clearly identifies strengths, limitations, errors, or hallucinations with specific examples.</td>
+                    <td>Good evaluation with clear identification of some AI strengths and weaknesses.</td>
+                    <td>Basic evaluation; accepts AI output with limited critical analysis.</td>
+                    <td>No meaningful evaluation; simply reports AI output.</td>
+                </tr>
+                <tr>
+                    <td><span class="dimension-name">Comparison Quality</span><br><span class="sail-badge">I</span></td>
+                    <td>Insightful comparison between Phase 1 analysis and AI output. Identifies meaningful differences and explores why they exist.</td>
+                    <td>Clear comparison noting key differences between human and AI analysis.</td>
+                    <td>Some comparison attempted but superficial or incomplete.</td>
+                    <td>No meaningful comparison to Phase 1 work.</td>
+                </tr>
+                <tr>
+                    <td><span class="dimension-name">Prompting & Iteration</span><br><span class="sail-badge">I</span></td>
+                    <td>Evidence of thoughtful prompting, follow-up questions, and iterative engagement with AI. Treats AI as thought partner to test.</td>
+                    <td>Shows some iteration and follow-up with AI.</td>
+                    <td>Single-prompt approach with minimal follow-up.</td>
+                    <td>No evidence of thoughtful AI engagement.</td>
+                </tr>
+                <tr>
+                    <td><span class="dimension-name">Documentation</span><br><span class="sail-badge">S</span></td>
+                    <td>Complete, well-organized documentation of AI interaction including prompts used and evaluation notes.</td>
+                    <td>Good documentation with most key elements.</td>
+                    <td>Incomplete documentation; missing prompts or evaluation details.</td>
+                    <td>Little or no documentation of AI interaction.</td>
+                </tr>
+            </tbody>
+        </table>
+
+        <h2>Phase 3: Leadership</h2>
+        <p class="weight">Weight: 40% of total grade</p>
+
+        <table class="rubric-table">
+            <thead>
+                <tr>
+                    <th>Dimension</th>
+                    <th class="level-header">Exemplary (4)</th>
+                    <th class="level-header">Proficient (3)</th>
+                    <th class="level-header">Developing (2)</th>
+                    <th class="level-header">Beginning (1)</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><span class="dimension-name">Judgment Quality</span><br><span class="sail-badge">L</span></td>
+                    <td>Clear, well-reasoned final recommendation. Demonstrates sound judgment integrating multiple perspectives.</td>
+                    <td>Solid recommendation with good reasoning.</td>
+                    <td>Recommendation present but reasoning is thin or unclear.</td>
+                    <td>No clear recommendation or reasoning.</td>
+                </tr>
+                <tr>
+                    <td><span class="dimension-name">Integration Reasoning</span><br><span class="sail-badge">L</span></td>
+                    <td>Clearly articulates where and why they followed AI, where and why they diverged. Shows ownership of decision.</td>
+                    <td>Explains most decisions about following or diverging from AI.</td>
+                    <td>Some explanation of AI integration but incomplete.</td>
+                    <td>No explanation of how AI influenced final decision.</td>
+                </tr>
+                <tr>
+                    <td><span class="dimension-name">Metacognition</span><br><span class="sail-badge">I</span></td>
+                    <td>Thoughtful reflection on own thinking process. Identifies what they learned about their own judgment through the comparison.</td>
+                    <td>Some reflection on thinking process.</td>
+                    <td>Limited reflection; focuses on content rather than process.</td>
+                    <td>No evidence of metacognitive reflection.</td>
+                </tr>
+                <tr>
+                    <td><span class="dimension-name">Professional Communication</span><br><span class="sail-badge">S</span></td>
+                    <td>Memo is polished, concise, and written at a professional level. Could be presented to a senior decision-maker.</td>
+                    <td>Generally professional with minor issues.</td>
+                    <td>Some professionalism issues; would need revision before sharing.</td>
+                    <td>Does not meet professional communication standards.</td>
+                </tr>
+            </tbody>
+        </table>
+
+        <h2>Credential Requirements</h2>
+
+        <div class="pass-criteria">
+            <h4>To Earn the SAIL Challenge Credential:</h4>
+            <ul>
+                <li>Complete all three phases in order</li>
+                <li>Score at least "Proficient" (3) on <strong>Judgment Quality</strong> and <strong>AI Evaluation</strong></li>
+                <li>Achieve an overall average of 2.5 or higher across all dimensions</li>
+                <li>No dimension scored at "Beginning" (1)</li>
+            </ul>
+        </div>
+
+        <div class="integrity-note">
+            <strong>Academic Integrity:</strong> Phase 1 must be completed without AI assistance. Evidence of AI use in Phase 1 (detectable through comparison with Phase 2, writing style analysis, or other means) will result in failing the Challenge. The integrity of the comparison depends on authentic Phase 1 work.
+        </div>
+
+        <h2>SAIL Competency Key</h2>
+
+        <p>Each dimension maps to one or more SAIL competencies:</p>
+
+        <ul>
+            <li><span class="sail-badge">S</span> <strong>Social Intelligence</strong> — Communicating clearly and professionally</li>
+            <li><span class="sail-badge">A</span> <strong>AI Literacy</strong> — Understanding and evaluating AI capabilities and limitations</li>
+            <li><span class="sail-badge">I</span> <strong>Innovation/Inquiry</strong> — Questioning, comparing, reflecting on thinking</li>
+            <li><span class="sail-badge">L</span> <strong>Leadership</strong> — Taking responsibility, making and owning decisions</li>
+        </ul>
+
+    </article>
+
+    <footer class="footer">
+        <p><strong>SAIL Challenge</strong></p>
+        <p>Part of the <a href="../index.html">SAIL Framework</a> · Suffolk University · Sawyer Business School</p>
+    </footer>
+</body>
+</html>

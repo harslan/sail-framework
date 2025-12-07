@@ -1,0 +1,356 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sample Case | The SAIL Challenge</title>
+    <style>
+        :root {
+            --color-navy: #1B365D;
+            --color-gold: #B8860B;
+            --color-text: #333;
+            --color-text-light: #666;
+            --color-bg: #fafafa;
+            --color-white: #fff;
+            --color-border: #e0e0e0;
+            --font-serif: 'Georgia', 'Times New Roman', serif;
+            --font-sans: 'Helvetica Neue', Arial, sans-serif;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            font-family: var(--font-serif);
+            font-size: 18px;
+            line-height: 1.7;
+            color: var(--color-text);
+            background: var(--color-bg);
+        }
+
+        .hero {
+            background: linear-gradient(135deg, var(--color-navy) 0%, #2a4a7a 100%);
+            color: white;
+            padding: 3rem 2rem;
+            text-align: center;
+        }
+
+        .hero h1 {
+            font-family: var(--font-sans);
+            font-size: 2rem;
+            font-weight: 700;
+            margin-bottom: 0.25rem;
+        }
+
+        .hero .subtitle {
+            font-size: 1.1rem;
+            opacity: 0.9;
+        }
+
+        nav {
+            background: white;
+            border-bottom: 1px solid var(--color-border);
+            padding: 1rem 2rem;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        nav ul {
+            max-width: 900px;
+            margin: 0 auto;
+            list-style: none;
+            display: flex;
+            gap: 2rem;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        nav a {
+            color: var(--color-navy);
+            text-decoration: none;
+            font-family: var(--font-sans);
+            font-size: 0.95rem;
+            font-weight: 500;
+        }
+
+        nav a:hover { text-decoration: underline; }
+        nav a.active { border-bottom: 2px solid var(--color-gold); }
+
+        article {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 3rem 2rem;
+            background: var(--color-white);
+        }
+
+        h2 {
+            font-family: var(--font-sans);
+            font-size: 1.5rem;
+            color: var(--color-navy);
+            margin-top: 2.5rem;
+            margin-bottom: 1rem;
+            font-weight: 600;
+        }
+
+        h2:first-of-type { margin-top: 0; }
+
+        h3 {
+            font-family: var(--font-sans);
+            font-size: 1.15rem;
+            color: var(--color-text);
+            margin-top: 1.5rem;
+            margin-bottom: 0.75rem;
+        }
+
+        p { margin-bottom: 1.25rem; }
+
+        strong { color: var(--color-navy); }
+
+        .case-box {
+            background: #f8f9fa;
+            border: 2px solid var(--color-navy);
+            border-radius: 12px;
+            padding: 2rem;
+            margin: 1.5rem 0;
+        }
+
+        .case-header {
+            font-family: var(--font-sans);
+            font-size: 1.25rem;
+            font-weight: 700;
+            color: var(--color-navy);
+            margin-bottom: 0.5rem;
+        }
+
+        .case-meta {
+            font-size: 0.9rem;
+            color: var(--color-text-light);
+            margin-bottom: 1.5rem;
+            padding-bottom: 1rem;
+            border-bottom: 1px solid var(--color-border);
+        }
+
+        .case-section {
+            margin-top: 1.5rem;
+        }
+
+        .case-section h4 {
+            font-family: var(--font-sans);
+            font-size: 1rem;
+            color: var(--color-gold);
+            margin-bottom: 0.5rem;
+        }
+
+        .data-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 1rem 0;
+            font-size: 0.9rem;
+        }
+
+        .data-table th, .data-table td {
+            padding: 0.5rem 0.75rem;
+            border: 1px solid var(--color-border);
+            text-align: left;
+        }
+
+        .data-table th {
+            background: var(--color-navy);
+            color: white;
+            font-family: var(--font-sans);
+            font-weight: 600;
+        }
+
+        .data-table tr:nth-child(even) td {
+            background: #f8f9fa;
+        }
+
+        .assignment-box {
+            background: linear-gradient(135deg, #f0f7ff 0%, #e6f0ff 100%);
+            border-left: 4px solid var(--color-navy);
+            padding: 1.5rem;
+            margin: 1.5rem 0;
+            border-radius: 0 8px 8px 0;
+        }
+
+        .assignment-box h4 {
+            font-family: var(--font-sans);
+            color: var(--color-navy);
+            margin-bottom: 0.75rem;
+        }
+
+        .note-box {
+            background: #fffbeb;
+            border-left: 4px solid var(--color-gold);
+            padding: 1rem 1.25rem;
+            margin: 1.5rem 0;
+            border-radius: 0 6px 6px 0;
+            font-size: 0.95rem;
+        }
+
+        .footer {
+            text-align: center;
+            padding: 2rem;
+            background: var(--color-navy);
+            color: white;
+        }
+
+        .footer a { color: var(--color-gold); }
+
+        @media (max-width: 600px) {
+            .case-box { padding: 1.25rem; }
+            nav ul { gap: 1rem; }
+        }
+    </style>
+</head>
+<body>
+    <header class="hero">
+        <h1>Sample Case</h1>
+        <p class="subtitle">Practice the SAIL Challenge</p>
+    </header>
+
+    <nav>
+        <ul>
+            <li><a href="index.html">Overview</a></li>
+            <li><a href="student-guide.html">Student Guide</a></li>
+            <li><a href="rubric.html">Rubric</a></li>
+            <li><a href="sample-case.html" class="active">Sample Case</a></li>
+            <li><a href="faculty-guide.html">Faculty Guide</a></li>
+        </ul>
+    </nav>
+
+    <article>
+        <h2>About This Case</h2>
+
+        <p>This sample case demonstrates how the SAIL Challenge works. It is designed to be discipline-agnostic — usable in management, marketing, strategy, ethics, or general business courses. Your instructor may assign a different case specific to your course.</p>
+
+        <div class="note-box">
+            <strong>Note:</strong> This is a practice case. The situation and company are fictional, but the dilemma reflects real business challenges.
+        </div>
+
+        <div class="case-box">
+            <div class="case-header">GreenLeaf Coffee: The Automation Decision</div>
+            <div class="case-meta">General Business Case · Estimated time: 90-120 minutes</div>
+
+            <div class="case-section">
+                <h4>Background</h4>
+                <p>GreenLeaf Coffee is a regional specialty coffee roaster based in Portland, Oregon. Founded in 2012, the company has built its brand on three pillars: ethically sourced beans, small-batch roasting, and exceptional customer service. GreenLeaf operates 12 retail locations across the Pacific Northwest and sells online nationwide.</p>
+                <p>The company employs 180 people: 140 in retail (baristas, shift managers, store managers), 25 in roasting and fulfillment, and 15 in corporate roles (marketing, finance, operations, HR).</p>
+            </div>
+
+            <div class="case-section">
+                <h4>The Situation</h4>
+                <p>GreenLeaf's CEO, Maria Chen, faces a strategic decision. A technology vendor has proposed an AI-powered system that would automate several functions:</p>
+                <ul>
+                    <li><strong>Customer Service:</strong> AI chatbot handling 80% of customer inquiries (order status, product questions, complaints)</li>
+                    <li><strong>Inventory Management:</strong> AI-driven demand forecasting and automatic reordering</li>
+                    <li><strong>Marketing:</strong> AI-generated social media content, email campaigns, and personalized recommendations</li>
+                    <li><strong>Scheduling:</strong> AI-optimized staff scheduling based on predicted foot traffic</li>
+                </ul>
+                <p>The vendor estimates the system would reduce operational costs by $420,000 annually, primarily through headcount reduction (eliminating 8-12 positions across customer service, marketing, and operations).</p>
+            </div>
+
+            <div class="case-section">
+                <h4>Financial Context</h4>
+                <table class="data-table">
+                    <tr>
+                        <th>Metric</th>
+                        <th>Current</th>
+                        <th>Industry Avg</th>
+                    </tr>
+                    <tr>
+                        <td>Annual Revenue</td>
+                        <td>$14.2M</td>
+                        <td>—</td>
+                    </tr>
+                    <tr>
+                        <td>Net Profit Margin</td>
+                        <td>6.8%</td>
+                        <td>5-8%</td>
+                    </tr>
+                    <tr>
+                        <td>Customer Satisfaction (NPS)</td>
+                        <td>72</td>
+                        <td>45-55</td>
+                    </tr>
+                    <tr>
+                        <td>Employee Turnover</td>
+                        <td>28%</td>
+                        <td>65-80%</td>
+                    </tr>
+                    <tr>
+                        <td>Labor Cost (% of Revenue)</td>
+                        <td>38%</td>
+                        <td>30-35%</td>
+                    </tr>
+                </table>
+            </div>
+
+            <div class="case-section">
+                <h4>Stakeholder Perspectives</h4>
+                <p><strong>Board Member (Investor Representative):</strong> "Our labor costs are above industry average. This technology could improve margins and position us for expansion. We can't ignore efficiency gains our competitors are pursuing."</p>
+                <p><strong>Head of Retail Operations:</strong> "Our customer satisfaction scores are 30 points above industry average. That comes from our people. Customers come to GreenLeaf because they know their barista's name. I'm worried about what we'd lose."</p>
+                <p><strong>Marketing Director:</strong> "Honestly, AI could handle 60% of what my team does — the routine stuff. But the campaigns that actually build our brand? Those come from people who drink our coffee, know our farmers, understand our story. I don't know if AI can do that."</p>
+                <p><strong>Long-time Employee:</strong> "I've been here seven years. I started as a barista and now I manage customer service. Are you telling me a chatbot is going to handle Mrs. Patterson when her subscription shipment is late? She's been a customer since 2014."</p>
+            </div>
+
+            <div class="case-section">
+                <h4>Additional Information</h4>
+                <ul>
+                    <li>GreenLeaf's brand positioning emphasizes "human connection" and "craft over convenience"</li>
+                    <li>Two competitors in the region have recently implemented similar AI systems</li>
+                    <li>The vendor offers a 6-month pilot program with option to cancel</li>
+                    <li>Implementation would take 4-6 months and cost $180,000 upfront</li>
+                    <li>Affected employees could potentially be retrained for other roles, but not all positions would be available</li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="assignment-box">
+            <h4>Your Assignment</h4>
+            <p>You are a consultant hired by Maria Chen to provide a recommendation. Should GreenLeaf implement the AI system? If so, how? If not, why not?</p>
+            <p>Complete all three phases of the SAIL Challenge:</p>
+            <ol>
+                <li><strong>Phase 1 (Foundation):</strong> Analyze the case and develop your initial recommendation <em>without</em> using AI</li>
+                <li><strong>Phase 2 (Integration):</strong> Use AI to analyze the same case, then critically evaluate AI's analysis compared to yours</li>
+                <li><strong>Phase 3 (Leadership):</strong> Write your final Judgment Memo with your recommendation, explaining where you followed or diverged from AI's input</li>
+            </ol>
+        </div>
+
+        <h2>What Makes This Case Work for the SAIL Challenge</h2>
+
+        <p>This case is designed to create productive tension between human judgment and AI analysis:</p>
+
+        <ul>
+            <li><strong>No obvious right answer:</strong> Reasonable people can disagree. The "correct" recommendation depends on values, priorities, and interpretation.</li>
+            <li><strong>Quantitative and qualitative factors:</strong> AI may excel at financial analysis but struggle with brand identity, culture, and stakeholder relationships.</li>
+            <li><strong>Irony built in:</strong> The case asks whether to use AI to replace humans — using AI to help you decide.</li>
+            <li><strong>Multiple valid frameworks:</strong> Strategy, ethics, stakeholder theory, change management — different lenses yield different insights.</li>
+        </ul>
+
+        <h3>What to Watch For</h3>
+
+        <p>As you complete the Challenge, pay attention to:</p>
+
+        <ul>
+            <li>Does AI consider the irony of recommending AI adoption?</li>
+            <li>How does AI handle the qualitative factors (brand, culture, relationships)?</li>
+            <li>Does AI acknowledge uncertainty, or does it present confident recommendations?</li>
+            <li>What does AI miss that you noticed? What did AI catch that you missed?</li>
+            <li>Where does your judgment differ from AI's — and why?</li>
+        </ul>
+
+        <h2>Ready to Begin?</h2>
+
+        <p>Review the <a href="student-guide.html">Student Guide</a> for detailed instructions on each phase, and the <a href="rubric.html">Rubric</a> to understand how your work will be assessed.</p>
+
+        <p>Remember: <strong>Phase 1 must be completed without AI.</strong> Your authentic thinking in Phase 1 is what makes the comparison in Phase 2 meaningful.</p>
+
+    </article>
+
+    <footer class="footer">
+        <p><strong>SAIL Challenge</strong></p>
+        <p>Part of the <a href="../index.html">SAIL Framework</a> · Suffolk University · Sawyer Business School</p>
+    </footer>
+</body>
+</html>
