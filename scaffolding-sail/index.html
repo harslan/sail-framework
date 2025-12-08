@@ -1,0 +1,582 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Scaffolding SAIL: A Semester-Long Approach | SAIL Framework</title>
+    <style>
+        :root {
+            --color-navy: #1B365D;
+            --color-gold: #B8860B;
+            --color-text: #333;
+            --color-text-light: #666;
+            --color-bg: #fafafa;
+            --color-white: #fff;
+            --color-border: #e0e0e0;
+            --font-serif: 'Georgia', 'Times New Roman', serif;
+            --font-sans: 'Helvetica Neue', Arial, sans-serif;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: var(--font-serif);
+            font-size: 18px;
+            line-height: 1.7;
+            color: var(--color-text);
+            background: var(--color-bg);
+        }
+
+        .hero {
+            background: linear-gradient(135deg, var(--color-navy) 0%, #2a4a7a 100%);
+            color: white;
+            padding: 4rem 2rem;
+            text-align: center;
+        }
+
+        .hero h1 {
+            font-family: var(--font-sans);
+            font-size: 2.5rem;
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+        }
+
+        .hero .subtitle {
+            font-size: 1.3rem;
+            opacity: 0.9;
+            font-style: italic;
+        }
+
+        .hero .course-info {
+            margin-top: 1rem;
+            font-size: 1rem;
+            opacity: 0.85;
+        }
+
+        .breadcrumb {
+            max-width: 750px;
+            margin: 0 auto;
+            padding: 1rem 2rem;
+            font-size: 0.9rem;
+            color: var(--color-text-light);
+        }
+
+        .breadcrumb a {
+            color: var(--color-navy);
+            text-decoration: none;
+        }
+
+        .breadcrumb a:hover {
+            text-decoration: underline;
+        }
+
+        article {
+            max-width: 750px;
+            margin: 0 auto;
+            padding: 2rem 2rem 3rem;
+            background: var(--color-white);
+        }
+
+        h2 {
+            font-family: var(--font-sans);
+            font-size: 1.5rem;
+            color: var(--color-navy);
+            margin-top: 2.5rem;
+            margin-bottom: 1rem;
+            font-weight: 600;
+        }
+
+        h2:first-of-type {
+            margin-top: 0;
+        }
+
+        h3 {
+            font-family: var(--font-sans);
+            font-size: 1.2rem;
+            color: var(--color-text);
+            margin-top: 1.5rem;
+            margin-bottom: 0.75rem;
+            font-weight: 600;
+        }
+
+        p {
+            margin-bottom: 1.25rem;
+        }
+
+        strong {
+            color: var(--color-navy);
+        }
+
+        em {
+            font-style: italic;
+        }
+
+        .sail-mapping {
+            background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+            border-left: 4px solid var(--color-gold);
+            padding: 1.5rem;
+            margin: 1.5rem 0;
+            border-radius: 0 8px 8px 0;
+        }
+
+        .sail-mapping h4 {
+            font-family: var(--font-sans);
+            font-size: 1rem;
+            color: var(--color-navy);
+            margin-bottom: 0.75rem;
+        }
+
+        .sail-mapping p {
+            margin-bottom: 0.5rem;
+            font-size: 0.95rem;
+        }
+
+        .sail-mapping p:last-child {
+            margin-bottom: 0;
+        }
+
+        blockquote {
+            background: #f8f9fa;
+            border-left: 4px solid var(--color-navy);
+            padding: 1.25rem 1.5rem;
+            margin: 1.5rem 0;
+            font-style: italic;
+            border-radius: 0 8px 8px 0;
+        }
+
+        blockquote cite {
+            display: block;
+            margin-top: 0.75rem;
+            font-size: 0.9rem;
+            color: var(--color-text-light);
+            font-style: normal;
+        }
+
+        .phase-card {
+            background: white;
+            border: 1px solid var(--color-border);
+            border-radius: 8px;
+            margin: 1.5rem 0;
+            overflow: hidden;
+        }
+
+        .phase-header {
+            background: var(--color-navy);
+            color: white;
+            padding: 1rem 1.25rem;
+            font-family: var(--font-sans);
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+        }
+
+        .phase-number {
+            background: var(--color-gold);
+            color: white;
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+            font-size: 1rem;
+        }
+
+        .phase-content {
+            padding: 1.25rem;
+        }
+
+        .phase-content h4 {
+            font-family: var(--font-sans);
+            font-size: 1rem;
+            color: var(--color-navy);
+            margin-bottom: 0.5rem;
+        }
+
+        .phase-content p {
+            margin-bottom: 0.75rem;
+            font-size: 0.95rem;
+        }
+
+        .phase-content p:last-child {
+            margin-bottom: 0;
+        }
+
+        .phase-sail {
+            background: #f8f9fa;
+            padding: 0.75rem 1rem;
+            border-radius: 6px;
+            margin-top: 1rem;
+            font-size: 0.9rem;
+        }
+
+        .phase-sail strong {
+            color: var(--color-gold);
+        }
+
+        .workflow-diagram {
+            background: linear-gradient(135deg, var(--color-navy) 0%, #2a4a7a 100%);
+            padding: 2rem;
+            margin: 2rem 0;
+            border-radius: 8px;
+            text-align: center;
+        }
+
+        .workflow-diagram h3 {
+            color: white;
+            margin-top: 0;
+            margin-bottom: 1.5rem;
+        }
+
+        .workflow-steps {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+        }
+
+        .workflow-step {
+            background: white;
+            color: var(--color-navy);
+            padding: 0.75rem 1.25rem;
+            border-radius: 6px;
+            font-family: var(--font-sans);
+            font-weight: 600;
+            font-size: 0.95rem;
+        }
+
+        .workflow-arrow {
+            color: var(--color-gold);
+            font-size: 1.5rem;
+            font-weight: bold;
+        }
+
+        .workflow-caption {
+            color: rgba(255,255,255,0.8);
+            font-size: 0.9rem;
+            margin-top: 1rem;
+            font-style: italic;
+        }
+
+        .key-insight {
+            background: linear-gradient(135deg, var(--color-navy) 0%, #2a4a7a 100%);
+            color: white;
+            padding: 2rem;
+            margin: 2rem 0;
+            border-radius: 8px;
+            text-align: center;
+        }
+
+        .key-insight p {
+            font-size: 1.2rem;
+            margin-bottom: 0;
+            font-weight: 500;
+        }
+
+        .observation-box {
+            background: #fffbf0;
+            border: 1px solid var(--color-gold);
+            border-radius: 8px;
+            padding: 1.25rem;
+            margin: 1.5rem 0;
+        }
+
+        .observation-box h4 {
+            font-family: var(--font-sans);
+            font-size: 1rem;
+            color: var(--color-gold);
+            margin-bottom: 0.75rem;
+        }
+
+        .observation-box p {
+            margin-bottom: 0;
+            font-size: 0.95rem;
+        }
+
+        .reading-list {
+            background: #f8f9fa;
+            padding: 1.5rem;
+            margin: 1.5rem 0;
+            border-radius: 8px;
+        }
+
+        .reading-list h4 {
+            font-family: var(--font-sans);
+            font-size: 1rem;
+            color: var(--color-navy);
+            margin-bottom: 1rem;
+        }
+
+        .reading-list ul {
+            margin: 0;
+            padding-left: 1.5rem;
+        }
+
+        .reading-list li {
+            margin-bottom: 0.5rem;
+            font-size: 0.95rem;
+        }
+
+        .reading-list li:last-child {
+            margin-bottom: 0;
+        }
+
+        .author-box {
+            background: white;
+            border: 1px solid var(--color-border);
+            border-radius: 8px;
+            padding: 1.5rem;
+            margin-top: 2rem;
+        }
+
+        .author-box h4 {
+            font-family: var(--font-sans);
+            font-size: 1rem;
+            color: var(--color-navy);
+            margin-bottom: 0.75rem;
+        }
+
+        .author-box p {
+            margin-bottom: 0.5rem;
+            font-size: 0.95rem;
+        }
+
+        .author-box p:last-child {
+            margin-bottom: 0;
+        }
+
+        .nav-links {
+            margin-top: 2rem;
+            padding: 1.5rem;
+            background: var(--color-navy);
+            border-radius: 8px;
+            text-align: center;
+        }
+
+        .nav-links p {
+            color: white;
+            margin-bottom: 1rem;
+            font-family: var(--font-sans);
+            font-weight: 600;
+        }
+
+        .nav-links a {
+            color: var(--color-gold);
+            text-decoration: none;
+            margin: 0 1rem;
+        }
+
+        .nav-links a:hover {
+            text-decoration: underline;
+        }
+
+        .footer {
+            text-align: center;
+            padding: 2rem;
+            background: var(--color-navy);
+            color: white;
+        }
+
+        .footer .logo {
+            font-family: var(--font-sans);
+            font-weight: 700;
+            font-size: 1.1rem;
+            margin-bottom: 0.25rem;
+        }
+
+        .footer .tagline {
+            font-size: 0.9rem;
+            opacity: 0.8;
+        }
+
+        @media (max-width: 600px) {
+            .hero h1 {
+                font-size: 1.8rem;
+            }
+            article {
+                padding: 2rem 1.25rem;
+            }
+            .workflow-steps {
+                flex-direction: column;
+            }
+            .workflow-arrow {
+                transform: rotate(90deg);
+            }
+        }
+    </style>
+</head>
+<body>
+    <header class="hero">
+        <h1>Scaffolding SAIL</h1>
+        <p class="subtitle">A Semester-Long Approach to AI-Ready Professionals</p>
+        <p class="course-info">Strategic Management · Suffolk University · Fall 2025</p>
+    </header>
+
+    <div class="breadcrumb">
+        <a href="../">← SAIL Framework</a> · Scaffolding SAIL
+    </div>
+
+    <article>
+        <div class="sail-mapping">
+            <h4>SAIL Framework Integration</h4>
+            <p><strong>S</strong> — Social Intelligence: Communicating AI use to stakeholders</p>
+            <p><strong>A</strong> — AI Literacy: Understanding capabilities and limitations</p>
+            <p><strong>I</strong> — Innovation/Inquiry: Questioning outputs, pushing beyond first answers</p>
+            <p><strong>L</strong> — Leadership: Owning decisions and designing collaboration frameworks</p>
+        </div>
+
+        <h2>The Challenge</h2>
+        
+        <p>AI presents a paradox for education. Students need to learn <em>how</em> to use these powerful tools, but unrestricted use can undermine the very learning we're trying to achieve. How do we prepare students for an AI-augmented workplace while ensuring they develop genuine expertise?</p>
+        
+        <p>The answer isn't to ban AI or to embrace it uncritically. It's to <strong>scaffold</strong> — to progressively expand AI access as students build the capacity to use it wisely.</p>
+
+        <h2>The Three-Phase Approach</h2>
+        
+        <p>This model, piloted in Strategic Management (Fall 2025), develops all four SAIL competencies through a structured progression:</p>
+
+        <div class="phase-card">
+            <div class="phase-header">
+                <span class="phase-number">1</span>
+                Foundation: Restricted AI Use
+            </div>
+            <div class="phase-content">
+                <h4>What Students Do</h4>
+                <p>Complete analytical work independently. AI is constrained to a "Research Assistant / Teaching Assistant" role through a custom system prompt — it can help find information and ask clarifying questions, but students must generate their own thesis, analysis, and conclusions.</p>
+                
+                <h4>Why It Matters</h4>
+                <p>Students build baseline competence first. They develop the capacity to evaluate AI output because they've done the work themselves. Without this foundation, students can't distinguish good AI output from bad.</p>
+                
+                <div class="phase-sail">
+                    <strong>SAIL Focus:</strong> Social Intelligence + AI Literacy — Learning to communicate with AI appropriately and understanding its proper role.
+                </div>
+            </div>
+        </div>
+
+        <div class="phase-card">
+            <div class="phase-header">
+                <span class="phase-number">2</span>
+                Integration: Full AI with Critical Evaluation
+            </div>
+            <div class="phase-content">
+                <h4>What Students Do</h4>
+                <p>Use AI without restrictions for assignments. However, they must actively evaluate outputs for hallucinations, logical errors, and relevance. They're required to reflect on how AI use affected their learning process.</p>
+                
+                <h4>Why It Matters</h4>
+                <p>This phase develops metacognitive awareness — students learn to watch their own thinking. They experience firsthand how easy it is to accept AI output uncritically, and they develop strategies to resist that pull.</p>
+                
+                <div class="phase-sail">
+                    <strong>SAIL Focus:</strong> Innovation/Inquiry + Social Intelligence — Questioning outputs and developing the judgment to evaluate AI contributions.
+                </div>
+            </div>
+        </div>
+
+        <div class="phase-card">
+            <div class="phase-header">
+                <span class="phase-number">3</span>
+                Leadership: Designing Human-AI Collaboration
+            </div>
+            <div class="phase-content">
+                <h4>What Students Do</h4>
+                <p>Take on the role of Chief Strategy Officer responsible for a team of 12 analysts. They must design a Human-AI collaboration framework that balances throughput, quality control, and knowledge building. The deliverable is a governance framework, not just personal AI use.</p>
+                
+                <h4>Why It Matters</h4>
+                <p>Students shift from users to leaders. They're no longer just asking "How do I use AI?" but "How should my team use AI?" This develops the Leadership competency — taking responsibility for outcomes at scale.</p>
+                
+                <div class="phase-sail">
+                    <strong>SAIL Focus:</strong> Leadership — Owning decisions about Human-AI collaboration and designing systems that work for others.
+                </div>
+            </div>
+        </div>
+
+        <div class="workflow-diagram">
+            <h3>The Collaboration Pattern</h3>
+            <div class="workflow-steps">
+                <span class="workflow-step">Human</span>
+                <span class="workflow-arrow">→</span>
+                <span class="workflow-step">AI</span>
+                <span class="workflow-arrow">→</span>
+                <span class="workflow-step">Human</span>
+                <span class="workflow-arrow">→</span>
+                <span class="workflow-step">AI</span>
+            </div>
+            <p class="workflow-caption">Effective collaboration is iterative, not one-directional. Humans set direction, AI contributes, humans evaluate and refine, AI executes.</p>
+        </div>
+
+        <h2>What We Learned</h2>
+
+        <div class="observation-box">
+            <h4>The "Mesmerizing Force" of AI</h4>
+            <p>Students consistently reported an almost hypnotic quality to AI interaction. The speed and fluency of responses created a pull toward acceptance rather than evaluation. Recognizing this psychological dimension — not just the technical capabilities — is essential for developing genuine AI literacy.</p>
+        </div>
+
+        <blockquote>
+            <p>"One of the most significant obstacles that I encountered was to stay critical about myself when the AI made the process of writing so simple and quick. Since it generated entire paragraphs in real-time, it was too easy to receive the responses as final rather than evaluating whether they were relevant to our class structures or not. I observed that the more I was depending on it, the less I was thinking about the concepts of underlying strategies."</p>
+            <cite>— Student reflection, Strategic Management, Fall 2025</cite>
+        </blockquote>
+
+        <p>This student captured precisely what researchers call <strong>cognitive debt</strong> — the accumulated cost of outsourcing thinking to AI. The three-phase scaffold helps students recognize this pattern and develop strategies to maintain their own intellectual agency.</p>
+
+        <div class="key-insight">
+            <p><strong>The goal isn't to use AI less. It's to use AI <em>wisely</em>.</strong></p>
+        </div>
+
+        <h2>Recommended Readings</h2>
+
+        <div class="reading-list">
+            <h4>Core Readings for Students</h4>
+            <ul>
+                <li>"The Age of AI has begun" — Bill Gates</li>
+                <li>"Machines of Loving Grace" — Dario Amodei</li>
+                <li>"How People are Really Using Gen AI in 2025"</li>
+                <li>"Generative AI Has an Intellectual Property Problem"</li>
+                <li>"Why Am I Seeing This? How Video and e-Commerce Platforms Use Recommendation Systems"</li>
+            </ul>
+        </div>
+
+        <div class="reading-list">
+            <h4>Faculty Background</h4>
+            <ul>
+                <li>Kosmyna, N., et al. (2025). "Your Brain on ChatGPT: Accumulation of Cognitive Debt when Using an AI Assistant." MIT Media Lab.</li>
+            </ul>
+        </div>
+
+        <h2>Adapting This Approach</h2>
+
+        <p>The three-phase scaffold is designed to be flexible. The core principle — progressive expansion of AI access as students build capacity — can be adapted to any discipline:</p>
+
+        <p><strong>Phase 1</strong> might look different in accounting (manual calculations before spreadsheet AI), marketing (hand-drawn campaign concepts before generative tools), or finance (fundamental analysis before algorithmic assistance). The key is ensuring students build baseline competence first.</p>
+
+        <p><strong>Phase 2</strong> requires explicit reflection on AI use. This can be embedded in existing assignments or added as a metacognitive component.</p>
+
+        <p><strong>Phase 3</strong> works whenever students can take on a leadership perspective. Case competitions, capstone projects, and consulting simulations are natural fits.</p>
+
+        <div class="author-box">
+            <h4>About This Implementation</h4>
+            <p><strong>Course:</strong> Strategic Management (Senior Capstone)</p>
+            <p><strong>Instructor:</strong> Sam Rosen, Suffolk University</p>
+            <p><strong>Semester:</strong> Fall 2025</p>
+            <p><strong>Framework:</strong> SAIL Collaborative, Sawyer Business School</p>
+        </div>
+
+        <div class="nav-links">
+            <p>Related Resources</p>
+            <a href="../">SAIL Framework Overview</a>
+            <a href="../challenge/">The SAIL Challenge</a>
+            <a href="../challenge/faculty-guide.html">Faculty Guide</a>
+        </div>
+    </article>
+
+    <footer class="footer">
+        <p class="logo">SAIL Collaborative</p>
+        <p class="tagline">Suffolk University · Sawyer Business School</p>
+    </footer>
+</body>
+</html>
