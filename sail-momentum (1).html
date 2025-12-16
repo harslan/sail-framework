@@ -1,0 +1,761 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>The Field Is Moving | SAIL at Suffolk</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=DM+Serif+Display&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --navy: #0f172a;
+            --navy-light: #1e293b;
+            --gold: #f59e0b;
+            --gold-soft: #fbbf24;
+            --white: #ffffff;
+            --gray-50: #f8fafc;
+            --gray-100: #f1f5f9;
+            --gray-200: #e2e8f0;
+            --gray-400: #94a3b8;
+            --gray-600: #475569;
+            --gray-800: #1e293b;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'DM Sans', -apple-system, BlinkMacSystemFont, sans-serif;
+            background: var(--gray-50);
+            color: var(--gray-800);
+            line-height: 1.6;
+            font-size: 17px;
+        }
+
+        .container {
+            max-width: 1100px;
+            margin: 0 auto;
+            padding: 0 24px;
+        }
+
+        /* Header */
+        header {
+            background: var(--navy);
+            padding: 16px 0;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .header-inner {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-family: 'DM Serif Display', serif;
+            font-size: 1.25rem;
+            color: var(--white);
+            letter-spacing: -0.5px;
+        }
+
+        .logo span {
+            color: var(--gold);
+        }
+
+        .header-meta {
+            font-size: 0.85rem;
+            color: var(--gray-400);
+        }
+
+        /* Hero */
+        .hero {
+            background: linear-gradient(135deg, var(--navy) 0%, var(--navy-light) 100%);
+            padding: 80px 0 100px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            right: -20%;
+            width: 600px;
+            height: 600px;
+            background: radial-gradient(circle, rgba(245, 158, 11, 0.08) 0%, transparent 70%);
+            border-radius: 50%;
+        }
+
+        .hero-label {
+            display: inline-block;
+            background: rgba(245, 158, 11, 0.15);
+            color: var(--gold);
+            font-size: 0.75rem;
+            font-weight: 600;
+            letter-spacing: 1.5px;
+            text-transform: uppercase;
+            padding: 8px 16px;
+            border-radius: 100px;
+            margin-bottom: 24px;
+        }
+
+        .hero h1 {
+            font-family: 'DM Serif Display', serif;
+            font-size: clamp(2.5rem, 5vw, 4rem);
+            font-weight: 400;
+            color: var(--white);
+            line-height: 1.1;
+            margin-bottom: 24px;
+            max-width: 700px;
+        }
+
+        .hero h1 em {
+            color: var(--gold);
+            font-style: normal;
+        }
+
+        .hero-subtitle {
+            font-size: 1.25rem;
+            color: var(--gray-400);
+            max-width: 600px;
+            line-height: 1.7;
+        }
+
+        /* News Section */
+        .news-section {
+            padding: 80px 0;
+            background: var(--white);
+        }
+
+        .section-header {
+            margin-bottom: 48px;
+        }
+
+        .section-label {
+            font-size: 0.7rem;
+            font-weight: 700;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            color: var(--gold);
+            margin-bottom: 12px;
+        }
+
+        .section-title {
+            font-family: 'DM Serif Display', serif;
+            font-size: 2rem;
+            color: var(--navy);
+        }
+
+        .news-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: 24px;
+        }
+
+        .news-card {
+            background: var(--gray-50);
+            border-radius: 16px;
+            padding: 32px;
+            border: 1px solid var(--gray-200);
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+
+        .news-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 12px 40px rgba(0,0,0,0.08);
+        }
+
+        .news-date {
+            font-size: 0.8rem;
+            font-weight: 600;
+            color: var(--gold);
+            margin-bottom: 8px;
+        }
+
+        .news-source {
+            font-size: 0.85rem;
+            color: var(--gray-600);
+            margin-bottom: 16px;
+        }
+
+        .news-card h3 {
+            font-family: 'DM Serif Display', serif;
+            font-size: 1.35rem;
+            color: var(--navy);
+            margin-bottom: 12px;
+            line-height: 1.3;
+        }
+
+        .news-card p {
+            color: var(--gray-600);
+            font-size: 0.95rem;
+            margin-bottom: 20px;
+        }
+
+        .news-link {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            color: var(--navy);
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 0.9rem;
+            transition: color 0.2s;
+        }
+
+        .news-link:hover {
+            color: var(--gold);
+        }
+
+        .news-link svg {
+            width: 16px;
+            height: 16px;
+            transition: transform 0.2s;
+        }
+
+        .news-link:hover svg {
+            transform: translateX(4px);
+        }
+
+        /* Point Section */
+        .point-section {
+            background: var(--navy);
+            padding: 80px 0;
+        }
+
+        .point-content {
+            max-width: 800px;
+            margin: 0 auto;
+            text-align: center;
+        }
+
+        .point-content h2 {
+            font-family: 'DM Serif Display', serif;
+            font-size: 2rem;
+            color: var(--white);
+            margin-bottom: 24px;
+        }
+
+        .point-content p {
+            font-size: 1.15rem;
+            color: var(--gray-400);
+            line-height: 1.8;
+        }
+
+        .point-content .highlight {
+            color: var(--gold);
+            font-weight: 600;
+        }
+
+        /* Position Section */
+        .position-section {
+            padding: 80px 0;
+            background: var(--white);
+        }
+
+        .position-intro {
+            font-size: 1.1rem;
+            color: var(--gray-600);
+            max-width: 700px;
+            margin-bottom: 48px;
+        }
+
+        .achievements {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 20px;
+        }
+
+        .achievement {
+            background: var(--gray-50);
+            border-radius: 12px;
+            padding: 28px;
+            border: 1px solid var(--gray-200);
+        }
+
+        .achievement-icon {
+            width: 48px;
+            height: 48px;
+            background: linear-gradient(135deg, var(--gold) 0%, var(--gold-soft) 100%);
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 16px;
+            font-size: 1.25rem;
+        }
+
+        .achievement h4 {
+            font-size: 1.05rem;
+            font-weight: 600;
+            color: var(--navy);
+            margin-bottom: 8px;
+        }
+
+        .achievement p {
+            font-size: 0.9rem;
+            color: var(--gray-600);
+        }
+
+        /* Differentiator Section */
+        .diff-section {
+            padding: 80px 0;
+            background: linear-gradient(135deg, var(--gray-50) 0%, var(--gray-100) 100%);
+        }
+
+        .diff-box {
+            background: var(--white);
+            border-radius: 20px;
+            padding: 48px;
+            box-shadow: 0 4px 24px rgba(0,0,0,0.04);
+            max-width: 900px;
+            margin: 0 auto;
+        }
+
+        .diff-box h2 {
+            font-family: 'DM Serif Display', serif;
+            font-size: 1.75rem;
+            color: var(--navy);
+            margin-bottom: 24px;
+        }
+
+        .diff-box .lead {
+            font-size: 1.15rem;
+            color: var(--gray-600);
+            margin-bottom: 32px;
+            line-height: 1.8;
+        }
+
+        .diff-box blockquote {
+            background: linear-gradient(135deg, rgba(245, 158, 11, 0.08) 0%, rgba(245, 158, 11, 0.04) 100%);
+            border-left: 4px solid var(--gold);
+            padding: 24px 28px;
+            border-radius: 0 12px 12px 0;
+            margin: 32px 0;
+        }
+
+        .diff-box blockquote p {
+            font-family: 'DM Serif Display', serif;
+            font-size: 1.35rem;
+            color: var(--navy);
+            line-height: 1.5;
+            margin: 0;
+        }
+
+        .diff-box .explanation {
+            color: var(--gray-600);
+            line-height: 1.8;
+            margin-bottom: 16px;
+        }
+
+        .diff-box .explanation:last-child {
+            margin-bottom: 0;
+        }
+
+        .diff-box .explanation strong {
+            color: var(--navy);
+        }
+
+        /* Framework Section */
+        .framework-section {
+            padding: 80px 0;
+            background: var(--white);
+        }
+
+        .os-metaphor {
+            background: linear-gradient(135deg, var(--navy) 0%, var(--navy-light) 100%);
+            border-radius: 16px;
+            padding: 40px;
+            margin: 40px 0;
+            text-align: center;
+        }
+
+        .os-inner {
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        .os-label {
+            display: inline-block;
+            background: rgba(245, 158, 11, 0.2);
+            color: var(--gold);
+            font-size: 0.75rem;
+            font-weight: 700;
+            letter-spacing: 1.5px;
+            text-transform: uppercase;
+            padding: 6px 14px;
+            border-radius: 100px;
+            margin-bottom: 12px;
+        }
+
+        .os-text {
+            font-family: 'DM Serif Display', serif;
+            font-size: 1.75rem;
+            color: var(--white);
+            margin-bottom: 16px;
+        }
+
+        .os-metaphor p {
+            color: var(--gray-400);
+            font-size: 1rem;
+            line-height: 1.7;
+        }
+
+        .framework-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 16px;
+            margin-top: 40px;
+        }
+
+        .framework-item {
+            text-align: center;
+            padding: 32px 20px;
+            background: var(--gray-50);
+            border-radius: 16px;
+            border: 1px solid var(--gray-200);
+            transition: transform 0.2s, border-color 0.2s;
+        }
+
+        .framework-item:hover {
+            transform: translateY(-4px);
+            border-color: var(--gold);
+        }
+
+        .framework-letter {
+            font-family: 'DM Serif Display', serif;
+            font-size: 3rem;
+            color: var(--gold);
+            line-height: 1;
+            margin-bottom: 8px;
+        }
+
+        .framework-word {
+            font-weight: 700;
+            font-size: 0.9rem;
+            color: var(--navy);
+            margin-bottom: 8px;
+        }
+
+        .framework-question {
+            font-style: italic;
+            font-size: 0.85rem;
+            color: var(--gold);
+            margin-bottom: 12px;
+        }
+
+        .framework-item p {
+            font-size: 0.85rem;
+            color: var(--gray-600);
+            line-height: 1.5;
+        }
+
+        .integration-effect {
+            background: var(--gray-50);
+            border-radius: 12px;
+            padding: 32px;
+            margin-top: 40px;
+            border: 1px solid var(--gray-200);
+        }
+
+        .integration-effect h3 {
+            font-family: 'DM Serif Display', serif;
+            font-size: 1.25rem;
+            color: var(--navy);
+            margin-bottom: 12px;
+        }
+
+        .integration-effect p {
+            color: var(--gray-600);
+            line-height: 1.8;
+        }
+
+        .integration-effect strong {
+            color: var(--navy);
+        }
+
+        /* CTA Section */
+        .cta-section {
+            padding: 80px 0;
+            background: var(--navy);
+            text-align: center;
+        }
+
+        .cta-section h2 {
+            font-family: 'DM Serif Display', serif;
+            font-size: 2.25rem;
+            color: var(--white);
+            margin-bottom: 16px;
+        }
+
+        .cta-section p {
+            font-size: 1.1rem;
+            color: var(--gray-400);
+            margin-bottom: 32px;
+            max-width: 500px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .cta-button {
+            display: inline-block;
+            background: var(--gold);
+            color: var(--navy);
+            padding: 16px 36px;
+            border-radius: 100px;
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 1rem;
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+
+        .cta-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 24px rgba(245, 158, 11, 0.3);
+        }
+
+        .cta-note {
+            font-size: 0.85rem;
+            color: var(--gray-400);
+            margin-top: 16px;
+            margin-bottom: 0;
+        }
+
+        /* Footer */
+        footer {
+            background: var(--gray-800);
+            padding: 32px 0;
+            text-align: center;
+        }
+
+        footer p {
+            color: var(--gray-400);
+            font-size: 0.9rem;
+        }
+
+        footer a {
+            color: var(--gold);
+            text-decoration: none;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .hero {
+                padding: 60px 0 80px;
+            }
+
+            .framework-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            .diff-box {
+                padding: 32px 24px;
+            }
+
+            .diff-box blockquote {
+                padding: 20px;
+            }
+
+            .diff-box blockquote p {
+                font-size: 1.15rem;
+            }
+
+            .os-metaphor {
+                padding: 32px 24px;
+            }
+
+            .os-text {
+                font-size: 1.5rem;
+            }
+
+            .integration-effect {
+                padding: 24px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .framework-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="container">
+            <div class="header-inner">
+                <div class="logo">SAIL <span>Collaborative</span></div>
+                <div class="header-meta">Faculty Briefing · December 2025</div>
+            </div>
+        </div>
+    </header>
+
+    <section class="hero">
+        <div class="container">
+            <div class="hero-label">This Week</div>
+            <h1>The Field Is Moving.<br><em>We're Already There.</em></h1>
+            <p class="hero-subtitle">In 72 hours, two elite institutions announced major AI education pivots. Here's what that means for Suffolk — and for SAIL.</p>
+        </div>
+    </section>
+
+    <section class="news-section">
+        <div class="container">
+            <div class="section-header">
+                <div class="section-label">What Happened</div>
+                <h2 class="section-title">This Week's Announcements</h2>
+            </div>
+            <div class="news-grid">
+                <div class="news-card">
+                    <div class="news-date">December 13, 2025</div>
+                    <div class="news-source">Purdue University · Forbes Coverage</div>
+                    <h3>Purdue Approves AI Competency Graduation Requirement</h3>
+                    <p>All undergraduates must demonstrate "AI working competency" starting Fall 2026. The Board of Trustees approved discipline-specific criteria across all colleges.</p>
+                    <a href="https://www.forbes.com/sites/michaeltnietzel/2025/12/13/purdue-university-approves-new-ai-requirement-for-all-undergrads/" target="_blank" class="news-link">
+                        Read coverage
+                        <svg fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3"/></svg>
+                    </a>
+                </div>
+                <div class="news-card">
+                    <div class="news-date">December 15, 2025</div>
+                    <div class="news-source">UC Berkeley Haas School of Business</div>
+                    <h3>Haas Repositions Around "The Human Edge of Innovation"</h3>
+                    <p>After engaging 500+ stakeholders, Berkeley Haas refocused its strategic narrative on "creativity, critical thinking, and questioning that remain distinctly human."</p>
+                    <a href="https://haas.berkeley.edu/" target="_blank" class="news-link">
+                        View announcement
+                        <svg fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3"/></svg>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="point-section">
+        <div class="container">
+            <div class="point-content">
+                <h2>Why This Matters</h2>
+                <p>When a flagship R1 university makes AI competency a <span class="highlight">graduation requirement</span>, and a top-10 business school repositions its entire brand around human-AI integration, it signals a turning point. <span class="highlight">This is no longer optional.</span> The question every business school now faces: how do we actually do this?</p>
+            </div>
+        </div>
+    </section>
+
+    <section class="position-section">
+        <div class="container">
+            <div class="section-header">
+                <div class="section-label">Our Position</div>
+                <h2 class="section-title">Where Suffolk Stands</h2>
+            </div>
+            <p class="position-intro">While Purdue announces plans for Fall 2026, Suffolk's SAIL Collaborative has been implementing AI-integrated business education since Fall 2025. External recognition confirms we're not chasing a trend — we're leading one.</p>
+            
+            <div class="achievements">
+                <div class="achievement">
+                    <div class="achievement-icon">★</div>
+                    <h4>2025 Eduventures Innovation Award</h4>
+                    <p>National recognition for SAIL's approach to AI literacy in business education.</p>
+                </div>
+                <div class="achievement">
+                    <div class="achievement-icon">◆</div>
+                    <h4>Published in AACSB Insights</h4>
+                    <p>The SAIL Framework featured as a model for business schools navigating AI integration. <a href="https://www.aacsb.edu/insights/articles/2025/10/beyond-the-hype-ais-role-in-business-education" target="_blank" style="color: var(--gold);">Read the article →</a></p>
+                </div>
+                <div class="achievement">
+                    <div class="achievement-icon">●</div>
+                    <h4>$3.7M FIPSE Grant Proposal</h4>
+                    <p>Federal funding proposal submitted to scale the SAIL Framework nationally. Decision expected December 31.</p>
+                </div>
+                <div class="achievement">
+                    <div class="achievement-icon">→</div>
+                    <h4>Live Implementation</h4>
+                    <p>SAIL Friday workshops, Prompt AIChemy competitions, and curriculum integration already underway across SBS.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="diff-section">
+        <div class="container">
+            <div class="diff-box">
+                <h2>What Makes SAIL Different</h2>
+                <p class="lead">Purdue talks about "AI competency." Berkeley Haas talks about "critical thinking" alongside creativity. Everyone lists critical thinking as another checkbox.</p>
+                <p class="lead">SAIL takes a different position:</p>
+                
+                <blockquote>
+                    <p>Critical thinking isn't a fifth pillar. It's what makes the other four function.</p>
+                </blockquote>
+
+                <p class="explanation">The Greek word <strong><em>kritikos</em></strong> — the root of "critical" — means "able to discern." The APA Delphi Report defines critical thinking as <strong>"purposeful, self-regulatory judgment"</strong> — not just analysis, but <em>judgment</em>.</p>
+                
+                <p class="explanation">When we say SAIL develops judgment, we're recovering the full meaning of critical thinking and applying it to AI education. We're not teaching AI skills plus critical thinking. We're developing <strong>judgment</strong> — the integration of perception and analysis that tells you what to do when the answer isn't obvious.</p>
+                
+                <p class="explanation"><strong>Skills can be automated. Judgment cannot.</strong></p>
+            </div>
+        </div>
+    </section>
+
+    <section class="framework-section">
+        <div class="container">
+            <div class="section-header">
+                <div class="section-label">The Framework</div>
+                <h2 class="section-title">SAIL: Developing Judgment for an AI-Augmented World</h2>
+            </div>
+            
+            <div class="os-metaphor">
+                <div class="os-inner">
+                    <div class="os-label">Critical Thinking</div>
+                    <div class="os-text">The Operating System</div>
+                    <p>Critical thinking isn't a fifth pillar — it's what makes the other four function. Like an operating system that enables applications to run, judgment enables each SAIL competency to produce meaningful outcomes.</p>
+                </div>
+            </div>
+            
+            <div class="framework-grid">
+                <div class="framework-item">
+                    <div class="framework-letter">S</div>
+                    <div class="framework-word">Social Intelligence</div>
+                    <div class="framework-question">"How do we connect?"</div>
+                    <p>Communicating AI insights to colleagues, clients, and stakeholders — making analysis actionable for different audiences.</p>
+                </div>
+                <div class="framework-item">
+                    <div class="framework-letter">A</div>
+                    <div class="framework-word">AI Literacy</div>
+                    <div class="framework-question">"How does it work?"</div>
+                    <p>Understanding AI capabilities, limitations, and failure modes — knowing when different approaches work and why.</p>
+                </div>
+                <div class="framework-item">
+                    <div class="framework-letter">I</div>
+                    <div class="framework-word">Innovation / Inquiry</div>
+                    <div class="framework-question">"What's missing or wrong?"</div>
+                    <p>Questioning AI outputs — the "Wait, that's weird" moments that separate strategic thinking from data regurgitation.</p>
+                </div>
+                <div class="framework-item">
+                    <div class="framework-letter">L</div>
+                    <div class="framework-word">Leadership</div>
+                    <div class="framework-question">"Should we do this?"</div>
+                    <p>Taking responsibility for human-AI collaboration outcomes — ensuring recommendations are ethical and sustainable.</p>
+                </div>
+            </div>
+            
+            <div class="integration-effect">
+                <h3>The Integration Effect</h3>
+                <p><strong>AI Literacy</strong> enables students to extract meaningful insights. <strong>Innovation/Inquiry</strong> helps them question and refine those insights. <strong>Social Intelligence</strong> makes insights actionable. <strong>Leadership</strong> ensures recommendations are sustainable. No single pillar works in isolation — they reinforce each other.</p>
+            </div>
+        </div>
+    </section>
+
+    <section class="cta-section">
+        <div class="container">
+            <h2>The Moment Is Now</h2>
+            <p>Purdue and Berkeley are announcing. We're implementing. Want to bring SAIL into your teaching?</p>
+            <a href="https://forms.gle/RyDtuNpgfiPRzcyY6" target="_blank" class="cta-button">Get Involved</a>
+            <p class="cta-note">30 seconds — tell us how you'd like to engage</p>
+        </div>
+    </section>
+
+    <footer>
+        <div class="container">
+            <p>SAIL Collaborative · <a href="https://www.suffolk.edu/business">Sawyer Business School</a> · Suffolk University</p>
+   
