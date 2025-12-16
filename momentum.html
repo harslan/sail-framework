@@ -547,15 +547,78 @@
         /* Responsive */
         @media (max-width: 768px) {
             .hero {
-                padding: 60px 0 80px;
+                padding: 48px 0 64px;
+            }
+
+            .hero h1 {
+                font-size: 2rem;
+            }
+
+            .hero-subtitle {
+                font-size: 1.1rem;
+            }
+
+            .news-section,
+            .point-section,
+            .position-section,
+            .diff-section,
+            .framework-section,
+            .cta-section {
+                padding: 56px 0;
+            }
+
+            .section-title {
+                font-size: 1.65rem;
+            }
+
+            .news-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .news-card {
+                padding: 24px;
+            }
+
+            .point-content h2,
+            .cta-section h2 {
+                font-size: 1.65rem;
+            }
+
+            .point-content p {
+                font-size: 1.05rem;
+            }
+
+            .achievements {
+                grid-template-columns: 1fr;
+            }
+
+            .achievement {
+                padding: 24px;
             }
 
             .framework-grid {
                 grid-template-columns: repeat(2, 1fr);
+                gap: 12px;
+            }
+
+            .framework-item {
+                padding: 24px 16px;
+            }
+
+            .framework-letter {
+                font-size: 2.25rem;
             }
 
             .diff-box {
                 padding: 32px 24px;
+            }
+
+            .diff-box h2 {
+                font-size: 1.5rem;
+            }
+
+            .diff-box .lead {
+                font-size: 1.05rem;
             }
 
             .diff-box blockquote {
@@ -577,11 +640,96 @@
             .integration-effect {
                 padding: 24px;
             }
+
+            .cta-button {
+                display: block;
+                text-align: center;
+                padding: 16px 24px;
+            }
         }
 
         @media (max-width: 480px) {
+            .header-inner {
+                flex-direction: column;
+                gap: 8px;
+                text-align: center;
+            }
+
+            .hero {
+                padding: 40px 0 56px;
+            }
+
+            .hero h1 {
+                font-size: 1.75rem;
+            }
+
+            .hero-label {
+                font-size: 0.7rem;
+                padding: 6px 12px;
+            }
+
+            .news-section,
+            .point-section,
+            .position-section,
+            .diff-section,
+            .framework-section,
+            .cta-section {
+                padding: 40px 0;
+            }
+
+            .section-title {
+                font-size: 1.5rem;
+            }
+
             .framework-grid {
                 grid-template-columns: 1fr;
+            }
+
+            .framework-item {
+                padding: 24px 20px;
+            }
+
+            .diff-box {
+                padding: 24px 20px;
+                border-radius: 16px;
+            }
+
+            .diff-box blockquote {
+                padding: 16px;
+                margin: 24px 0;
+            }
+
+            .diff-box blockquote p {
+                font-size: 1.05rem;
+            }
+
+            .os-metaphor {
+                padding: 24px 20px;
+                border-radius: 12px;
+            }
+
+            .os-text {
+                font-size: 1.35rem;
+            }
+
+            .os-metaphor p {
+                font-size: 0.9rem;
+            }
+
+            .integration-effect {
+                padding: 20px;
+            }
+
+            .integration-effect h3 {
+                font-size: 1.1rem;
+            }
+
+            .cta-section h2 {
+                font-size: 1.5rem;
+            }
+
+            .cta-section p {
+                font-size: 1rem;
             }
         }
     </style>
@@ -762,3 +910,4 @@
     </footer>
 </body>
 </html>
+   
