@@ -1,0 +1,1362 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SAIL Framework Implementation | Suffolk University</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Merriweather:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --navy: #1B365D;
+            --navy-light: #2a4a7a;
+            --teal: #007A87;
+            --teal-light: #00949f;
+            --gold: #D4A84B;
+            --gold-light: #F5E6C8;
+            --cream: #FDFBF7;
+            --gray-50: #F9FAFB;
+            --gray-100: #F3F4F6;
+            --gray-200: #E5E7EB;
+            --gray-300: #D1D5DB;
+            --gray-500: #6B7280;
+            --gray-600: #4B5563;
+            --gray-700: #374151;
+            --gray-900: #111827;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            line-height: 1.7;
+            color: var(--gray-700);
+            background: var(--cream);
+        }
+
+        /* Typography */
+        h1, h2, h3, h4 {
+            font-family: 'Merriweather', Georgia, serif;
+            color: var(--navy);
+            line-height: 1.3;
+        }
+
+        h1 { font-size: clamp(2.5rem, 5vw, 3.5rem); font-weight: 700; }
+        h2 { font-size: clamp(1.75rem, 3vw, 2.25rem); font-weight: 700; margin-bottom: 1rem; }
+        h3 { font-size: clamp(1.25rem, 2vw, 1.5rem); font-weight: 600; margin-bottom: 0.75rem; }
+
+        p { margin-bottom: 1.25rem; }
+
+        a {
+            color: var(--teal);
+            text-decoration: none;
+            transition: color 0.2s ease;
+        }
+
+        a:hover {
+            color: var(--teal-light);
+        }
+
+        /* Layout */
+        .container {
+            max-width: 1100px;
+            margin: 0 auto;
+            padding: 0 1.5rem;
+        }
+
+        section {
+            padding: 5rem 0;
+        }
+
+        /* Navigation */
+        nav {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            border-bottom: 1px solid var(--gray-200);
+            z-index: 1000;
+            padding: 1rem 0;
+        }
+
+        nav .container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .nav-brand {
+            font-family: 'Merriweather', serif;
+            font-weight: 700;
+            font-size: 1.25rem;
+            color: var(--navy);
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 2rem;
+            list-style: none;
+        }
+
+        .nav-links a {
+            color: var(--gray-600);
+            font-size: 0.9rem;
+            font-weight: 500;
+        }
+
+        .nav-links a:hover {
+            color: var(--teal);
+        }
+
+        @media (max-width: 768px) {
+            .nav-links {
+                display: none;
+            }
+        }
+
+        /* Hero Section */
+        .hero {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            background: linear-gradient(135deg, var(--navy) 0%, var(--navy-light) 100%);
+            color: white;
+            padding-top: 5rem;
+        }
+
+        .hero-content {
+            max-width: 800px;
+        }
+
+        .hero h1 {
+            color: white;
+            margin-bottom: 1.5rem;
+        }
+
+        .hero-subtitle {
+            font-size: clamp(1.1rem, 2vw, 1.35rem);
+            color: rgba(255, 255, 255, 0.85);
+            margin-bottom: 2.5rem;
+            line-height: 1.8;
+        }
+
+        .hero-thesis {
+            background: rgba(255, 255, 255, 0.1);
+            border-left: 4px solid var(--gold);
+            padding: 1.5rem 2rem;
+            margin-bottom: 2.5rem;
+            border-radius: 0 8px 8px 0;
+        }
+
+        .hero-thesis p {
+            font-family: 'Merriweather', serif;
+            font-size: clamp(1.25rem, 2.5vw, 1.5rem);
+            font-style: italic;
+            color: white;
+            margin: 0;
+        }
+
+        .hero-meta {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 2rem;
+            font-size: 0.95rem;
+            color: rgba(255, 255, 255, 0.7);
+        }
+
+        .hero-meta span {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        /* Problem Section */
+        .problem {
+            background: white;
+        }
+
+        .problem-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 4rem;
+            align-items: center;
+        }
+
+        @media (max-width: 768px) {
+            .problem-grid {
+                grid-template-columns: 1fr;
+                gap: 2rem;
+            }
+        }
+
+        .problem-visual {
+            background: linear-gradient(135deg, var(--gray-50) 0%, var(--gray-100) 100%);
+            border-radius: 16px;
+            padding: 3rem;
+            text-align: center;
+        }
+
+        .debt-diagram {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+        }
+
+        .debt-step {
+            background: white;
+            border-radius: 8px;
+            padding: 1rem 1.5rem;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
+            text-align: left;
+            font-size: 0.95rem;
+            position: relative;
+        }
+
+        .debt-step::after {
+            content: '↓';
+            position: absolute;
+            bottom: -1.25rem;
+            left: 50%;
+            transform: translateX(-50%);
+            color: var(--gray-400);
+            font-size: 1rem;
+        }
+
+        .debt-step:last-child::after {
+            display: none;
+        }
+
+        .debt-step.crisis {
+            background: linear-gradient(135deg, #FEE2E2 0%, #FECACA 100%);
+            border: 1px solid #F87171;
+        }
+
+        .highlight {
+            color: var(--teal);
+            font-weight: 600;
+        }
+
+        .citation {
+            font-size: 0.85rem;
+            color: var(--gray-500);
+            font-style: italic;
+        }
+
+        /* Framework Section */
+        .framework {
+            background: var(--gray-50);
+        }
+
+        .framework-intro {
+            max-width: 700px;
+            margin-bottom: 3rem;
+        }
+
+        .pillars-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 1.5rem;
+            margin-bottom: 3rem;
+        }
+
+        @media (max-width: 900px) {
+            .pillars-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+
+        @media (max-width: 500px) {
+            .pillars-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        .pillar-card {
+            background: white;
+            border-radius: 12px;
+            padding: 2rem;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .pillar-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 8px 30px rgba(0, 0, 0, 0.1);
+        }
+
+        .pillar-letter {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 3rem;
+            height: 3rem;
+            background: linear-gradient(135deg, var(--teal) 0%, var(--teal-light) 100%);
+            color: white;
+            font-family: 'Merriweather', serif;
+            font-size: 1.5rem;
+            font-weight: 700;
+            border-radius: 10px;
+            margin-bottom: 1rem;
+        }
+
+        .pillar-card h3 {
+            color: var(--navy);
+            margin-bottom: 0.75rem;
+        }
+
+        .pillar-card p {
+            font-size: 0.95rem;
+            color: var(--gray-600);
+            margin: 0;
+        }
+
+        .insight-box {
+            background: linear-gradient(135deg, var(--navy) 0%, var(--navy-light) 100%);
+            color: white;
+            border-radius: 12px;
+            padding: 2.5rem;
+        }
+
+        .insight-box h3 {
+            color: var(--gold);
+            margin-bottom: 1rem;
+        }
+
+        .insight-box p {
+            color: rgba(255, 255, 255, 0.9);
+            margin-bottom: 0;
+            font-size: 1.05rem;
+        }
+
+        /* Evidence Section */
+        .evidence {
+            background: white;
+        }
+
+        .evidence-header {
+            text-align: center;
+            max-width: 700px;
+            margin: 0 auto 3rem;
+        }
+
+        .awards-row {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 1.5rem;
+            margin-bottom: 4rem;
+        }
+
+        @media (max-width: 768px) {
+            .awards-row {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        .award-card {
+            background: var(--gray-50);
+            border-radius: 12px;
+            padding: 2rem;
+            text-align: center;
+            border: 1px solid var(--gray-200);
+        }
+
+        .award-card .icon {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+        }
+
+        .award-card h4 {
+            font-family: 'Inter', sans-serif;
+            font-size: 1rem;
+            font-weight: 600;
+            color: var(--navy);
+            margin-bottom: 0.5rem;
+        }
+
+        .award-card p {
+            font-size: 0.9rem;
+            color: var(--gray-500);
+            margin: 0;
+        }
+
+        .competition-detail {
+            background: linear-gradient(135deg, var(--gold-light) 0%, #FEF3C7 100%);
+            border-radius: 16px;
+            padding: 3rem;
+            margin-bottom: 2rem;
+        }
+
+        .competition-detail h3 {
+            color: var(--navy);
+            margin-bottom: 1.5rem;
+        }
+
+        .outcomes-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 1.5rem;
+        }
+
+        @media (max-width: 600px) {
+            .outcomes-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        .outcome-item {
+            background: white;
+            border-radius: 8px;
+            padding: 1.5rem;
+        }
+
+        .outcome-item h4 {
+            font-family: 'Inter', sans-serif;
+            font-size: 0.85rem;
+            font-weight: 600;
+            color: var(--teal);
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            margin-bottom: 0.5rem;
+        }
+
+        .outcome-item p {
+            margin: 0;
+            font-size: 0.95rem;
+        }
+
+        .student-quote {
+            background: white;
+            border-left: 4px solid var(--teal);
+            border-radius: 0 8px 8px 0;
+            padding: 1.5rem 2rem;
+            margin: 2rem 0;
+        }
+
+        .student-quote p {
+            font-family: 'Merriweather', serif;
+            font-style: italic;
+            color: var(--gray-700);
+            margin-bottom: 0.75rem;
+        }
+
+        .student-quote cite {
+            font-size: 0.9rem;
+            color: var(--gray-500);
+            font-style: normal;
+        }
+
+        /* Implementation Section */
+        .implementation {
+            background: var(--gray-50);
+        }
+
+        .implementation-intro {
+            max-width: 700px;
+            margin-bottom: 3rem;
+        }
+
+        .principles-list {
+            display: flex;
+            flex-direction: column;
+            gap: 1.5rem;
+        }
+
+        .principle-item {
+            background: white;
+            border-radius: 12px;
+            padding: 2rem;
+            display: grid;
+            grid-template-columns: auto 1fr;
+            gap: 1.5rem;
+            align-items: start;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.04);
+        }
+
+        @media (max-width: 600px) {
+            .principle-item {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        .principle-number {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 3rem;
+            height: 3rem;
+            background: var(--navy);
+            color: white;
+            font-family: 'Merriweather', serif;
+            font-weight: 700;
+            border-radius: 50%;
+        }
+
+        .principle-content h3 {
+            margin-bottom: 0.5rem;
+        }
+
+        .principle-content .pillar-tag {
+            display: inline-block;
+            font-size: 0.75rem;
+            font-weight: 600;
+            color: var(--teal);
+            background: rgba(0, 122, 135, 0.1);
+            padding: 0.25rem 0.75rem;
+            border-radius: 100px;
+            margin-bottom: 0.75rem;
+        }
+
+        .principle-content p {
+            color: var(--gray-600);
+            margin: 0;
+        }
+
+        /* Assessment Section */
+        .assessment {
+            background: white;
+        }
+
+        .assessment-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 2rem;
+        }
+
+        @media (max-width: 768px) {
+            .assessment-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        .assessment-card {
+            background: var(--gray-50);
+            border-radius: 12px;
+            padding: 2.5rem;
+            border: 1px solid var(--gray-200);
+        }
+
+        .assessment-card.featured {
+            background: linear-gradient(135deg, var(--navy) 0%, var(--navy-light) 100%);
+            color: white;
+            border: none;
+        }
+
+        .assessment-card.featured h3 {
+            color: white;
+        }
+
+        .assessment-card.featured p {
+            color: rgba(255, 255, 255, 0.85);
+        }
+
+        .proposed-tag {
+            display: inline-block;
+            font-size: 0.7rem;
+            font-weight: 600;
+            color: var(--gold);
+            background: rgba(212, 168, 75, 0.2);
+            padding: 0.2rem 0.6rem;
+            border-radius: 100px;
+            margin-left: 0.5rem;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+
+        .assessment-card ul {
+            list-style: none;
+            margin-top: 1.5rem;
+        }
+
+        .assessment-card li {
+            padding: 0.75rem 0;
+            border-bottom: 1px solid var(--gray-200);
+            font-size: 0.95rem;
+        }
+
+        .assessment-card.featured li {
+            border-bottom-color: rgba(255, 255, 255, 0.15);
+        }
+
+        .assessment-card li:last-child {
+            border-bottom: none;
+        }
+
+        .entry-example {
+            font-style: italic;
+            color: var(--gray-500);
+            font-size: 0.9rem;
+            margin-top: 0.25rem;
+        }
+
+        .assessment-card.featured .entry-example {
+            color: rgba(255, 255, 255, 0.6);
+        }
+
+        /* Team Section */
+        .team {
+            background: var(--gray-50);
+        }
+
+        .team-header {
+            text-align: center;
+            max-width: 600px;
+            margin: 0 auto 3rem;
+        }
+
+        .team-section-title {
+            font-size: 0.85rem;
+            font-weight: 600;
+            color: var(--teal);
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            margin-bottom: 1.5rem;
+        }
+
+        .core-team {
+            display: grid;
+            grid-template-columns: repeat(5, 1fr);
+            gap: 1.5rem;
+            margin-bottom: 3rem;
+        }
+
+        @media (max-width: 900px) {
+            .core-team {
+                grid-template-columns: repeat(3, 1fr);
+            }
+        }
+
+        @media (max-width: 500px) {
+            .core-team {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+
+        .team-member {
+            text-align: center;
+        }
+
+        .team-member .avatar {
+            width: 80px;
+            height: 80px;
+            background: linear-gradient(135deg, var(--navy) 0%, var(--teal) 100%);
+            border-radius: 50%;
+            margin: 0 auto 1rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-family: 'Merriweather', serif;
+            font-size: 1.5rem;
+            font-weight: 700;
+        }
+
+        .team-member h4 {
+            font-family: 'Inter', sans-serif;
+            font-size: 0.95rem;
+            font-weight: 600;
+            margin-bottom: 0.25rem;
+        }
+
+        .team-member p {
+            font-size: 0.8rem;
+            color: var(--gray-500);
+            margin: 0;
+        }
+
+        .champions-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 1rem;
+        }
+
+        @media (max-width: 768px) {
+            .champions-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+
+        .champion-card {
+            background: white;
+            border-radius: 8px;
+            padding: 1rem;
+            text-align: center;
+            border: 1px solid var(--gray-200);
+        }
+
+        .champion-card h4 {
+            font-family: 'Inter', sans-serif;
+            font-size: 0.85rem;
+            font-weight: 600;
+            margin-bottom: 0.25rem;
+        }
+
+        .champion-card p {
+            font-size: 0.75rem;
+            color: var(--gray-500);
+            margin: 0;
+        }
+
+        .champion-card .chair-badge {
+            display: inline-block;
+            font-size: 0.65rem;
+            font-weight: 600;
+            color: var(--gold);
+            background: var(--gold-light);
+            padding: 0.15rem 0.5rem;
+            border-radius: 100px;
+            margin-top: 0.5rem;
+        }
+
+        /* Resources Section */
+        .resources {
+            background: white;
+        }
+
+        .resources-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 1.5rem;
+        }
+
+        @media (max-width: 768px) {
+            .resources-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        .resource-card {
+            background: var(--gray-50);
+            border-radius: 12px;
+            padding: 2rem;
+            border: 1px solid var(--gray-200);
+            transition: border-color 0.2s ease;
+        }
+
+        .resource-card:hover {
+            border-color: var(--teal);
+        }
+
+        .resource-card h3 {
+            font-size: 1.1rem;
+            margin-bottom: 0.75rem;
+        }
+
+        .resource-card p {
+            font-size: 0.9rem;
+            color: var(--gray-600);
+            margin-bottom: 1rem;
+        }
+
+        .resource-link {
+            font-size: 0.9rem;
+            font-weight: 600;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .resource-link::after {
+            content: '→';
+            transition: transform 0.2s ease;
+        }
+
+        .resource-link:hover::after {
+            transform: translateX(4px);
+        }
+
+        /* Footer */
+        footer {
+            background: var(--navy);
+            color: white;
+            padding: 4rem 0 2rem;
+        }
+
+        .footer-content {
+            display: grid;
+            grid-template-columns: 2fr 1fr;
+            gap: 4rem;
+            margin-bottom: 3rem;
+        }
+
+        @media (max-width: 768px) {
+            .footer-content {
+                grid-template-columns: 1fr;
+                gap: 2rem;
+            }
+        }
+
+        .footer-brand h3 {
+            color: white;
+            margin-bottom: 1rem;
+        }
+
+        .footer-brand p {
+            color: rgba(255, 255, 255, 0.7);
+            margin-bottom: 1.5rem;
+        }
+
+        .footer-contact a {
+            color: var(--gold);
+        }
+
+        .footer-links h4 {
+            color: white;
+            font-family: 'Inter', sans-serif;
+            font-size: 0.9rem;
+            font-weight: 600;
+            margin-bottom: 1rem;
+        }
+
+        .footer-links ul {
+            list-style: none;
+        }
+
+        .footer-links li {
+            margin-bottom: 0.5rem;
+        }
+
+        .footer-links a {
+            color: rgba(255, 255, 255, 0.7);
+            font-size: 0.9rem;
+        }
+
+        .footer-links a:hover {
+            color: white;
+        }
+
+        .footer-bottom {
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            padding-top: 2rem;
+            text-align: center;
+            font-size: 0.85rem;
+            color: rgba(255, 255, 255, 0.5);
+        }
+
+        /* Market Context */
+        .market-stats {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 1.5rem;
+            margin: 2rem 0;
+        }
+
+        @media (max-width: 600px) {
+            .market-stats {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        .stat-card {
+            background: var(--gray-50);
+            border-radius: 8px;
+            padding: 1.5rem;
+            text-align: center;
+        }
+
+        .stat-card .number {
+            font-family: 'Merriweather', serif;
+            font-size: 2.5rem;
+            font-weight: 700;
+            color: var(--teal);
+            line-height: 1;
+            margin-bottom: 0.5rem;
+        }
+
+        .stat-card .label {
+            font-size: 0.9rem;
+            color: var(--gray-600);
+        }
+
+        .stat-card .source {
+            font-size: 0.75rem;
+            color: var(--gray-400);
+            margin-top: 0.5rem;
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation -->
+    <nav>
+        <div class="container">
+            <a href="https://harslan.github.io/sail-framework/" class="nav-brand">SAIL Framework</a>
+            <ul class="nav-links">
+                <li><a href="#problem">The Problem</a></li>
+                <li><a href="#framework">Framework</a></li>
+                <li><a href="#evidence">Evidence</a></li>
+                <li><a href="#implementation">Implementation</a></li>
+                <li><a href="#team">Team</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="container">
+            <div class="hero-content">
+                <h1>Developing Judgment for an AI-Augmented World</h1>
+                <p class="hero-subtitle">
+                    The SAIL Framework prepares students not just to use AI, but to <em>evaluate</em> it—developing the human capacity that remains irreplaceable as AI capabilities grow.
+                </p>
+                <div class="hero-thesis">
+                    <p>Skills can be automated. Judgment cannot.</p>
+                </div>
+                <div class="hero-meta">
+                    <span>Suffolk University</span>
+                    <span>•</span>
+                    <span>Sawyer Business School</span>
+                    <span>•</span>
+                    <span>SAIL Collaborative</span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Problem Section -->
+    <section class="problem" id="problem">
+        <div class="container">
+            <div class="problem-grid">
+                <div class="problem-content">
+                    <h2>The Problem We're Solving</h2>
+                    <p>
+                        Students can use AI. They can prompt it, iterate with it, and integrate it into their workflows. But they struggle to <span class="highlight">evaluate</span> it—to know when AI output is reliable and when it's confidently wrong.
+                    </p>
+                    <p>
+                        Each time a student accepts AI output without evaluation, they accumulate what MIT researchers call <strong>cognitive debt</strong>. The debt compounds. Eventually, when AI makes a mistake—and it will—they lack the capacity to catch it.
+                    </p>
+                    <p class="citation">
+                        — Kosmyna et al. (2025), "Your Brain on ChatGPT: Accumulation of Cognitive Debt," MIT Media Lab
+                    </p>
+                    
+                    <div class="market-stats">
+                        <div class="stat-card">
+                            <div class="number">644%</div>
+                            <div class="label">increase in AI job postings since ChatGPT launched</div>
+                            <div class="source">Educational Advisory Board</div>
+                        </div>
+                        <div class="stat-card">
+                            <div class="number">~5%</div>
+                            <div class="label">of knowledge jobs need advanced AI skills</div>
+                            <div class="source">EAB Analysis</div>
+                        </div>
+                        <div class="stat-card">
+                            <div class="number">~70%</div>
+                            <div class="label">require only basic AI literacy</div>
+                            <div class="source">EAB Analysis</div>
+                        </div>
+                    </div>
+                    
+                    <p>
+                        The real differentiator won't be technical wizardry—it will be knowing how to blend AI tools with human judgment, critical thinking, and ethical reasoning.
+                    </p>
+                </div>
+                <div class="problem-visual">
+                    <div class="debt-diagram">
+                        <div class="debt-step">
+                            Student uses AI for assignment
+                        </div>
+                        <div class="debt-step">
+                            Accepts output without evaluation
+                        </div>
+                        <div class="debt-step">
+                            Cognitive debt accumulates invisibly
+                        </div>
+                        <div class="debt-step">
+                            Pattern repeats across courses
+                        </div>
+                        <div class="debt-step crisis">
+                            AI makes mistake → Student can't catch it
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Framework Section -->
+    <section class="framework" id="framework">
+        <div class="container">
+            <div class="framework-intro">
+                <h2>The SAIL Framework</h2>
+                <p>
+                    SAIL develops four interconnected competencies that together produce <strong>judgment</strong>—the integration of perception and analysis that tells you what to do when the answer isn't obvious.
+                </p>
+            </div>
+
+            <div class="pillars-grid">
+                <div class="pillar-card">
+                    <div class="pillar-letter">S</div>
+                    <h3>Social Intelligence</h3>
+                    <p>Communicating about AI to colleagues, clients, and stakeholders; tailoring insights for different audiences; building trust in human-AI collaboration</p>
+                </div>
+                <div class="pillar-card">
+                    <div class="pillar-letter">A</div>
+                    <h3>AI Literacy</h3>
+                    <p>Understanding AI's capabilities, limitations, and failure modes; knowing when different approaches work and why; strategic prompting and tool selection</p>
+                </div>
+                <div class="pillar-card">
+                    <div class="pillar-letter">I</div>
+                    <h3>Innovation / Inquiry</h3>
+                    <p>Questioning AI outputs; treating AI as thought partner, not oracle; identifying what's missing, misleading, or wrong; the "Wait, that's weird" capacity</p>
+                </div>
+                <div class="pillar-card">
+                    <div class="pillar-letter">L</div>
+                    <h3>Leadership</h3>
+                    <p>Taking responsibility for human-AI collaboration outcomes; ethical reasoning integrated with business strategy; governance and accountability</p>
+                </div>
+            </div>
+
+            <div class="insight-box">
+                <h3>The Critical Insight</h3>
+                <p>
+                    Critical thinking isn't a fifth pillar. It's what makes the other four function. The Greek word <em>kritikos</em>—the root of "critical"—means "able to discern." Critical thinking was never meant to be purely analytical. From its origins, it included the perceptual capacity to see what matters. When we say SAIL develops judgment, we're recovering the full meaning of critical thinking and applying it to AI education.
+                </p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Evidence Section -->
+    <section class="evidence" id="evidence">
+        <div class="container">
+            <div class="evidence-header">
+                <h2>Evidence of Impact</h2>
+                <p>SAIL isn't a proposal—it's an expansion of demonstrated success.</p>
+            </div>
+
+            <div class="awards-row">
+                <div class="award-card">
+                    <div class="icon">🏆</div>
+                    <h4>Eduventures Innovation Award</h4>
+                    <p>2025 — National recognition for AI integration approach</p>
+                </div>
+                <div class="award-card">
+                    <div class="icon">📄</div>
+                    <h4>AACSB Insights Publication</h4>
+                    <p>"Beyond the Hype: AI's Role in Business Education" — October 2025</p>
+                </div>
+                <div class="award-card">
+                    <div class="icon">💰</div>
+                    <h4>FIPSE Grant Candidacy</h4>
+                    <p>Invited to apply for $2.8–4.2M to scale SAIL nationally</p>
+                </div>
+            </div>
+
+            <div class="competition-detail">
+                <h3>Prompt Alchemy Competitions</h3>
+                <p>Two completed competitions demonstrating all four SAIL pillars in action:</p>
+                
+                <div class="outcomes-grid">
+                    <div class="outcome-item">
+                        <h4>Spring 2025 — Olist Data</h4>
+                        <p>19 students analyzed 100,000 orders from Brazilian e-commerce platform. Teams discovered regional patterns: Southeast preferred electronics while Northeast favored home goods.</p>
+                    </div>
+                    <div class="outcome-item">
+                        <h4>Fall 2025 — Boston Airbnb</h4>
+                        <p>Expanded competition with local market data, building on lessons learned and refined SAIL assessment rubrics.</p>
+                    </div>
+                    <div class="outcome-item">
+                        <h4>Unprompted Ethics</h4>
+                        <p>Students flagged concerns about "penalizing rural sellers with poor infrastructure" and recommended "equity of access" for regional strategies—<em>without being asked</em>.</p>
+                    </div>
+                    <div class="outcome-item">
+                        <h4>"Wait, That's Weird"</h4>
+                        <p>One team found top-selling categories had terrible reviews. Instead of celebrating sales, they investigated—discovering satisfaction gaps by income level.</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="student-quote">
+                <p>"I used to think AI either gave you the right answer or it didn't. But it's actually more like working with someone who needs really clear instructions and ethical guardrails. The better you are at asking questions and checking the results, the better it works."</p>
+                <cite>— Prompt Alchemy participant</cite>
+            </div>
+
+            <div class="student-quote">
+                <p>"I used to think AI was about getting the right technical answer. Now I realize it's more like conducting an orchestra—you need to know when to bring in different instruments, but you also need to make sure the whole performance serves the audience."</p>
+                <cite>— Student reflection after competition</cite>
+            </div>
+        </div>
+    </section>
+
+    <!-- Implementation Section -->
+    <section class="implementation" id="implementation">
+        <div class="container">
+            <div class="implementation-intro">
+                <h2>Implementation Principles</h2>
+                <p>
+                    These principles, developed through our own implementation and refined in practice, guide institutions seeking to integrate AI judgment development into their curriculum. Each maps to a SAIL pillar.
+                </p>
+            </div>
+
+            <div class="principles-list">
+                <div class="principle-item">
+                    <div class="principle-number">1</div>
+                    <div class="principle-content">
+                        <span class="pillar-tag">Social Intelligence</span>
+                        <h3>Start with Coalition-Building</h3>
+                        <p>Host informal sessions where faculty from different departments share how AI already touches their fields. You'll be surprised who steps forward—sometimes it's the colleagues you least expect, and those connections often spark the strongest collaborations.</p>
+                    </div>
+                </div>
+
+                <div class="principle-item">
+                    <div class="principle-number">2</div>
+                    <div class="principle-content">
+                        <span class="pillar-tag">Innovation / Inquiry</span>
+                        <h3>Create Sandbox Experiences</h3>
+                        <p>Launch low-stakes AI challenges where student teams experiment with real-world data sets to simulate business problems. Our Prompt Alchemy competitions began this way and have since grown into a broader learning model that embodies SAIL's spirit of inquiry.</p>
+                    </div>
+                </div>
+
+                <div class="principle-item">
+                    <div class="principle-number">3</div>
+                    <div class="principle-content">
+                        <span class="pillar-tag">AI Literacy</span>
+                        <h3>Design for Diverse Learners</h3>
+                        <p>Pair conceptual frameworks with hands-on labs, visual demonstrations with written case studies. When teaching prompt engineering, use role-playing exercises alongside technical tutorials—helping students understand not just how AI works, but how it can be applied across contexts.</p>
+                    </div>
+                </div>
+
+                <div class="principle-item">
+                    <div class="principle-number">4</div>
+                    <div class="principle-content">
+                        <span class="pillar-tag">Leadership — Institutional</span>
+                        <h3>Integrate, Don't Add</h3>
+                        <p>Rather than creating new courses from scratch, weave AI modules into existing ones. A negotiations class becomes "Negotiating With AI Assistants." A strategy course explores "Competing in AI-Driven Markets." This signals leadership by embedding AI across the curriculum.</p>
+                    </div>
+                </div>
+
+                <div class="principle-item">
+                    <div class="principle-number">5</div>
+                    <div class="principle-content">
+                        <span class="pillar-tag">Leadership — Individual</span>
+                        <h3>Emphasize Judgment Over Tools</h3>
+                        <p>The specific AI platforms will change; the ability to evaluate when and how to deploy them won't. Teaching students to ask "Should we use AI here?" before "How do we use AI here?" usually leads to the most important debates—and develops the judgment today's business world demands.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Assessment Section -->
+    <section class="assessment" id="assessment">
+        <div class="container">
+            <h2>Assessing Judgment</h2>
+            <p style="max-width: 700px; margin-bottom: 2rem;">
+                Traditional assessment measures skill acquisition. SAIL assessment measures <strong>judgment development</strong>—the capacity to make sound decisions under uncertainty. Two innovations support this approach:
+            </p>
+
+            <div class="assessment-grid">
+                <div class="assessment-card">
+                    <h3>The Judgment Portfolio <span class="proposed-tag">Proposed</span></h3>
+                    <p>
+                        A longitudinal record of judgment development. Unlike traditional portfolios that collect finished work, the Judgment Portfolio documents <em>moments of discernment</em>—decisions that reveal how students think.
+                    </p>
+                    <ul>
+                        <li>
+                            <strong>Caught an AI error</strong> (Innovation/Inquiry)
+                            <div class="entry-example">"The AI confidently gave me wrong information about..."</div>
+                        </li>
+                        <li>
+                            <strong>Chose not to use AI</strong> (Leadership)
+                            <div class="entry-example">"I decided to handle this myself because..."</div>
+                        </li>
+                        <li>
+                            <strong>Translated for non-technical audience</strong> (Social Intelligence)
+                            <div class="entry-example">"I reframed this analysis for my client by..."</div>
+                        </li>
+                        <li>
+                            <strong>Selected the right approach</strong> (AI Literacy)
+                            <div class="entry-example">"I chose this tool/prompt strategy because..."</div>
+                        </li>
+                    </ul>
+                </div>
+
+                <div class="assessment-card featured">
+                    <h3>SAIL Certification <span class="proposed-tag">Proposed</span></h3>
+                    <p>
+                        A credential that signals to employers: this graduate has demonstrated judgment, not just skills. Meaningful precisely because it cannot be gamed.
+                    </p>
+                    <ul>
+                        <li>
+                            <strong>Completed Judgment Portfolio</strong>
+                            <div class="entry-example">Entries across all four pillar domains</div>
+                        </li>
+                        <li>
+                            <strong>SAIL Challenge completion</strong>
+                            <div class="entry-example">In at least two courses</div>
+                        </li>
+                        <li>
+                            <strong>Faculty attestation</strong>
+                            <div class="entry-example">Of demonstrated judgment, not just assignment completion</div>
+                        </li>
+                        <li>
+                            <strong>Capstone presentation</strong>
+                            <div class="entry-example">Explaining a complex AI judgment decision</div>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Team Section -->
+    <section class="team" id="team">
+        <div class="container">
+            <div class="team-header">
+                <h2>The SAIL Collaborative</h2>
+                <p>Architecting the future of AI in business education</p>
+            </div>
+
+            <p class="team-section-title">Core Team</p>
+            <div class="core-team">
+                <div class="team-member">
+                    <div class="avatar">AZ</div>
+                    <h4>Amy Zeng</h4>
+                    <p>Dean, Sawyer Business School</p>
+                </div>
+                <div class="team-member">
+                    <div class="avatar">HA</div>
+                    <h4>Hasan Arslan</h4>
+                    <p>Chief AI Officer; Associate Professor, ISOM</p>
+                </div>
+                <div class="team-member">
+                    <div class="avatar">PB</div>
+                    <h4>Pelin Bicen</h4>
+                    <p>Associate Dean, Undergraduate & Quant Programs</p>
+                </div>
+                <div class="team-member">
+                    <div class="avatar">JD</div>
+                    <h4>Jodi Detjen</h4>
+                    <p>Associate Dean, External Relations & Career Building</p>
+                </div>
+                <div class="team-member">
+                    <div class="avatar">DT</div>
+                    <h4>Dmitri Tcherevik</h4>
+                    <p>Executive in Residence</p>
+                </div>
+            </div>
+
+            <p class="team-section-title">Faculty Champions</p>
+            <div class="champions-grid">
+                <div class="champion-card">
+                    <h4>Sokol Celo</h4>
+                    <p>Strategy & International Business</p>
+                    <span class="chair-badge">Department Chair</span>
+                </div>
+                <div class="champion-card">
+                    <h4>Abu Jalal</h4>
+                    <p>Finance</p>
+                    <span class="chair-badge">Department Chair</span>
+                </div>
+                <div class="champion-card">
+                    <h4>Sheila Webber</h4>
+                    <p>Management & Entrepreneurship</p>
+                    <span class="chair-badge">Department Chair</span>
+                </div>
+                <div class="champion-card">
+                    <h4>Saeid Hoseinzade</h4>
+                    <p>Finance</p>
+                </div>
+                <div class="champion-card">
+                    <h4>Nesij Huvaj</h4>
+                    <p>Management & Entrepreneurship</p>
+                </div>
+                <div class="champion-card">
+                    <h4>Sepideh Kaffash</h4>
+                    <p>Information Systems & Operations Management</p>
+                </div>
+                <div class="champion-card">
+                    <h4>Aroon Manoharan</h4>
+                    <p>Public Service</p>
+                </div>
+                <div class="champion-card">
+                    <h4>Kimberley Ring</h4>
+                    <p>Marketing</p>
+                </div>
+                <div class="champion-card">
+                    <h4>Arkapravo Sarkar</h4>
+                    <p>Marketing</p>
+                </div>
+                <div class="champion-card">
+                    <h4>Robert Smith</h4>
+                    <p>Marketing</p>
+                </div>
+                <div class="champion-card">
+                    <h4>Irene Wang</h4>
+                    <p>Accounting & Business Law</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Resources Section -->
+    <section class="resources" id="resources">
+        <div class="container">
+            <h2>Resources</h2>
+            <p style="max-width: 600px; margin-bottom: 2rem;">
+                The SAIL Framework and supporting materials are openly available for institutions seeking to develop AI judgment in their students.
+            </p>
+
+            <div class="resources-grid">
+                <div class="resource-card">
+                    <h3>SAIL Framework</h3>
+                    <p>Complete documentation with evidence and references</p>
+                    <a href="https://harslan.github.io/sail-framework/" class="resource-link">View Framework</a>
+                </div>
+                <div class="resource-card">
+                    <h3>Executive Summary</h3>
+                    <p>One-page overview for administrators and stakeholders</p>
+                    <a href="https://harslan.github.io/sail-framework/executive-summary.html" class="resource-link">View Summary</a>
+                </div>
+                <div class="resource-card">
+                    <h3>SAIL Challenge</h3>
+                    <p>Student guide, rubric, faculty guide, and sample cases</p>
+                    <a href="https://harslan.github.io/sail-framework/challenge/" class="resource-link">View Challenge</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-brand">
+                    <h3>SAIL Collaborative</h3>
+                    <p>
+                        We're not just tacking AI onto existing courses—we're rethinking how we prepare students for a world where working effectively with AI is a core business skill. The most valuable professionals won't be those who have mastered every AI tool, but those who know how to lead with AI while keeping the human insight that technology simply can't provide.
+                    </p>
+                    <p class="footer-contact">
+                        <a href="mailto:harslan@suffolk.edu">harslan@suffolk.edu</a><br>
+                        <a href="https://github.com/harslan/sail-framework">github.com/harslan/sail-framework</a>
+                    </p>
+                </div>
+                <div class="footer-links">
+                    <h4>Quick Links</h4>
+                    <ul>
+                        <li><a href="https://harslan.github.io/sail-framework/">SAIL Framework</a></li>
+                        <li><a href="https://harslan.github.io/sail-framework/challenge/">SAIL Challenge</a></li>
+                        <li><a href="https://sites.suffolk.edu/sail/">SAIL Collaborative Site</a></li>
+                        <li><a href="https://www.suffolk.edu/business">Sawyer Business School</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>© 2025 SAIL Collaborative, Suffolk University. All rights reserved.</p>
+                <p style="margin-top: 0.5rem;">
+                    Grounded in learning science: Alfieri, Nokes-Malach & Schunn (2013); Sinha & Kapur (2021); Facione (1990)
+                </p>
+            </div>
+        </div>
+    </footer>
+</body>
+</html>
