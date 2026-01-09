@@ -6,6 +6,18 @@
     <title>SAIL Framework | Impact Report | Suffolk University</title>
     <meta name="description" content="The SAIL Framework: Developing judgment for an AI world. Published in AACSB Insights. Winner of the 2025 Eduventures Innovation Award. Suffolk University Sawyer Business School.">
     
+    <!-- Open Graph / Social Sharing -->
+    <meta property="og:type" content="website">
+    <meta property="og:title" content="SAIL Framework | Developing Judgment for an AI World">
+    <meta property="og:description" content="Skills can be automated. Judgment cannot. The SAIL Framework from Suffolk University's Sawyer Business School — Published in AACSB Insights, Winner of 2025 Eduventures Innovation Award.">
+    <meta property="og:url" content="https://harslan.github.io/sail-framework/impact-report.html">
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="SAIL Framework | Developing Judgment for an AI World">
+    <meta name="twitter:description" content="Skills can be automated. Judgment cannot. The SAIL Framework from Suffolk University.">
+    
+    <!-- Theme Color -->
+    <meta name="theme-color" content="#0a0a0f">
+    
     <!-- Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -45,6 +57,24 @@
 
         html {
             scroll-behavior: smooth;
+        }
+
+        /* Custom scrollbar for dark theme */
+        ::-webkit-scrollbar {
+            width: 10px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: var(--color-bg);
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: var(--color-bg-card);
+            border-radius: 5px;
+        }
+
+        ::-webkit-scrollbar-thumb:hover {
+            background: var(--color-text-dim);
         }
 
         body {
@@ -211,8 +241,20 @@
             50% { opacity: 0.5; }
         }
 
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
         .hero h1 {
             margin-bottom: 1.5rem;
+            animation: fadeInUp 0.8s ease-out;
         }
 
         .hero h1 em {
@@ -229,12 +271,14 @@
             max-width: 600px;
             margin-bottom: 2.5rem;
             line-height: 1.6;
+            animation: fadeInUp 0.8s ease-out 0.2s both;
         }
 
         .hero-cta {
             display: flex;
             gap: 1rem;
             flex-wrap: wrap;
+            animation: fadeInUp 0.8s ease-out 0.4s both;
         }
 
         .btn {
@@ -315,6 +359,19 @@
             letter-spacing: 0.1em;
             color: var(--color-accent);
             margin-bottom: 1rem;
+            display: inline-block;
+            position: relative;
+        }
+
+        .section-label::after {
+            content: '';
+            position: absolute;
+            bottom: -4px;
+            left: 0;
+            width: 100%;
+            height: 2px;
+            background: var(--gradient-accent);
+            border-radius: 1px;
         }
 
         /* The Question Section */
@@ -491,6 +548,10 @@
             box-shadow: 0 0 12px rgba(251, 191, 36, 0.5);
         }
 
+        .timeline-item.highlight .timeline-title {
+            color: var(--color-gold);
+        }
+
         @keyframes fadeInLeft {
             to {
                 opacity: 1;
@@ -513,6 +574,8 @@
         .timeline-item:nth-child(13) { animation-delay: 1.3s; }
         .timeline-item:nth-child(14) { animation-delay: 1.4s; }
         .timeline-item:nth-child(15) { animation-delay: 1.5s; }
+        .timeline-item:nth-child(16) { animation-delay: 1.6s; }
+        .timeline-item:nth-child(17) { animation-delay: 1.7s; }
 
         .timeline-date {
             font-family: var(--font-mono);
@@ -623,6 +686,11 @@
 
         .stat {
             text-align: center;
+            transition: transform 0.3s ease;
+        }
+
+        .stat:hover {
+            transform: scale(1.05);
         }
 
         .stat-value {
@@ -1353,6 +1421,11 @@
                     <div class="timeline-desc">"Beyond the Hype: AI's Role in Business Education" — Global visibility</div>
                 </div>
                 <div class="timeline-item">
+                    <div class="timeline-date">November 14, 2025</div>
+                    <div class="timeline-title">SAIL Fridays Kickoff</div>
+                    <div class="timeline-desc">Faculty development series launches — translating SAIL framework into practical learning design</div>
+                </div>
+                <div class="timeline-item">
                     <div class="timeline-date">Fall 2025</div>
                     <div class="timeline-title">Second Prompt AIChemy Competition</div>
                     <div class="timeline-desc">14 additional students develop judgment through real business challenges</div>
@@ -1539,9 +1612,18 @@
 
             <div class="validation-grid">
                 <div class="card">
+                    <div class="card-icon">🏛️</div>
+                    <h3>Official SAIL Website</h3>
+                    <p>Suffolk University's official SAIL Collaborative page — AI leaders, champions, and resources.</p>
+                    <a href="https://sites.suffolk.edu/sail" target="_blank" style="display: inline-block; margin-top: 1rem;">
+                        Visit Official Site →
+                    </a>
+                </div>
+
+                <div class="card">
                     <div class="card-icon">📚</div>
                     <h3>SAIL Framework</h3>
-                    <p>Four pillars, implementation guides, executive summary—explore the complete framework.</p>
+                    <p>Four pillars, executive summary, and complete documentation—explore the framework.</p>
                     <a href="https://harslan.github.io/sail-framework/" target="_blank" style="display: inline-block; margin-top: 1rem;">
                         Explore Framework →
                     </a>
@@ -1555,13 +1637,33 @@
                         Read on AACSB →
                     </a>
                 </div>
+            </div>
 
+            <div class="validation-grid" style="margin-top: 1.5rem;">
                 <div class="card">
                     <div class="card-icon">🧪</div>
                     <h3>SAIL Challenge</h3>
                     <p>Student guide, faculty guide, rubric, and sample cases—everything to run your own SAIL Challenge.</p>
                     <a href="https://harslan.github.io/sail-framework/challenge/" target="_blank" style="display: inline-block; margin-top: 1rem;">
                         Access Materials →
+                    </a>
+                </div>
+
+                <div class="card">
+                    <div class="card-icon">🛠️</div>
+                    <h3>Implementation Guide</h3>
+                    <p>Detailed write-up covering the judgment development thesis, learning science foundation, and practical pathways.</p>
+                    <a href="https://harslan.github.io/sail-framework/implementation" target="_blank" style="display: inline-block; margin-top: 1rem;">
+                        Read Guide →
+                    </a>
+                </div>
+
+                <div class="card">
+                    <div class="card-icon">👥</div>
+                    <h3>SAIL Fridays</h3>
+                    <p>Faculty development series — session materials, templates, and discipline adaptations.</p>
+                    <a href="https://harslan.github.io/prompt-aichemy/presentations/sail-fridays-kickoff.html" target="_blank" style="display: inline-block; margin-top: 1rem;">
+                        View Session →
                     </a>
                 </div>
             </div>
@@ -1633,6 +1735,7 @@
 
                 <div class="footer-links">
                     <h4>Framework</h4>
+                    <a href="https://sites.suffolk.edu/sail" target="_blank">Official SAIL Website</a>
                     <a href="https://harslan.github.io/sail-framework/" target="_blank">Explore SAIL</a>
                     <a href="https://harslan.github.io/sail-framework/challenge/" target="_blank">SAIL Challenge</a>
                     <a href="https://github.com/harslan/sail-framework" target="_blank">GitHub Repository</a>
@@ -1652,7 +1755,7 @@
             </div>
 
             <div class="footer-bottom">
-                <span>© 2025 SAIL Collaborative · Suffolk University · Sawyer Business School</span>
+                <span>© 2026 SAIL Collaborative · Suffolk University · Sawyer Business School</span>
                 <span>Built with judgment, not just AI</span>
             </div>
         </div>
