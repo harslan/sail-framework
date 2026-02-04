@@ -1,0 +1,1509 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>FIN 810 — AI-Augmented Investment Analysis</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;0,800;1,400;1,600&family=Crimson+Pro:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400&family=IBM+Plex+Mono:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg-deep: #080c14;
+  --bg-surface: #0d1220;
+  --bg-card: #111827;
+  --bg-elevated: #1a2332;
+  --text-primary: #f0ece4;
+  --text-secondary: #9ca3af;
+  --text-muted: #6b7280;
+  --accent-gold: #d4a853;
+  --accent-gold-dim: #a07d3a;
+  --accent-gold-glow: rgba(212, 168, 83, 0.15);
+  --error-red: #ef4444;
+  --error-red-dim: rgba(239, 68, 68, 0.12);
+  --success-green: #34d399;
+  --success-green-dim: rgba(52, 211, 153, 0.12);
+  --border-subtle: rgba(255, 255, 255, 0.06);
+  --border-medium: rgba(255, 255, 255, 0.1);
+  --font-display: 'Playfair Display', Georgia, serif;
+  --font-body: 'Crimson Pro', Georgia, serif;
+  --font-mono: 'IBM Plex Mono', monospace;
+}
+
+*, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+html { scroll-behavior: smooth; font-size: 18px; }
+
+body {
+  font-family: var(--font-body);
+  background: var(--bg-deep);
+  color: var(--text-primary);
+  line-height: 1.7;
+  -webkit-font-smoothing: antialiased;
+  overflow-x: hidden;
+}
+
+/* ─── GRAIN OVERLAY ─── */
+body::before {
+  content: '';
+  position: fixed;
+  top: 0; left: 0; width: 100%; height: 100%;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.03'/%3E%3C/svg%3E");
+  pointer-events: none;
+  z-index: 9999;
+}
+
+/* ─── LAYOUT ─── */
+.container {
+  max-width: 820px;
+  margin: 0 auto;
+  padding: 0 2rem;
+}
+
+.container-wide {
+  max-width: 1080px;
+  margin: 0 auto;
+  padding: 0 2rem;
+}
+
+section {
+  padding: 6rem 0;
+  position: relative;
+}
+
+/* ─── TYPOGRAPHY ─── */
+h1, h2, h3 { font-family: var(--font-display); font-weight: 700; line-height: 1.2; }
+
+h1 { font-size: 3.2rem; letter-spacing: -0.02em; }
+h2 { font-size: 2.2rem; letter-spacing: -0.01em; margin-bottom: 1.5rem; }
+h3 { font-size: 1.4rem; margin-bottom: 1rem; }
+
+p { margin-bottom: 1.25rem; }
+p:last-child { margin-bottom: 0; }
+
+.text-gold { color: var(--accent-gold); }
+.text-red { color: var(--error-red); }
+.text-green { color: var(--success-green); }
+.text-muted { color: var(--text-secondary); }
+.text-small { font-size: 0.85rem; }
+
+.font-mono { font-family: var(--font-mono); }
+
+em { font-style: italic; color: var(--accent-gold); }
+
+blockquote {
+  border-left: 3px solid var(--accent-gold);
+  padding: 1.25rem 1.5rem;
+  margin: 2rem 0;
+  background: var(--accent-gold-glow);
+  border-radius: 0 8px 8px 0;
+  font-style: italic;
+  font-size: 1.15rem;
+}
+
+blockquote cite {
+  display: block;
+  margin-top: 0.75rem;
+  font-style: normal;
+  font-size: 0.85rem;
+  color: var(--text-secondary);
+}
+
+/* ─── ANIMATIONS ─── */
+@keyframes fadeUp {
+  from { opacity: 0; transform: translateY(30px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@keyframes slideRight {
+  from { opacity: 0; transform: translateX(-20px); }
+  to { opacity: 1; transform: translateX(0); }
+}
+
+@keyframes pulse-gold {
+  0%, 100% { box-shadow: 0 0 0 0 rgba(212, 168, 83, 0.3); }
+  50% { box-shadow: 0 0 20px 4px rgba(212, 168, 83, 0.15); }
+}
+
+@keyframes terminalBlink {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0; }
+}
+
+@keyframes countUp {
+  from { opacity: 0; transform: scale(0.8); }
+  to { opacity: 1; transform: scale(1); }
+}
+
+.reveal {
+  opacity: 0;
+  transform: translateY(30px);
+  transition: opacity 0.7s ease, transform 0.7s ease;
+}
+
+.reveal.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.reveal-delay-1 { transition-delay: 0.1s; }
+.reveal-delay-2 { transition-delay: 0.2s; }
+.reveal-delay-3 { transition-delay: 0.3s; }
+.reveal-delay-4 { transition-delay: 0.4s; }
+
+/* ─── NAVIGATION ─── */
+nav {
+  position: fixed;
+  top: 0; left: 0; right: 0;
+  z-index: 100;
+  background: rgba(8, 12, 20, 0.85);
+  backdrop-filter: blur(16px);
+  border-bottom: 1px solid var(--border-subtle);
+  padding: 0.8rem 0;
+  transition: all 0.3s ease;
+}
+
+nav .nav-inner {
+  max-width: 1080px;
+  margin: 0 auto;
+  padding: 0 2rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+nav .brand {
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: 1.1rem;
+  color: var(--accent-gold);
+  text-decoration: none;
+  letter-spacing: 0.05em;
+}
+
+nav .nav-links {
+  display: flex;
+  gap: 1.5rem;
+  list-style: none;
+}
+
+nav .nav-links a {
+  font-family: var(--font-mono);
+  font-size: 0.7rem;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  color: var(--text-secondary);
+  text-decoration: none;
+  transition: color 0.2s;
+}
+
+nav .nav-links a:hover { color: var(--accent-gold); }
+
+/* ─── HERO ─── */
+#hero {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  position: relative;
+  padding-top: 4rem;
+  overflow: hidden;
+}
+
+#hero::before {
+  content: '';
+  position: absolute;
+  top: -50%; right: -30%;
+  width: 80%; height: 200%;
+  background: radial-gradient(ellipse at center, rgba(212, 168, 83, 0.04) 0%, transparent 70%);
+  pointer-events: none;
+}
+
+.hero-content {
+  position: relative;
+  z-index: 1;
+}
+
+.hero-eyebrow {
+  font-family: var(--font-mono);
+  font-size: 0.72rem;
+  text-transform: uppercase;
+  letter-spacing: 0.2em;
+  color: var(--accent-gold);
+  margin-bottom: 1.5rem;
+  animation: fadeIn 0.8s ease 0.2s both;
+}
+
+.hero-title {
+  font-size: clamp(2.4rem, 5vw, 4rem);
+  font-weight: 800;
+  line-height: 1.1;
+  margin-bottom: 1.5rem;
+  animation: fadeUp 0.8s ease 0.4s both;
+}
+
+.hero-title .highlight {
+  display: inline;
+  background: linear-gradient(135deg, var(--accent-gold), #e8c876);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.hero-subtitle {
+  font-size: 1.25rem;
+  color: var(--text-secondary);
+  max-width: 600px;
+  line-height: 1.6;
+  margin-bottom: 2.5rem;
+  animation: fadeUp 0.8s ease 0.6s both;
+}
+
+.hero-meta {
+  display: flex;
+  gap: 2rem;
+  flex-wrap: wrap;
+  animation: fadeUp 0.8s ease 0.8s both;
+}
+
+.hero-meta-item {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+}
+
+.hero-meta-item .label {
+  font-family: var(--font-mono);
+  font-size: 0.65rem;
+  text-transform: uppercase;
+  letter-spacing: 0.15em;
+  color: var(--text-muted);
+}
+
+.hero-meta-item .value {
+  font-family: var(--font-display);
+  font-size: 1rem;
+  color: var(--text-primary);
+}
+
+/* ─── SECTION HEADERS ─── */
+.section-label {
+  font-family: var(--font-mono);
+  font-size: 0.65rem;
+  text-transform: uppercase;
+  letter-spacing: 0.2em;
+  color: var(--accent-gold);
+  margin-bottom: 1rem;
+}
+
+.section-divider {
+  width: 48px;
+  height: 2px;
+  background: var(--accent-gold);
+  margin-bottom: 2rem;
+}
+
+/* ─── THE PROBLEM SECTION ─── */
+.stat-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 1.5rem;
+  margin: 2.5rem 0;
+}
+
+.stat-card {
+  background: var(--bg-card);
+  border: 1px solid var(--border-subtle);
+  border-radius: 12px;
+  padding: 1.5rem;
+  text-align: center;
+  transition: border-color 0.3s, transform 0.3s;
+}
+
+.stat-card:hover {
+  border-color: var(--accent-gold-dim);
+  transform: translateY(-2px);
+}
+
+.stat-card .stat-number {
+  font-family: var(--font-display);
+  font-size: 2.4rem;
+  font-weight: 800;
+  color: var(--accent-gold);
+  line-height: 1;
+  margin-bottom: 0.5rem;
+}
+
+.stat-card .stat-desc {
+  font-size: 0.8rem;
+  color: var(--text-secondary);
+  line-height: 1.4;
+}
+
+.stat-card .stat-source {
+  font-family: var(--font-mono);
+  font-size: 0.6rem;
+  color: var(--text-muted);
+  margin-top: 0.5rem;
+}
+
+/* ─── TWO PATHS ─── */
+.paths-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 2rem;
+  margin: 2.5rem 0;
+}
+
+@media (max-width: 768px) {
+  .paths-grid { grid-template-columns: 1fr; }
+}
+
+.path-card {
+  border-radius: 16px;
+  padding: 2rem;
+  position: relative;
+  overflow: hidden;
+}
+
+.path-card.path-crutch {
+  background: var(--error-red-dim);
+  border: 1px solid rgba(239, 68, 68, 0.2);
+}
+
+.path-card.path-tool {
+  background: var(--success-green-dim);
+  border: 1px solid rgba(52, 211, 153, 0.2);
+}
+
+.path-card .path-icon {
+  font-size: 2rem;
+  margin-bottom: 1rem;
+}
+
+.path-card h3 { font-size: 1.2rem; margin-bottom: 0.75rem; }
+
+.path-card.path-crutch h3 { color: var(--error-red); }
+.path-card.path-tool h3 { color: var(--success-green); }
+
+.path-stage {
+  padding: 0.75rem 0;
+  border-bottom: 1px solid var(--border-subtle);
+  display: flex;
+  gap: 0.75rem;
+  align-items: flex-start;
+}
+
+.path-stage:last-child { border-bottom: none; }
+
+.path-stage .stage-num {
+  font-family: var(--font-mono);
+  font-size: 0.65rem;
+  color: var(--text-muted);
+  min-width: 1.5rem;
+  padding-top: 0.15rem;
+}
+
+.path-stage .stage-content {
+  flex: 1;
+}
+
+.path-stage .stage-label {
+  font-family: var(--font-mono);
+  font-size: 0.7rem;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  margin-bottom: 0.2rem;
+}
+
+.path-card.path-crutch .stage-label { color: var(--error-red); }
+.path-card.path-tool .stage-label { color: var(--success-green); }
+
+.path-stage .stage-quote {
+  font-style: italic;
+  font-size: 0.9rem;
+  color: var(--text-secondary);
+}
+
+.path-outcome {
+  margin-top: 1.25rem;
+  padding: 1rem;
+  border-radius: 8px;
+  font-weight: 600;
+  text-align: center;
+  font-size: 0.95rem;
+}
+
+.path-crutch .path-outcome {
+  background: rgba(239, 68, 68, 0.15);
+  color: var(--error-red);
+}
+
+.path-tool .path-outcome {
+  background: rgba(52, 211, 153, 0.15);
+  color: var(--success-green);
+}
+
+/* ─── HALLUCINATION DEMO ─── */
+.terminal-window {
+  background: var(--bg-card);
+  border: 1px solid var(--border-medium);
+  border-radius: 12px;
+  overflow: hidden;
+  margin: 2rem 0;
+}
+
+.terminal-header {
+  background: var(--bg-elevated);
+  padding: 0.75rem 1.25rem;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  border-bottom: 1px solid var(--border-subtle);
+}
+
+.terminal-dot {
+  width: 10px; height: 10px;
+  border-radius: 50%;
+}
+.terminal-dot.red { background: #ef4444; }
+.terminal-dot.yellow { background: #f59e0b; }
+.terminal-dot.green { background: #22c55e; }
+
+.terminal-title {
+  font-family: var(--font-mono);
+  font-size: 0.7rem;
+  color: var(--text-muted);
+  margin-left: 0.5rem;
+}
+
+.terminal-body {
+  padding: 1.5rem;
+  font-family: var(--font-mono);
+  font-size: 0.78rem;
+  line-height: 1.8;
+}
+
+.terminal-prompt {
+  color: var(--accent-gold);
+  margin-bottom: 1.25rem;
+}
+
+.terminal-prompt::before {
+  content: '> ';
+  color: var(--text-muted);
+}
+
+.ai-response-section {
+  margin-bottom: 1rem;
+}
+
+.ai-section-header {
+  color: var(--text-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  font-size: 0.68rem;
+  margin-bottom: 0.5rem;
+  padding-bottom: 0.25rem;
+  border-bottom: 1px solid var(--border-subtle);
+}
+
+.ai-text {
+  color: var(--text-secondary);
+  font-family: var(--font-mono);
+  font-size: 0.78rem;
+}
+
+.error-span {
+  position: relative;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.error-span .wrong-value {
+  color: var(--text-primary);
+  border-bottom: 2px dashed transparent;
+  transition: all 0.3s ease;
+}
+
+.error-span.revealed .wrong-value {
+  color: var(--error-red);
+  border-bottom-color: var(--error-red);
+  text-decoration: line-through;
+}
+
+.error-tooltip {
+  display: none;
+  position: relative;
+  background: rgba(239, 68, 68, 0.12);
+  border: 1px solid rgba(239, 68, 68, 0.3);
+  border-radius: 6px;
+  padding: 0.5rem 0.75rem;
+  margin-top: 0.4rem;
+  margin-bottom: 0.4rem;
+  font-size: 0.72rem;
+  line-height: 1.5;
+  animation: fadeUp 0.3s ease;
+}
+
+.error-span.revealed .error-tooltip {
+  display: block;
+}
+
+.error-tooltip .correct-value {
+  color: var(--success-green);
+  font-weight: 500;
+}
+
+.error-tooltip .error-type {
+  color: var(--error-red);
+  font-weight: 500;
+}
+
+.error-tooltip .error-impact {
+  color: var(--text-secondary);
+  font-style: italic;
+}
+
+/* Score tracker */
+.demo-controls {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 1rem 1.5rem;
+  background: var(--bg-elevated);
+  border-top: 1px solid var(--border-subtle);
+  flex-wrap: wrap;
+  gap: 1rem;
+}
+
+.score-display {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.score-display .score-label {
+  font-family: var(--font-mono);
+  font-size: 0.7rem;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  color: var(--text-muted);
+}
+
+.score-display .score-value {
+  font-family: var(--font-display);
+  font-size: 1.4rem;
+  font-weight: 700;
+  color: var(--accent-gold);
+}
+
+.btn {
+  font-family: var(--font-mono);
+  font-size: 0.72rem;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  padding: 0.6rem 1.25rem;
+  border: 1px solid var(--accent-gold-dim);
+  background: transparent;
+  color: var(--accent-gold);
+  border-radius: 6px;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.btn:hover {
+  background: var(--accent-gold);
+  color: var(--bg-deep);
+}
+
+.btn-primary {
+  background: var(--accent-gold);
+  color: var(--bg-deep);
+  border-color: var(--accent-gold);
+}
+
+.btn-primary:hover {
+  background: #e8c876;
+}
+
+/* ─── AICHEMY CHALLENGE ─── */
+.phase-timeline {
+  position: relative;
+  margin: 2.5rem 0;
+}
+
+.phase-item {
+  display: flex;
+  gap: 1.5rem;
+  margin-bottom: 2rem;
+  position: relative;
+}
+
+.phase-marker {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  min-width: 3rem;
+}
+
+.phase-number {
+  width: 2.5rem;
+  height: 2.5rem;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: 1rem;
+  background: var(--accent-gold);
+  color: var(--bg-deep);
+}
+
+.phase-line {
+  width: 2px;
+  flex: 1;
+  background: var(--border-medium);
+  margin-top: 0.5rem;
+}
+
+.phase-content {
+  flex: 1;
+  padding-bottom: 1rem;
+}
+
+.phase-content h3 {
+  font-size: 1.15rem;
+  margin-bottom: 0.5rem;
+}
+
+.phase-content p {
+  font-size: 0.95rem;
+  color: var(--text-secondary);
+}
+
+/* ─── SAIL FRAMEWORK ─── */
+.sail-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1.5rem;
+  margin: 2.5rem 0;
+}
+
+@media (max-width: 768px) {
+  .sail-grid { grid-template-columns: 1fr; }
+}
+
+.sail-card {
+  background: var(--bg-card);
+  border: 1px solid var(--border-subtle);
+  border-radius: 12px;
+  padding: 1.5rem;
+  transition: border-color 0.3s, transform 0.3s;
+}
+
+.sail-card:hover {
+  border-color: var(--accent-gold-dim);
+  transform: translateY(-2px);
+}
+
+.sail-letter {
+  font-family: var(--font-display);
+  font-size: 2rem;
+  font-weight: 800;
+  color: var(--accent-gold);
+  line-height: 1;
+  margin-bottom: 0.5rem;
+}
+
+.sail-card h3 {
+  font-size: 1rem;
+  margin-bottom: 0.5rem;
+}
+
+.sail-card p {
+  font-size: 0.88rem;
+  color: var(--text-secondary);
+}
+
+.sail-prevents {
+  margin-top: 0.75rem;
+  font-family: var(--font-mono);
+  font-size: 0.68rem;
+  color: var(--text-muted);
+}
+
+.sail-prevents span {
+  color: var(--error-red);
+}
+
+/* ─── RESOURCES ─── */
+.resource-list {
+  margin: 2rem 0;
+}
+
+.resource-item {
+  display: flex;
+  align-items: center;
+  gap: 1.25rem;
+  padding: 1.25rem;
+  background: var(--bg-card);
+  border: 1px solid var(--border-subtle);
+  border-radius: 10px;
+  margin-bottom: 0.75rem;
+  transition: border-color 0.3s, transform 0.2s;
+  text-decoration: none;
+  color: inherit;
+  cursor: pointer;
+}
+
+.resource-item:hover {
+  border-color: var(--accent-gold-dim);
+  transform: translateX(4px);
+}
+
+.resource-icon {
+  width: 40px;
+  height: 40px;
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.2rem;
+  flex-shrink: 0;
+}
+
+.resource-icon.doc { background: rgba(59, 130, 246, 0.15); }
+.resource-icon.exercise { background: rgba(239, 68, 68, 0.15); }
+.resource-icon.guide { background: rgba(52, 211, 153, 0.15); }
+.resource-icon.checklist { background: rgba(212, 168, 83, 0.15); }
+
+.resource-info h4 {
+  font-family: var(--font-display);
+  font-size: 1rem;
+  font-weight: 600;
+  margin-bottom: 0.2rem;
+}
+
+.resource-info p {
+  font-size: 0.8rem;
+  color: var(--text-secondary);
+  margin: 0;
+}
+
+/* ─── FOOTER ─── */
+footer {
+  padding: 3rem 0;
+  border-top: 1px solid var(--border-subtle);
+  text-align: center;
+}
+
+footer p {
+  font-family: var(--font-mono);
+  font-size: 0.68rem;
+  color: var(--text-muted);
+  letter-spacing: 0.05em;
+}
+
+/* ─── RESPONSIVE ─── */
+@media (max-width: 640px) {
+  html { font-size: 16px; }
+  h1 { font-size: 2.2rem; }
+  h2 { font-size: 1.6rem; }
+  section { padding: 4rem 0; }
+  .hero-meta { flex-direction: column; gap: 1rem; }
+  .stat-grid { grid-template-columns: 1fr; }
+  .paths-grid { grid-template-columns: 1fr; }
+  nav .nav-links { display: none; }
+}
+</style>
+</head>
+<body>
+
+<!-- ═══════════════ NAVIGATION ═══════════════ -->
+<nav>
+  <div class="nav-inner">
+    <a href="#hero" class="brand">FIN 810</a>
+    <ul class="nav-links">
+      <li><a href="#problem">The Problem</a></li>
+      <li><a href="#paths">Two Paths</a></li>
+      <li><a href="#demo">AI Demo</a></li>
+      <li><a href="#challenge">The Challenge</a></li>
+      <li><a href="#sail">SAIL</a></li>
+      <li><a href="#resources">Resources</a></li>
+    </ul>
+  </div>
+</nav>
+
+<!-- ═══════════════ HERO ═══════════════ -->
+<section id="hero">
+  <div class="container">
+    <div class="hero-content">
+      <div class="hero-eyebrow">Suffolk University · Sawyer Business School · MSF Program</div>
+      <h1 class="hero-title">
+        You'll use AI in your career.<br>
+        This course teaches you to<br>
+        <span class="highlight">use it without losing your edge.</span>
+      </h1>
+      <p class="hero-subtitle">
+        FIN 810 prepares you to do what AI cannot: develop investment judgment, 
+        defend your analysis under pressure, and own every number in your work.
+      </p>
+      <div class="hero-meta">
+        <div class="hero-meta-item">
+          <span class="label">Course</span>
+          <span class="value">FIN 810 · Investment Analysis</span>
+        </div>
+        <div class="hero-meta-item">
+          <span class="label">Framework</span>
+          <span class="value">SAIL · AI-Augmented Learning</span>
+        </div>
+        <div class="hero-meta-item">
+          <span class="label">Outcome</span>
+          <span class="value">Portfolio-Ready Analyst</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════ THE PROBLEM ═══════════════ -->
+<section id="problem">
+  <div class="container">
+    <div class="reveal">
+      <div class="section-label">01 — The Problem</div>
+      <div class="section-divider"></div>
+      <h2>Your Brain on ChatGPT</h2>
+    </div>
+
+    <div class="reveal reveal-delay-1">
+      <p>
+        In June 2025, researchers at MIT's Media Lab published a study that should concern every
+        finance student. Dr. Nataliya Kosmyna and her team fitted 54 participants with EEG
+        headsets and asked them to write essays — some with AI assistance, some with search 
+        engines, and some using only their own knowledge.
+      </p>
+    </div>
+
+    <div class="reveal reveal-delay-2">
+      <p>
+        The results were stark. Participants who relied on AI showed the weakest neural
+        connectivity — their brains were literally less engaged. The search-engine group 
+        fared moderately. The brain-only group showed the strongest connections. Worse, the 
+        AI-assisted group reported the lowest sense of ownership over their own work and 
+        struggled to recall what they had written.
+      </p>
+    </div>
+
+    <div class="reveal reveal-delay-3">
+      <blockquote>
+        "There is no cognitive credit card. You cannot pay this debt off."
+        <cite>— Dr. Nataliya Kosmyna, MIT Media Lab, June 2025</cite>
+      </blockquote>
+    </div>
+
+    <div class="reveal reveal-delay-4">
+      <p>
+        The researchers named this phenomenon <em>cognitive debt</em> — the hidden cost 
+        of outsourcing your thinking to a machine. Unlike financial debt, there's no 
+        repayment plan. Once you've trained yourself to let AI think for you, the neural 
+        pathways that build judgment, memory, and analytical skill begin to atrophy.
+      </p>
+      <p>
+        In investment analysis, this isn't an abstract concern. It's the difference between 
+        getting the job and freezing when the interviewer says, "Walk me through your valuation."
+      </p>
+    </div>
+
+    <div class="stat-grid reveal">
+      <div class="stat-card">
+        <div class="stat-number">82%</div>
+        <div class="stat-desc">of CFA professionals say AI has impacted their job role</div>
+        <div class="stat-source">Kaplan Schweser CFA Survey, 2024</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-number">96%</div>
+        <div class="stat-desc">of finance graduates say upskilling is essential to career success</div>
+        <div class="stat-source">CFA Institute Graduate Outlook Survey, 2025</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-number">3%</div>
+        <div class="stat-desc">of investment professionals report actual AI/ML proficiency</div>
+        <div class="stat-source">CFA Institute Career Report</div>
+      </div>
+    </div>
+
+    <div class="reveal">
+      <p>
+        That gap — between the 82% whose work is being reshaped by AI and the 3% who 
+        actually understand it — is where your career advantage lives. JPMorgan now mandates 
+        AI training for all new analysts. The CFA Institute published its comprehensive 
+        <em>AI in Asset Management</em> report in November 2025. The industry isn't waiting. 
+        The question is whether you'll enter it with genuine skill or borrowed confidence.
+      </p>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════ TWO PATHS ═══════════════ -->
+<section id="paths" style="background: var(--bg-surface);">
+  <div class="container-wide">
+    <div class="reveal">
+      <div class="section-label">02 — The Journey</div>
+      <div class="section-divider"></div>
+      <h2>Two Analysts. Same Assignment. One Gets the Job.</h2>
+      <p class="text-muted" style="margin-bottom: 2rem;">
+        Both students have access to the same AI tools. The difference is how they use them.
+      </p>
+    </div>
+
+    <div class="paths-grid">
+      <div class="path-card path-crutch reveal">
+        <div class="path-icon">⚠️</div>
+        <h3>Path A — AI as Crutch</h3>
+        
+        <div class="path-stage">
+          <div class="stage-num">01</div>
+          <div class="stage-content">
+            <div class="stage-label">Research</div>
+            <div class="stage-quote">"Let AI do the research for me."</div>
+          </div>
+        </div>
+        <div class="path-stage">
+          <div class="stage-num">02</div>
+          <div class="stage-content">
+            <div class="stage-label">Valuation</div>
+            <div class="stage-quote">"AI knows the formulas. Just copy the DCF."</div>
+          </div>
+        </div>
+        <div class="path-stage">
+          <div class="stage-num">03</div>
+          <div class="stage-content">
+            <div class="stage-label">Writing</div>
+            <div class="stage-quote">"AI writes better than I do anyway."</div>
+          </div>
+        </div>
+        <div class="path-stage">
+          <div class="stage-num">04</div>
+          <div class="stage-content">
+            <div class="stage-label">The Interview</div>
+            <div class="stage-quote">"Walk me through your valuation…" Freezes.</div>
+          </div>
+        </div>
+
+        <div class="path-outcome">✗ No offer. "Couldn't defend their own analysis."</div>
+      </div>
+
+      <div class="path-card path-tool reveal reveal-delay-2">
+        <div class="path-icon">✦</div>
+        <h3>Path B — AI as Tool</h3>
+        
+        <div class="path-stage">
+          <div class="stage-num">01</div>
+          <div class="stage-content">
+            <div class="stage-label">Research</div>
+            <div class="stage-quote">"Think first, then use AI to expand and verify."</div>
+          </div>
+        </div>
+        <div class="path-stage">
+          <div class="stage-num">02</div>
+          <div class="stage-content">
+            <div class="stage-label">Valuation</div>
+            <div class="stage-quote">"Build my own model. Use AI to stress-test assumptions."</div>
+          </div>
+        </div>
+        <div class="path-stage">
+          <div class="stage-num">03</div>
+          <div class="stage-content">
+            <div class="stage-label">Writing</div>
+            <div class="stage-quote">"Write my analysis. Use AI to refine clarity."</div>
+          </div>
+        </div>
+        <div class="path-stage">
+          <div class="stage-num">04</div>
+          <div class="stage-content">
+            <div class="stage-label">The Interview</div>
+            <div class="stage-quote">"Walk me through your valuation…" Nails it.</div>
+          </div>
+        </div>
+
+        <div class="path-outcome">✓ Offer extended. "Best prepared candidate we've seen."</div>
+      </div>
+    </div>
+
+    <div class="reveal" style="text-align: center; margin-top: 1rem;">
+      <p class="text-muted text-small" style="max-width: 500px; margin: 0 auto;">
+        FIN 810 trains you for Path B. Every assignment, every challenge, 
+        every defense builds the judgment that AI cannot replace.
+      </p>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════ HALLUCINATION DEMO ═══════════════ -->
+<section id="demo">
+  <div class="container-wide">
+    <div class="reveal">
+      <div class="section-label">03 — See It For Yourself</div>
+      <div class="section-divider"></div>
+      <h2>Can You Catch What AI Gets Wrong?</h2>
+      <p style="margin-bottom: 0.5rem;">
+        Below is a simulated AI response analyzing "StreamFlow Media" — a fictional streaming 
+        company — as of October 2019. It contains <strong>10 factual errors</strong> that a 
+        real AI might produce. Click each highlighted claim to reveal the error.
+      </p>
+      <p class="text-muted text-small" style="margin-bottom: 2rem;">
+        Every "correct" value shown after clicking is verified against public SEC filings, 
+        earnings reports, and press releases. No unverified statistics appear on this page.
+      </p>
+    </div>
+
+    <div class="terminal-window reveal">
+      <div class="terminal-header">
+        <div class="terminal-dot red"></div>
+        <div class="terminal-dot yellow"></div>
+        <div class="terminal-dot green"></div>
+        <div class="terminal-title">ai-assistant — StreamFlow Media Analysis</div>
+      </div>
+
+      <div class="terminal-body">
+        <div class="terminal-prompt">Analyze StreamFlow Media Inc. as a potential investment as of October 2019. Provide key financial metrics, competitive analysis, and recent developments.</div>
+
+        <div class="ai-response-section">
+          <div class="ai-section-header">Company Overview</div>
+          <div class="ai-text">
+            StreamFlow Media is the dominant subscription streaming platform with approximately 158 million global subscribers. Founded in 
+            <span class="error-span" data-error="1" onclick="revealError(this)">
+              <span class="wrong-value">1999</span>
+              <div class="error-tooltip">
+                <div><span class="error-type">Error #1: Wrong founding date</span></div>
+                <div>AI said <strong>1999</strong>. Actual: <span class="correct-value">1997</span> (Netflix incorporated Aug 29, 1997).</div>
+                <div class="error-impact">Verify via: SEC 10-K filing, company "About" page</div>
+              </div>
+            </span>
+            as a DVD-by-mail service, the company pivoted to streaming in 2007 under CEO Reed Hastings.
+          </div>
+        </div>
+
+        <div class="ai-response-section">
+          <div class="ai-section-header">Key Financial Metrics</div>
+          <div class="ai-text">
+            • Stock Price: $267.43 ✓<br>
+            • Market Cap: $117.2 billion ✓<br>
+            • P/E Ratio: 
+            <span class="error-span" data-error="2" onclick="revealError(this)">
+              <span class="wrong-value">92.4x</span>
+              <div class="error-tooltip">
+                <div><span class="error-type">Error #2: P/E understated by 17%</span></div>
+                <div>AI said <strong>92.4x</strong>. Actual: <span class="correct-value">107.8x</span>.</div>
+                <div class="error-impact">Impact: Relative valuation would be off by 17%. Price target wrong.</div>
+              </div>
+            </span><br>
+            • TTM Revenue: 
+            <span class="error-span" data-error="3" onclick="revealError(this)">
+              <span class="wrong-value">$19.8 billion</span>
+              <div class="error-tooltip">
+                <div><span class="error-type">Error #3: Revenue overstated by 8%</span></div>
+                <div>AI said <strong>$19.8B</strong>. Actual TTM: <span class="correct-value">$18.3 billion</span>.</div>
+                <div class="error-impact">Verify via: Netflix Q3 2019 earnings release, 10-Q filing</div>
+              </div>
+            </span><br>
+            • Revenue Growth (YoY): 
+            <span class="error-span" data-error="4" onclick="revealError(this)">
+              <span class="wrong-value">27.2%</span>
+              <div class="error-tooltip">
+                <div><span class="error-type">Error #4: Growth overstated by 69%</span></div>
+                <div>AI said <strong>27.2%</strong>. Actual TTM growth: <span class="correct-value">16.1%</span>.</div>
+                <div class="error-impact">Impact: DCF model would dramatically overstate future revenues.</div>
+              </div>
+            </span><br>
+            • Free Cash Flow: -$2.7 billion ✓
+          </div>
+        </div>
+
+        <div class="ai-response-section">
+          <div class="ai-section-header">Competitive Landscape</div>
+          <div class="ai-text">
+            The streaming market faces unprecedented disruption with Disney+ launching November 12, 2019 at $6.99/month and Apple TV+ at $4.99/month. According to 
+            <span class="error-span" data-error="5" onclick="revealError(this)">
+              <span class="wrong-value">a September 2019 Barron's interview, analyst Michael Nathanson stated</span>
+              <div class="error-tooltip">
+                <div><span class="error-type">Error #5: Fabricated interview and quote attribution</span></div>
+                <div>Michael Nathanson is a <span class="correct-value">real MoffettNathanson analyst</span>, but this specific Barron's interview does not exist. The AI invented a source and attached it to a real person's name.</div>
+                <div class="error-impact">Impact: Citing fabricated quotes could violate CFA Standard I(C) — Misrepresentation. Career-ending.</div>
+              </div>
+            </span>, "StreamFlow's $15 billion content budget creates an insurmountable moat."
+          </div>
+        </div>
+
+        <div class="ai-response-section">
+          <div class="ai-section-header">Recent Developments</div>
+          <div class="ai-text">
+            In Q2 2019, StreamFlow reported its first-ever US subscriber decline, losing 
+            <span class="error-span" data-error="6" onclick="revealError(this)">
+              <span class="wrong-value">287,000</span>
+              <div class="error-tooltip">
+                <div><span class="error-type">Error #6: Subscriber loss overstated by 128%</span></div>
+                <div>AI said <strong>287,000</strong>. Actual: <span class="correct-value">126,000</span> US subscribers lost.</div>
+                <div class="error-impact">Impact: Overstating churn risk leads to flawed bear thesis.</div>
+              </div>
+            </span>
+            domestic subscribers, missing guidance by 
+            <span class="error-span" data-error="7" onclick="revealError(this)">
+              <span class="wrong-value">600,000</span>
+              <div class="error-tooltip">
+                <div><span class="error-type">Error #7: Guidance miss overstated</span></div>
+                <div>AI said <strong>600,000</strong>. Actual miss: <span class="correct-value">~400,000</span> (guided +5M, got +2.7M globally).</div>
+                <div class="error-impact">Verify via: Netflix Q2 2019 shareholder letter</div>
+              </div>
+            </span>. Management attributed this to price increases implemented in 
+            <span class="error-span" data-error="8" onclick="revealError(this)">
+              <span class="wrong-value">April 2019</span>
+              <div class="error-tooltip">
+                <div><span class="error-type">Error #8: Wrong date for price increase</span></div>
+                <div>AI said <strong>April 2019</strong>. Actual: <span class="correct-value">January 15, 2019</span> (announced Oct 2018).</div>
+                <div class="error-impact">Verify via: Netflix press release, Jan 2019</div>
+              </div>
+            </span>.
+          </div>
+        </div>
+
+        <div class="ai-response-section">
+          <div class="ai-section-header">Investment Considerations</div>
+          <div class="ai-text">
+            The company has announced a 
+            <span class="error-span" data-error="9" onclick="revealError(this)">
+              <span class="wrong-value">$17.5 billion</span>
+              <div class="error-tooltip">
+                <div><span class="error-type">Error #9: Content budget inflated by 17%</span></div>
+                <div>AI said <strong>$17.5B</strong>. Reported budget: <span class="correct-value">~$15 billion</span> for 2020 content spend.</div>
+                <div class="error-impact">Impact: Overstates content investment, distorts FCF projections.</div>
+              </div>
+            </span>
+            content budget for 2020. CFO Spencer Neumann has guided to 
+            <span class="error-span" data-error="10" onclick="revealError(this)">
+              <span class="wrong-value">positive free cash flow by Q4 2021</span>
+              <div class="error-tooltip">
+                <div><span class="error-type">Error #10: Fabricated timeline</span></div>
+                <div>AI invented a specific FCF target date. Actual: <span class="correct-value">No specific timeline was given</span> — management said FCF would "improve" but didn't commit to a date.</div>
+                <div class="error-impact">Impact: Citing a nonexistent guidance timeline misleads investors about management's financial roadmap.</div>
+              </div>
+            </span>. The consensus price target among analysts is $340, implying 27% upside.
+          </div>
+        </div>
+      </div>
+
+      <div class="demo-controls">
+        <div class="score-display">
+          <span class="score-label">Errors Found</span>
+          <span class="score-value" id="errorCount">0</span>
+          <span class="score-label">/ 10</span>
+        </div>
+        <div style="display: flex; gap: 0.75rem;">
+          <button class="btn" onclick="revealAll()">Reveal All</button>
+          <button class="btn" onclick="resetDemo()">Reset</button>
+        </div>
+      </div>
+    </div>
+
+    <div class="reveal" style="margin-top: 2rem;">
+      <p>
+        Every one of those errors is <em>plausible</em>. A P/E of 92.4x doesn't 
+        sound obviously wrong for a growth stock. Revenue growth of 27% seems reasonable. 
+        That's the danger — AI hallucinations don't announce themselves. They arrive 
+        wearing the same confidence as verified facts.
+      </p>
+      <p>
+        The fabricated analyst quote is especially dangerous. Michael Nathanson is a real, 
+        well-known media analyst. The AI borrowed his credibility to invent a source. 
+        If you cited that in a professional report, you wouldn't just be wrong — you'd 
+        be in violation of CFA Standard I(C) on Misrepresentation.
+      </p>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════ AICHEMY CHALLENGE ═══════════════ -->
+<section id="challenge" style="background: var(--bg-surface);">
+  <div class="container">
+    <div class="reveal">
+      <div class="section-label">04 — The AIChemist Challenge</div>
+      <div class="section-divider"></div>
+      <h2>Think First. Augment Second. Defend Always.</h2>
+      <p>
+        The Investment AIChemist Challenge is the core experience of this course. 
+        You'll analyze a real company through three phases — each designed to build 
+        a different layer of analytical skill.
+      </p>
+    </div>
+
+    <div class="phase-timeline reveal">
+      <div class="phase-item">
+        <div class="phase-marker">
+          <div class="phase-number">1</div>
+          <div class="phase-line"></div>
+        </div>
+        <div class="phase-content">
+          <h3>Think First <span class="text-muted" style="font-weight: 400; font-size: 0.85rem;">— 45 minutes, no AI</span></h3>
+          <p>
+            You develop your own investment thesis using only your knowledge and provided 
+            financial data. No AI tools. No shortcuts. This is where judgment forms — your 
+            initial read on a company's fundamentals, risks, and valuation before any 
+            machine touches it. This phase builds the neural pathways that prevent cognitive debt.
+          </p>
+        </div>
+      </div>
+
+      <div class="phase-item">
+        <div class="phase-marker">
+          <div class="phase-number">2</div>
+          <div class="phase-line"></div>
+        </div>
+        <div class="phase-content">
+          <h3>AI Augmentation <span class="text-muted" style="font-weight: 400; font-size: 0.85rem;">— 30 minutes, strategic AI use</span></h3>
+          <p>
+            Now you use AI — but strategically. Challenge your own assumptions. Stress-test 
+            your model. Look for blind spots you missed. Every AI-generated insight must be 
+            verified against primary sources. You document exactly what AI contributed and 
+            what you kept, changed, or rejected. A Transparency Appendix tracks it all.
+          </p>
+        </div>
+      </div>
+
+      <div class="phase-item">
+        <div class="phase-marker">
+          <div class="phase-number">3</div>
+          <div class="phase-line"></div>
+        </div>
+        <div class="phase-content">
+          <h3>Defense <span class="text-muted" style="font-weight: 400; font-size: 0.85rem;">— live Q&A from peers and instructor</span></h3>
+          <p>
+            Present your analysis and defend it under questioning. Why did you choose that 
+            discount rate? What happens if subscriber growth slows by 20%? Where exactly 
+            did this data come from? This simulates the real-world pressure of client 
+            meetings, investment committees, and job interviews. If you can't defend it, 
+            it isn't yours.
+          </p>
+        </div>
+      </div>
+    </div>
+
+    <div class="reveal">
+      <blockquote>
+        The analyst who can explain every assumption and handle pushback is the one 
+        who gets the offer. FIN 810 makes sure that analyst is you.
+      </blockquote>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════ SAIL FRAMEWORK ═══════════════ -->
+<section id="sail">
+  <div class="container-wide">
+    <div class="reveal">
+      <div class="section-label">05 — The SAIL Framework</div>
+      <div class="section-divider"></div>
+      <h2>Four Pillars Against Cognitive Debt</h2>
+      <p>
+        SAIL is the pedagogical framework behind every assignment in FIN 810. Each pillar 
+        targets a specific type of cognitive debt identified in the MIT research — ensuring 
+        you build genuine capability, not just AI-assisted output.
+      </p>
+    </div>
+
+    <div class="sail-grid">
+      <div class="sail-card reveal">
+        <div class="sail-letter">S</div>
+        <h3>Social Intelligence</h3>
+        <p>
+          Defend your analysis to peers who will challenge every assumption. Practice the 
+          interpersonal skills of presenting investment theses, handling objections, and 
+          building conviction through dialogue — skills AI cannot perform for you.
+        </p>
+        <div class="sail-prevents">Prevents → <span>Ownership debt</span> & <span>Defense debt</span></div>
+      </div>
+
+      <div class="sail-card reveal reveal-delay-1">
+        <div class="sail-letter">A</div>
+        <h3>AI Literacy</h3>
+        <p>
+          Understand what AI actually does well (pattern recognition, data synthesis) and 
+          where it fails (hallucinations, fabricated sources, overconfident claims). 
+          The "Catching AI" workshop trains you to identify errors before they reach a client.
+        </p>
+        <div class="sail-prevents">Prevents → <span>Verification debt</span> & <span>Judgment debt</span></div>
+      </div>
+
+      <div class="sail-card reveal reveal-delay-2">
+        <div class="sail-letter">I</div>
+        <h3>Innovation &amp; Inquiry</h3>
+        <p>
+          Develop your own investment thesis before consulting AI. Think first. 
+          The StockTrak journal and weekly reflections build the habit of original 
+          analysis — ensuring AI augments your thinking rather than replacing it.
+        </p>
+        <div class="sail-prevents">Prevents → <span>Memory debt</span> & <span>Vocabulary debt</span></div>
+      </div>
+
+      <div class="sail-card reveal reveal-delay-3">
+        <div class="sail-letter">L</div>
+        <h3>Leadership</h3>
+        <p>
+          Take ownership of your analytical process. Document how and when you used AI. 
+          Maintain a transparency log. In a profession governed by CFA ethics standards, 
+          the ability to account for your process isn't optional — it's required.
+        </p>
+        <div class="sail-prevents">Prevents → <span>Transparency debt</span></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════ RESOURCES ═══════════════ -->
+<section id="resources" style="background: var(--bg-surface);">
+  <div class="container">
+    <div class="reveal">
+      <div class="section-label">06 — Student Resources</div>
+      <div class="section-divider"></div>
+      <h2>Your Toolkit</h2>
+      <p class="text-muted">
+        Everything you need for the AIChemist Challenge and ongoing coursework.
+      </p>
+    </div>
+
+    <div class="resource-list">
+      <div class="resource-item reveal">
+        <div class="resource-icon exercise">🔍</div>
+        <div class="resource-info">
+          <h4>AI Hallucination Exhibit</h4>
+          <p>Student exercise version — find the errors without the answers revealed. Use for the "Catching AI" workshop.</p>
+        </div>
+      </div>
+
+      <div class="resource-item reveal reveal-delay-1">
+        <div class="resource-icon guide">📊</div>
+        <div class="resource-info">
+          <h4>Analyst Journey Map</h4>
+          <p>Visual one-pager showing both paths through AI-augmented analysis — the crutch path and the tool path.</p>
+        </div>
+      </div>
+
+      <div class="resource-item reveal reveal-delay-2">
+        <div class="resource-icon doc">📋</div>
+        <div class="resource-info">
+          <h4>AIChemist Sample Case — StreamFlow Media</h4>
+          <p>Complete case materials including financial data, Phase 1 worksheet, and Phase 2 AI augmentation protocol.</p>
+        </div>
+      </div>
+
+      <div class="resource-item reveal reveal-delay-3">
+        <div class="resource-icon checklist">✓</div>
+        <div class="resource-info">
+          <h4>Verification Protocol Checklist</h4>
+          <p>Step-by-step process for verifying AI-generated financial claims. Primary sources, cross-referencing methods, red flags.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════ FOOTER ═══════════════ -->
+<footer>
+  <div class="container">
+    <p>
+      SAIL Framework · Suffolk University · Sawyer Business School<br>
+      FIN 810 — Investment Analysis · AI-Augmented Learning
+    </p>
+    <p style="margin-top: 0.75rem;">
+      All statistics on this page are individually verified. Sources cited inline.<br>
+      MIT cognitive debt study: arXiv preprint 2506.08872, June 2025.
+    </p>
+  </div>
+</footer>
+
+<!-- ═══════════════ SCRIPTS ═══════════════ -->
+<script>
+// ─── SCROLL REVEAL ───
+const revealElements = document.querySelectorAll('.reveal');
+const observer = new IntersectionObserver((entries) => {
+  entries.forEach(entry => {
+    if (entry.isIntersecting) {
+      entry.target.classList.add('visible');
+    }
+  });
+}, { threshold: 0.1, rootMargin: '0px 0px -50px 0px' });
+
+revealElements.forEach(el => observer.observe(el));
+
+// ─── HALLUCINATION DEMO ───
+let foundErrors = new Set();
+
+function revealError(span) {
+  if (span.classList.contains('revealed')) return;
+  span.classList.add('revealed');
+  const errorNum = span.dataset.error;
+  foundErrors.add(errorNum);
+  document.getElementById('errorCount').textContent = foundErrors.size;
+  
+  // Animate the count
+  const counter = document.getElementById('errorCount');
+  counter.style.animation = 'none';
+  counter.offsetHeight; // trigger reflow
+  counter.style.animation = 'countUp 0.3s ease';
+}
+
+function revealAll() {
+  document.querySelectorAll('.error-span').forEach(span => {
+    span.classList.add('revealed');
+    foundErrors.add(span.dataset.error);
+  });
+  document.getElementById('errorCount').textContent = foundErrors.size;
+}
+
+function resetDemo() {
+  document.querySelectorAll('.error-span').forEach(span => {
+    span.classList.remove('revealed');
+  });
+  foundErrors.clear();
+  document.getElementById('errorCount').textContent = '0';
+}
+
+// ─── SMOOTH NAV HIGHLIGHT ───
+const sections = document.querySelectorAll('section[id]');
+const navLinks = document.querySelectorAll('nav .nav-links a');
+
+window.addEventListener('scroll', () => {
+  let current = '';
+  sections.forEach(section => {
+    const sectionTop = section.offsetTop - 120;
+    if (window.scrollY >= sectionTop) {
+      current = section.getAttribute('id');
+    }
+  });
+  
+  navLinks.forEach(link => {
+    link.style.color = '';
+    if (link.getAttribute('href') === '#' + current) {
+      link.style.color = 'var(--accent-gold)';
+    }
+  });
+});
+
+// ─── NAV SCROLL EFFECT ───
+let lastScroll = 0;
+const nav = document.querySelector('nav');
+window.addEventListener('scroll', () => {
+  if (window.scrollY > 100) {
+    nav.style.borderBottomColor = 'var(--border-medium)';
+  } else {
+    nav.style.borderBottomColor = 'var(--border-subtle)';
+  }
+});
+</script>
+
+</body>
+</html>
