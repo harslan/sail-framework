@@ -1,0 +1,739 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI Has Judgment Now. So What's Left? — SAIL Framework</title>
+    <meta name="description" content="Why we updated our award-winning SAIL Framework: Skills can be automated. Judgment can be augmented. Ownership cannot.">
+    <meta name="author" content="Hasan Arslan, PhD">
+    
+    <!-- Open Graph / LinkedIn -->
+    <meta property="og:type" content="article">
+    <meta property="og:title" content="AI Has Judgment Now. We Had to Change Everything.">
+    <meta property="og:description" content="Skills can be automated. Judgment can be augmented. Ownership cannot. Why we updated the SAIL Framework.">
+    <meta property="og:url" content="https://harslan.github.io/sail-framework/ownership.html">
+    <meta property="og:site_name" content="SAIL Framework — Suffolk University">
+    <meta name="twitter:card" content="summary_large_image">
+    
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300;1,400;1,500&family=DM+Sans:ital,wght@0,300;0,400;0,500;0,600;1,400&display=swap" rel="stylesheet">
+    
+    <style>
+        *, *::before, *::after {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --bg-deep: #0B0B14;
+            --bg-surface: #111120;
+            --bg-card: #1A1A2E;
+            --suffolk-gold: #C4A44E;
+            --suffolk-gold-dim: rgba(196, 164, 78, 0.15);
+            --suffolk-gold-glow: rgba(196, 164, 78, 0.08);
+            --sail-coral: #E85D75;
+            --sail-teal: #4ECDC4;
+            --text-primary: #E8E6F0;
+            --text-secondary: #CCC8D8;
+            --text-muted: #7A7890;
+            --text-dim: #4A485A;
+            --serif: 'Cormorant Garamond', Georgia, 'Times New Roman', serif;
+            --sans: 'DM Sans', -apple-system, BlinkMacSystemFont, sans-serif;
+        }
+
+        html {
+            font-size: 18px;
+            scroll-behavior: smooth;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+        }
+
+        body {
+            background: var(--bg-deep);
+            color: var(--text-primary);
+            font-family: var(--sans);
+            font-weight: 400;
+            line-height: 1.75;
+            overflow-x: hidden;
+        }
+
+        /* Grain overlay */
+        body::after {
+            content: '';
+            position: fixed;
+            top: 0; left: 0; right: 0; bottom: 0;
+            background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.04'/%3E%3C/svg%3E");
+            pointer-events: none;
+            z-index: 9999;
+            opacity: 0.5;
+        }
+
+        /* Ambient background glow */
+        .bg-glow {
+            position: fixed;
+            top: -30vh;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 120vw;
+            height: 60vh;
+            background: radial-gradient(ellipse at center, var(--suffolk-gold-glow) 0%, transparent 70%);
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        .bg-glow-bottom {
+            position: fixed;
+            bottom: -30vh;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 100vw;
+            height: 50vh;
+            background: radial-gradient(ellipse at center, rgba(78, 205, 196, 0.03) 0%, transparent 70%);
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        /* Navigation */
+        nav {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 100;
+            padding: 1.2rem 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            background: rgba(11, 11, 20, 0.8);
+            border-bottom: 1px solid rgba(196, 164, 78, 0.08);
+            transition: all 0.3s ease;
+        }
+
+        nav .logo {
+            font-family: var(--sans);
+            font-weight: 600;
+            font-size: 0.75rem;
+            letter-spacing: 3px;
+            text-transform: uppercase;
+            color: var(--suffolk-gold);
+            text-decoration: none;
+        }
+
+        nav .nav-links {
+            display: flex;
+            gap: 2rem;
+            list-style: none;
+        }
+
+        nav .nav-links a {
+            font-family: var(--sans);
+            font-size: 0.72rem;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            color: var(--text-muted);
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+
+        nav .nav-links a:hover {
+            color: var(--text-primary);
+        }
+
+        /* Hero */
+        .hero {
+            position: relative;
+            z-index: 1;
+            min-height: 85vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            padding: 8rem 2rem 4rem;
+        }
+
+        .hero-label {
+            font-family: var(--sans);
+            font-weight: 600;
+            font-size: 0.65rem;
+            letter-spacing: 4px;
+            text-transform: uppercase;
+            color: var(--suffolk-gold);
+            margin-bottom: 2.5rem;
+            opacity: 0;
+            animation: fadeUp 1s ease 0.3s forwards;
+        }
+
+        .hero h1 {
+            font-family: var(--serif);
+            font-weight: 300;
+            font-size: clamp(2.4rem, 5.5vw, 4.2rem);
+            line-height: 1.15;
+            color: var(--text-primary);
+            max-width: 14ch;
+            margin-bottom: 2rem;
+            opacity: 0;
+            animation: fadeUp 1s ease 0.6s forwards;
+        }
+
+        .hero h1 em {
+            font-style: italic;
+            color: var(--suffolk-gold);
+        }
+
+        .hero-subtitle {
+            font-family: var(--sans);
+            font-weight: 300;
+            font-size: 1.05rem;
+            color: var(--text-secondary);
+            max-width: 40ch;
+            line-height: 1.7;
+            opacity: 0;
+            animation: fadeUp 1s ease 0.9s forwards;
+        }
+
+        .hero-meta {
+            margin-top: 3rem;
+            font-family: var(--sans);
+            font-size: 0.75rem;
+            color: var(--text-dim);
+            letter-spacing: 1px;
+            opacity: 0;
+            animation: fadeUp 1s ease 1.2s forwards;
+        }
+
+        .hero-meta a {
+            color: var(--text-muted);
+            text-decoration: none;
+            border-bottom: 1px solid var(--text-dim);
+            transition: all 0.3s ease;
+        }
+
+        .hero-meta a:hover {
+            color: var(--suffolk-gold);
+            border-color: var(--suffolk-gold);
+        }
+
+        .hero-scroll {
+            position: absolute;
+            bottom: 2.5rem;
+            left: 50%;
+            transform: translateX(-50%);
+            opacity: 0;
+            animation: fadeUp 1s ease 1.5s forwards;
+        }
+
+        .hero-scroll span {
+            display: block;
+            width: 1px;
+            height: 40px;
+            background: linear-gradient(to bottom, var(--suffolk-gold), transparent);
+            margin: 0 auto;
+            animation: scrollPulse 2s ease infinite;
+        }
+
+        /* Article body */
+        .article {
+            position: relative;
+            z-index: 1;
+            max-width: 680px;
+            margin: 0 auto;
+            padding: 0 2rem 6rem;
+        }
+
+        .article p {
+            font-family: var(--sans);
+            font-weight: 400;
+            font-size: 1.08rem;
+            line-height: 1.85;
+            color: var(--text-secondary);
+            margin-bottom: 1.6rem;
+        }
+
+        .article p strong {
+            font-weight: 600;
+            color: var(--text-primary);
+        }
+
+        /* Section dividers */
+        .section-break {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 3.5rem 0;
+        }
+
+        .section-break .diamond {
+            width: 6px;
+            height: 6px;
+            background: var(--suffolk-gold);
+            transform: rotate(45deg);
+            opacity: 0.6;
+        }
+
+        .section-break .line {
+            width: 40px;
+            height: 1px;
+            background: var(--text-dim);
+            margin: 0 1rem;
+        }
+
+        /* Section headings */
+        .article h2 {
+            font-family: var(--serif);
+            font-weight: 400;
+            font-size: 1.8rem;
+            color: var(--text-primary);
+            margin-bottom: 1.8rem;
+            line-height: 1.3;
+        }
+
+        /* Blockquotes */
+        .article blockquote {
+            position: relative;
+            margin: 2.5rem 0;
+            padding: 1.8rem 0 1.8rem 2rem;
+            border-left: 2px solid var(--suffolk-gold);
+        }
+
+        .article blockquote p {
+            font-family: var(--serif);
+            font-style: italic;
+            font-weight: 300;
+            font-size: 1.2rem;
+            color: var(--text-primary);
+            line-height: 1.75;
+            margin-bottom: 0;
+        }
+
+        .article blockquote .attribution {
+            display: block;
+            margin-top: 0.8rem;
+            font-family: var(--sans);
+            font-style: normal;
+            font-weight: 400;
+            font-size: 0.75rem;
+            color: var(--text-muted);
+            letter-spacing: 1px;
+        }
+
+        /* The thesis — special treatment */
+        .thesis-block {
+            position: relative;
+            text-align: center;
+            padding: 4rem 2rem;
+            margin: 3rem -2rem;
+            background: linear-gradient(180deg, var(--suffolk-gold-glow) 0%, transparent 100%);
+            border-top: 1px solid rgba(196, 164, 78, 0.12);
+            border-bottom: 1px solid rgba(196, 164, 78, 0.12);
+        }
+
+        .thesis-block .thesis-line {
+            font-family: var(--serif);
+            display: block;
+            margin-bottom: 0.6rem;
+            transition: all 0.3s ease;
+        }
+
+        .thesis-line-1 {
+            font-size: 1.3rem;
+            font-weight: 400;
+            color: var(--text-secondary);
+        }
+
+        .thesis-line-2 {
+            font-size: 1.5rem;
+            font-weight: 400;
+            color: var(--text-primary);
+        }
+
+        .thesis-line-3 {
+            font-size: 2rem;
+            font-weight: 600;
+            color: var(--suffolk-gold);
+            margin-top: 0.3rem;
+        }
+
+        /* The ending */
+        .ending-block {
+            text-align: center;
+            padding: 3rem 0;
+        }
+
+        .ending-block p {
+            font-family: var(--serif);
+            font-weight: 400;
+            font-size: 1.15rem;
+            color: var(--text-secondary);
+            margin-bottom: 0.5rem;
+        }
+
+        .ending-block .final-line {
+            font-family: var(--serif);
+            font-weight: 500;
+            font-size: 1.6rem;
+            color: var(--text-primary);
+            margin-top: 1.5rem;
+            line-height: 1.4;
+        }
+
+        /* Pull quote — for "He describes it perfectly" moment */
+        .pull-quote {
+            text-align: center;
+            padding: 2.5rem 1rem;
+            margin: 2.5rem 0;
+        }
+
+        .pull-quote p {
+            font-family: var(--serif);
+            font-weight: 400;
+            font-size: 1.5rem;
+            color: var(--text-primary);
+            line-height: 1.5;
+            max-width: 24ch;
+            margin: 0 auto;
+        }
+
+        .pull-quote .highlight {
+            color: var(--suffolk-gold);
+        }
+
+        /* Unprompted callout */
+        .unprompted {
+            text-align: center;
+            margin: 1.5rem 0 2rem;
+        }
+
+        .unprompted span {
+            font-family: var(--sans);
+            font-weight: 600;
+            font-size: 0.7rem;
+            letter-spacing: 4px;
+            text-transform: uppercase;
+            color: var(--sail-coral);
+        }
+
+        /* Author card */
+        .author-card {
+            margin-top: 4rem;
+            padding-top: 3rem;
+            border-top: 1px solid var(--text-dim);
+        }
+
+        .author-card p {
+            font-family: var(--sans);
+            font-weight: 300;
+            font-size: 0.85rem;
+            line-height: 1.8;
+            color: var(--text-muted);
+        }
+
+        .author-card a {
+            color: var(--suffolk-gold);
+            text-decoration: none;
+            border-bottom: 1px solid rgba(196, 164, 78, 0.3);
+            transition: all 0.3s ease;
+        }
+
+        .author-card a:hover {
+            border-color: var(--suffolk-gold);
+        }
+
+        /* Footer */
+        footer {
+            position: relative;
+            z-index: 1;
+            text-align: center;
+            padding: 3rem 2rem 4rem;
+            border-top: 1px solid rgba(196, 164, 78, 0.08);
+        }
+
+        footer .footer-brand {
+            font-family: var(--sans);
+            font-weight: 600;
+            font-size: 0.65rem;
+            letter-spacing: 4px;
+            text-transform: uppercase;
+            color: var(--suffolk-gold);
+            margin-bottom: 0.8rem;
+        }
+
+        footer p {
+            font-family: var(--sans);
+            font-size: 0.75rem;
+            color: var(--text-dim);
+            line-height: 1.8;
+        }
+
+        footer a {
+            color: var(--text-muted);
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+
+        footer a:hover {
+            color: var(--suffolk-gold);
+        }
+
+        /* Animations */
+        @keyframes fadeUp {
+            from {
+                opacity: 0;
+                transform: translateY(16px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes scrollPulse {
+            0%, 100% { opacity: 0.3; }
+            50% { opacity: 0.8; }
+        }
+
+        /* Scroll reveal */
+        .reveal {
+            opacity: 0;
+            transform: translateY(20px);
+            transition: opacity 0.8s ease, transform 0.8s ease;
+        }
+
+        .reveal.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            html { font-size: 16px; }
+            
+            .hero { min-height: 75vh; padding: 7rem 1.5rem 3rem; }
+            .hero h1 { font-size: 2.2rem; }
+            
+            .article { padding: 0 1.5rem 4rem; }
+            .article h2 { font-size: 1.5rem; }
+            
+            .thesis-block { margin: 2rem -1.5rem; padding: 3rem 1.5rem; }
+            .thesis-line-3 { font-size: 1.6rem; }
+            
+            .pull-quote p { font-size: 1.25rem; }
+            
+            nav .nav-links { gap: 1rem; }
+            nav .nav-links a { font-size: 0.65rem; letter-spacing: 1.5px; }
+        }
+
+        @media (max-width: 480px) {
+            nav { padding: 1rem 1.2rem; }
+            nav .nav-links { display: none; }
+            .hero { padding-top: 6rem; }
+        }
+
+        /* Print */
+        @media print {
+            body { background: white; color: #1a1a1a; }
+            body::after, .bg-glow, .bg-glow-bottom, nav, .hero-scroll { display: none; }
+            .hero { min-height: auto; padding: 2rem; }
+            .article { max-width: 100%; }
+            .article p, .article blockquote p { color: #333; }
+            .thesis-block { background: none; border: 2px solid #C4A44E; }
+        }
+    </style>
+</head>
+<body>
+
+<div class="bg-glow"></div>
+<div class="bg-glow-bottom"></div>
+
+<nav>
+    <a href="https://harslan.github.io/sail-framework/" class="logo">SAIL Framework</a>
+    <ul class="nav-links">
+        <li><a href="https://harslan.github.io/sail-framework/">Framework</a></li>
+        <li><a href="https://harslan.github.io/sail-framework/executive-summary.html">Summary</a></li>
+        <li><a href="https://harslan.github.io/sail-framework/challenge/">Challenge</a></li>
+        <li><a href="https://harslan.github.io/sail-framework/ownership.html" style="color: var(--suffolk-gold);">Ownership</a></li>
+    </ul>
+</nav>
+
+<!-- HERO -->
+<header class="hero">
+    <div class="hero-label">The SAIL Framework — Updated February 2026</div>
+    <h1>AI Has Judgment Now. We Had to Change <em>Everything.</em></h1>
+    <p class="hero-subtitle">Why we updated our award-winning framework — and what it means for every business school.</p>
+    <p class="hero-meta">
+        By <a href="mailto:harslan@suffolk.edu">Hasan Arslan, PhD</a> · Chief AI Officer · Suffolk University
+    </p>
+    <div class="hero-scroll"><span></span></div>
+</header>
+
+<!-- ARTICLE -->
+<article class="article">
+
+    <!-- Opening -->
+    <div class="reveal">
+        <p>Last week, Matt Shumer's essay "Something Big Is Happening" hit 20 million views. One line stopped me cold:</p>
+
+        <blockquote>
+            <p>"It had something that felt, for the first time, like judgment. Like taste. The inexplicable sense of knowing what the right call is that people always said AI would never have."</p>
+        </blockquote>
+
+        <p>I stopped because for two years, I've been telling students the opposite. The SAIL Framework — the AI leadership model we built at Suffolk University, published in AACSB Insights, won an Eduventures Innovation Award for — was anchored in a thesis we believed deeply:</p>
+
+        <p><strong>"Skills can be automated. Judgment cannot."</strong></p>
+
+        <p>I no longer believe that's sufficient. And I think what we discovered next is more important than anything in Shumer's essay.</p>
+    </div>
+
+    <div class="section-break"><div class="line"></div><div class="diamond"></div><div class="line"></div></div>
+
+    <!-- Section 2: The Moment -->
+    <div class="reveal">
+        <h2>The Moment That Changed My Mind</h2>
+
+        <p>Last spring, 19 students entered our Prompt AIChemy competition. Real data. Real stakes. 100,000 orders from a Brazilian e-commerce platform. Their task: use AI to uncover insights and build strategic recommendations.</p>
+
+        <p>The AI performed beautifully. It segmented customers, identified regional patterns, surfaced anomalies. It made good calls about what to prioritize. It exercised something that functioned like judgment.</p>
+
+        <p>But then something happened that the AI didn't do.</p>
+
+        <p>One team, mid-analysis, paused. Their AI-generated recommendations would optimize seller performance metrics — but in doing so would penalize sellers in rural regions who lacked access to reliable logistics infrastructure. The data didn't flag this as a problem. The AI didn't flag it. The students did.</p>
+
+        <blockquote>
+            <p>"We need to make sure we're not penalizing rural sellers with poor infrastructure."</p>
+        </blockquote>
+
+        <div class="unprompted"><span>— Unprompted</span></div>
+
+        <p>Nobody prompted them. No rubric required it. They raised it because they felt responsible for what their recommendations would do to actual people.</p>
+
+        <p>I've replayed that moment a hundred times. The AI had better judgment about the data. The students had something the AI structurally cannot have: they cared what happened next.</p>
+    </div>
+
+    <div class="section-break"><div class="line"></div><div class="diamond"></div><div class="line"></div></div>
+
+    <!-- Section 3: The Word -->
+    <div class="reveal">
+        <h2>The Word We Were Missing</h2>
+
+        <p>Shumer buries the most important insight in his essay inside his advice section. He writes that roles with "licensed accountability — roles where someone still has to sign off, take legal responsibility, stand in a courtroom" will take longer to displace.</p>
+    </div>
+
+    <div class="pull-quote reveal">
+        <p>He describes it perfectly. He just <span class="highlight">doesn't name it.</span></p>
+    </div>
+
+    <div class="reveal">
+        <p>The word is <strong>ownership</strong>.</p>
+
+        <p>AI can analyze a contract. AI can recommend a strategy. AI can flag a risk. AI can now, apparently, exercise judgment and taste. What AI cannot do is walk into a room and say: <em>"This was my call. I weighed the tradeoffs. I considered who it would affect. And I'm accountable for the outcome."</em></p>
+
+        <p>Not because AI isn't smart enough. It may be smarter than any of us. But because ownership requires something no model possesses: skin in the game. A career that rises or falls on the decision. A reputation built on standing behind your work. A felt sense of responsibility for the people your decisions touch.</p>
+
+        <p>So we updated our thesis. Three words became nine:</p>
+    </div>
+
+    <!-- THE THESIS -->
+    <div class="thesis-block reveal">
+        <span class="thesis-line thesis-line-1">Skills can be automated.</span>
+        <span class="thesis-line thesis-line-2">Judgment can be augmented.</span>
+        <span class="thesis-line thesis-line-3">Ownership cannot.</span>
+    </div>
+
+    <div class="section-break"><div class="line"></div><div class="diamond"></div><div class="line"></div></div>
+
+    <!-- Section 4: The Danger -->
+    <div class="reveal">
+        <h2>The Danger Nobody Is Talking About</h2>
+
+        <p>MIT researchers call it "cognitive debt" — the accumulated deficit that builds when people accept AI outputs without evaluation. But I think they're understating the problem.</p>
+
+        <p>The real danger isn't that people lose the ability to evaluate AI. It's that they lose the <em>felt sense that the decisions are theirs.</em> When you've outsourced enough thinking, you stop feeling like the owner. You become a relay station — passing AI outputs upstream without ever asking: <em>would I stake my name on this?</em></p>
+
+        <p>Shumer describes this trajectory from the inside. He tells AI what he wants, walks away for four hours, and returns to find the work done — "better than I would have done it myself." That's efficient. It's also a description of someone who has stepped out of the ownership loop.</p>
+
+        <p>Our students stepped <em>into</em> it. Unprompted.</p>
+
+        <p>That's the difference between using AI and leading with AI.</p>
+    </div>
+
+    <div class="section-break"><div class="line"></div><div class="diamond"></div><div class="line"></div></div>
+
+    <!-- Section 5: Why Now -->
+    <div class="reveal">
+        <h2>Why I'm Writing This Now</h2>
+
+        <p>Shumer's essay tells people to be afraid, then to adapt. That's honest. But it's incomplete.</p>
+
+        <p>Fear without a framework is paralysis. Adaptation without direction is drift.</p>
+
+        <p>What's missing from the conversation — from Shumer's essay, from Amodei's 20,000-word meditation, from every "AI is coming for your job" hot take — is a clear answer to the question: <strong>If AI can do the cognitive work, what exactly should humans get better at?</strong></p>
+
+        <p>The answer isn't judgment. AI has that now, or close enough.</p>
+
+        <p>The answer isn't creativity. AI is getting there.</p>
+
+        <p>The answer isn't empathy. People are already turning to AI for emotional support.</p>
+
+        <p>The answer is <strong>the willingness to own consequences in a world where it's increasingly easy not to.</strong></p>
+
+        <blockquote>
+            <p>"I used to think AI was about getting the right technical answer. Now I realize it's more like conducting an orchestra — you need to know when to bring in different instruments, but you also need to make sure the whole performance serves the audience."</p>
+            <span class="attribution">— Suffolk Business Student</span>
+        </blockquote>
+
+        <p>Conductors don't play every instrument. But they put their name on the program.</p>
+
+        <p>Every business school is scrambling to add AI to their curriculum. Very few are asking the harder question: what are we developing in students that AI <em>cannot replicate</em>? Not what AI can't do <em>yet</em> — what it cannot do <em>structurally</em>, by virtue of what it is?</p>
+
+        <p>We think the answer is ownership. And we think the schools that build their programs around developing it — not just teaching AI tools, but cultivating the courage to decide and the integrity to be accountable — will produce the graduates that organizations actually need.</p>
+    </div>
+
+    <!-- ENDING -->
+    <div class="ending-block reveal">
+        <p>Not AI-literate graduates. Not AI-savvy graduates.</p>
+        <p class="final-line"><strong>Graduates who own what happens next.</strong></p>
+    </div>
+
+    <!-- Author -->
+    <div class="author-card reveal">
+        <p><strong>Hasan Arslan, PhD</strong> is Chief AI Officer and Associate Professor at Suffolk University's <a href="https://www.suffolk.edu/business">Sawyer Business School</a>, where he leads the <a href="https://sites.suffolk.edu/sail/">SAIL Collaborative</a>. The SAIL Framework won the 2025 Eduventures Innovation Award and was published in AACSB Insights (<a href="https://www.aacsb.edu/insights/articles/2025/10/beyond-the-hype-ais-role-in-business-education">"Beyond the Hype: AI's Role in Business Education,"</a> October 2025).</p>
+    </div>
+
+</article>
+
+<!-- Footer -->
+<footer>
+    <div class="footer-brand">SAIL — AI Leadership Collaborative</div>
+    <p>Suffolk University · Sawyer Business School · Boston, MA</p>
+    <p style="margin-top: 0.5rem;">
+        <a href="https://harslan.github.io/sail-framework/">Framework</a> · 
+        <a href="https://harslan.github.io/sail-framework/executive-summary.html">Executive Summary</a> · 
+        <a href="https://harslan.github.io/sail-framework/challenge/">SAIL Challenge</a> · 
+        <a href="https://github.com/harslan/sail-framework">GitHub</a>
+    </p>
+    <p style="margin-top: 1.5rem; font-size: 0.7rem;">© 2025–2026 SAIL Collaborative, Suffolk University</p>
+</footer>
+
+<!-- Scroll reveal script -->
+<script>
+    const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                entry.target.classList.add('visible');
+            }
+        });
+    }, {
+        threshold: 0.1,
+        rootMargin: '0px 0px -50px 0px'
+    });
+
+    document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+</script>
+
+</body>
+</html>
