@@ -1,443 +1,48 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>The SAIL Framework: Critical Thinking for an AI-Augmented World</title>
-    <style>
-        :root {
-            --color-navy: #1B365D;
-            --color-gold: #B8860B;
-            --color-text: #333;
-            --color-text-light: #666;
-            --color-bg: #fafafa;
-            --color-white: #fff;
-            --color-border: #e0e0e0;
-            --font-serif: 'Georgia', 'Times New Roman', serif;
-            --font-sans: 'Helvetica Neue', Arial, sans-serif;
-        }
-
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-
-        body {
-            font-family: var(--font-serif);
-            font-size: 18px;
-            line-height: 1.7;
-            color: var(--color-text);
-            background: var(--color-bg);
-        }
-
-        .hero {
-            background: linear-gradient(135deg, var(--color-navy) 0%, #2a4a7a 100%);
-            color: white;
-            padding: 4rem 2rem;
-            text-align: center;
-        }
-
-        .hero h1 {
-            font-family: var(--font-sans);
-            font-size: 2.5rem;
-            font-weight: 700;
-            margin-bottom: 0.5rem;
-        }
-
-        .hero .subtitle {
-            font-size: 1.3rem;
-            opacity: 0.9;
-            font-style: italic;
-        }
-
-        article {
-            max-width: 750px;
-            margin: 0 auto;
-            padding: 3rem 2rem;
-            background: var(--color-white);
-        }
-
-        h2 {
-            font-family: var(--font-sans);
-            font-size: 1.5rem;
-            color: var(--color-navy);
-            margin-top: 2.5rem;
-            margin-bottom: 1rem;
-            font-weight: 600;
-        }
-
-        h3 {
-            font-family: var(--font-sans);
-            font-size: 1.2rem;
-            color: var(--color-text);
-            margin-top: 1.5rem;
-            margin-bottom: 0.75rem;
-            font-weight: 600;
-        }
-
-        p {
-            margin-bottom: 1.25rem;
-        }
-
-        strong {
-            color: var(--color-navy);
-        }
-
-        em {
-            font-style: italic;
-        }
-
-        .etymology {
-            background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
-            border-left: 4px solid var(--color-gold);
-            padding: 1.5rem;
-            margin: 1.5rem 0;
-            border-radius: 0 8px 8px 0;
-        }
-
-        .etymology .greek {
-            font-size: 1.4rem;
-            color: var(--color-navy);
-            font-weight: 600;
-            margin-bottom: 0.5rem;
-        }
-
-        blockquote {
-            background: #f8f9fa;
-            border-left: 4px solid var(--color-navy);
-            padding: 1.25rem 1.5rem;
-            margin: 1.5rem 0;
-            font-style: italic;
-            border-radius: 0 8px 8px 0;
-        }
-
-        blockquote cite {
-            display: block;
-            margin-top: 0.75rem;
-            font-size: 0.9rem;
-            color: var(--color-text-light);
-            font-style: normal;
-        }
-
-        .pillar-grid {
-            display: grid;
-            grid-template-columns: auto 1fr;
-            gap: 0;
-            margin: 1.5rem 0;
-            border: 1px solid var(--color-border);
-            border-radius: 8px;
-            overflow: hidden;
-        }
-
-        .pillar-letter {
-            background: var(--color-navy);
-            color: white;
-            font-family: var(--font-sans);
-            font-size: 1.5rem;
-            font-weight: 700;
-            padding: 1rem 1.25rem;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
-
-        .pillar-content {
-            padding: 1rem 1.25rem;
-            background: white;
-            border-bottom: 1px solid var(--color-border);
-        }
-
-        .pillar-content:last-child {
-            border-bottom: none;
-        }
-
-        .pillar-name {
-            font-family: var(--font-sans);
-            font-weight: 600;
-            color: var(--color-navy);
-        }
-
-        .dimension-box {
-            background: white;
-            border: 1px solid var(--color-border);
-            border-radius: 8px;
-            padding: 1.25rem;
-            margin: 1rem 0;
-        }
-
-        .dimension-box h4 {
-            font-family: var(--font-sans);
-            font-size: 1rem;
-            color: var(--color-navy);
-            margin-bottom: 0.5rem;
-        }
-
-        .dimension-box p {
-            margin-bottom: 0;
-            font-size: 0.95rem;
-        }
-
-        .phase-table {
-            width: 100%;
-            border-collapse: collapse;
-            margin: 1.5rem 0;
-            font-size: 0.95rem;
-        }
-
-        .phase-table th {
-            background: var(--color-navy);
-            color: white;
-            font-family: var(--font-sans);
-            font-weight: 600;
-            padding: 0.75rem 1rem;
-            text-align: left;
-        }
-
-        .phase-table td {
-            padding: 0.75rem 1rem;
-            border-bottom: 1px solid var(--color-border);
-            vertical-align: top;
-        }
-
-        .phase-table tr:nth-child(even) td {
-            background: #f8f9fa;
-        }
-
-        .phase-number {
-            font-family: var(--font-sans);
-            font-weight: 700;
-            color: var(--color-navy);
-        }
-
-        .key-insight {
-            background: linear-gradient(135deg, var(--color-navy) 0%, #2a4a7a 100%);
-            color: white;
-            padding: 2rem;
-            margin: 2rem 0;
-            border-radius: 8px;
-            text-align: center;
-        }
-
-        .key-insight p {
-            font-size: 1.2rem;
-            margin-bottom: 0;
-            font-weight: 500;
-        }
-
-        .citation {
-            font-size: 0.85rem;
-            color: var(--color-text-light);
-            margin-top: 0.5rem;
-        }
-
-        .references {
-            background: #f8f9fa;
-            padding: 1.5rem;
-            margin-top: 2rem;
-            border-radius: 8px;
-        }
-
-        .references h3 {
-            margin-top: 0;
-        }
-
-        .references p {
-            font-size: 0.9rem;
-            margin-bottom: 0.75rem;
-            padding-left: 2rem;
-            text-indent: -2rem;
-        }
-
-        .footer {
-            text-align: center;
-            padding: 2rem;
-            background: var(--color-navy);
-            color: white;
-        }
-
-        .footer .logo {
-            font-family: var(--font-sans);
-            font-weight: 700;
-            font-size: 1.1rem;
-            margin-bottom: 0.25rem;
-        }
-
-        .footer .tagline {
-            font-size: 0.9rem;
-            opacity: 0.8;
-        }
-
-        @media (max-width: 600px) {
-            .hero h1 {
-                font-size: 1.8rem;
-            }
-            article {
-                padding: 2rem 1.25rem;
-            }
-        }
-    </style>
-</head>
-<body>
-    <header class="hero">
-        <h1>The SAIL Framework</h1>
-        <p class="subtitle">Critical Thinking for an AI-Augmented World</p>
-    </header>
-
-    <article>
-        <h2>The Problem</h2>
-        
-        <p>Business students are graduating into an AI-augmented world. Every employer expects them to use AI tools. But using AI isn't the hard part—<em>knowing when to trust it, when to question it, and when to override it</em> is.</p>
-        
-        <p>Most AI education focuses on skills: prompt engineering, tool proficiency, workflow optimization. These skills matter. But skills alone produce a dangerous asymmetry: students who can <em>use</em> AI but cannot <em>evaluate</em> it.</p>
-        
-        <p>Researchers at MIT's Media Lab call this <strong>cognitive debt</strong>—the accumulated cost of outsourcing thinking to AI. Each time you accept output without evaluation, you skip a learning opportunity. The debt compounds. Eventually, when AI makes a mistake—and it will—you lack the capacity to catch it.</p>
-        
-        <p class="citation">Kosmyna, N., et al. (2025). "Your Brain on ChatGPT: Accumulation of Cognitive Debt when Using an AI Assistant." MIT Media Lab.</p>
-
-        <h2>The SAIL Framework</h2>
-        
-        <p>SAIL represents four interconnected competencies for AI-ready professionals:</p>
-        
-        <div class="pillar-grid">
-            <div class="pillar-letter">S</div>
-            <div class="pillar-content"><span class="pillar-name">Social Intelligence</span> — Communicating about AI to colleagues, clients, and stakeholders. Knowing what to share, how to frame it, and what your audience needs.</div>
-            
-            <div class="pillar-letter">A</div>
-            <div class="pillar-content"><span class="pillar-name">AI Literacy</span> — Understanding what AI can and cannot do. Recognizing its limitations, biases, and failure modes in your specific domain.</div>
-            
-            <div class="pillar-letter">I</div>
-            <div class="pillar-content"><span class="pillar-name">Innovation/Inquiry</span> — Questioning AI outputs. Pushing beyond first answers. Treating AI as a thought partner rather than an oracle.</div>
-            
-            <div class="pillar-letter">L</div>
-            <div class="pillar-content"><span class="pillar-name">Leadership</span> — Taking responsibility for Human-AI collaboration outcomes. Deciding when to use AI, when to override it, and owning the results.</div>
-        </div>
-        
-        <p>These four pillars prepare students not just to use AI, but to lead in an AI-augmented world. But the pillars alone aren't enough. They need something to make them work.</p>
-
-        <h2>Critical Thinking: The Foundation</h2>
-        
-        <p><strong>Critical thinking isn't a fifth pillar. It's what makes the other four function.</strong></p>
-        
-        <h3>The Etymology Matters</h3>
-        
-        <div class="etymology">
-            <div class="greek">κριτικός (kritikos)</div>
-            <p>The Greek root of "critical" literally means <strong>"able to discern."</strong> Critical thinking was never meant to be purely analytical. From its origins, it included the perceptual capacity to <em>see what matters</em>.</p>
-        </div>
-        
-        <p>The APA Delphi Report (Facione, 1990)—the expert consensus definition used in education worldwide—defines critical thinking as <em>"purposeful, self-regulatory <strong>judgment</strong>."</em> Not just analysis. Judgment.</p>
-        
-        <h3>Two Dimensions, One Capacity</h3>
-        
-        <p>Research confirms that critical thinking has two integrated dimensions:</p>
-        
-        <div class="dimension-box">
-            <h4>1. Cognitive Skills</h4>
-            <p>Interpretation, analysis, evaluation, inference, explanation, self-regulation</p>
-        </div>
-        
-        <div class="dimension-box">
-            <h4>2. Dispositional Qualities</h4>
-            <p>Open-mindedness, truth-seeking, inquisitiveness, systematicity, cognitive maturity</p>
-        </div>
-        
-        <p>Kahneman's Nobel Prize research adds another lens: effective thinking requires both <em>System 1</em> (fast, intuitive, perceptual) and <em>System 2</em> (slow, analytical, deliberate) processes working together. Neither alone is sufficient.</p>
-        
-        <h3>What This Means for SAIL</h3>
-        
-        <p>Each pillar requires critical thinking—in its full, original sense—to function:</p>
-        
-        <ul style="margin: 1rem 0 1.5rem 1.5rem;">
-            <li><strong>Social Intelligence</strong> without critical thinking is just talking. With it, you're assessing what your audience actually needs.</li>
-            <li><strong>AI Literacy</strong> without critical thinking is just trivia. With it, you're applying knowledge to evaluate specific outputs.</li>
-            <li><strong>Innovation/Inquiry</strong> without critical thinking is just novelty. With it, you're genuinely questioning and pushing beyond surface answers.</li>
-            <li><strong>Leadership</strong> without critical thinking is just authority. With it, you're making principled decisions and owning outcomes.</li>
-        </ul>
-        
-        <p>Critical thinking is both the <strong>foundation beneath</strong> the pillars (what enables them) and the <strong>bonds between</strong> them (what connects them).</p>
-
-        <h2>Evidence: The Three-Phase Scaffold</h2>
-        
-        <p>Sam Rosen's Strategic Management course at Suffolk University (Fall 2025) piloted a three-phase approach:</p>
-        
-        <table class="phase-table">
-            <thead>
-                <tr>
-                    <th>Phase</th>
-                    <th>What Students Do</th>
-                    <th>What They Develop</th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr>
-                    <td><span class="phase-number">1. Foundation</span></td>
-                    <td>Own intellectual work; AI constrained to research assistance</td>
-                    <td>Baseline competence; capacity to evaluate</td>
-                </tr>
-                <tr>
-                    <td><span class="phase-number">2. Integration</span></td>
-                    <td>Full AI use with required evaluation for hallucinations</td>
-                    <td>Critical evaluation; metacognitive awareness</td>
-                </tr>
-                <tr>
-                    <td><span class="phase-number">3. Leadership</span></td>
-                    <td>Design Human-AI collaboration frameworks as CSO</td>
-                    <td>Principled judgment; professional readiness</td>
-                </tr>
-            </tbody>
-        </table>
-        
-        <blockquote>
-            <p>"One of the most significant obstacles that I encountered was to stay critical about myself when the AI made the process of writing so simple and quick. Since it generated entire paragraphs in real-time, it was too easy to receive the responses as final rather than evaluating whether they were relevant to our class structures or not. I observed that the more I was depending on it, the less I was thinking about the concepts of underlying strategies."</p>
-            <cite>— Student reflection, Strategic Management, Fall 2025</cite>
-        </blockquote>
-        
-        <p>This is cognitive debt described in the student's own words—and exactly what the three-phase scaffold helps students recognize and overcome.</p>
-
-        <h2>The Promise</h2>
-        
-        <p>Most AI education asks: <em>How do we teach students to use AI?</em></p>
-        
-        <p>SAIL asks a different question: <em><strong>How do we develop the judgment that makes AI use wise?</strong></em></p>
-        
-        <p>The answer is critical thinking—not as an abstract virtue, but as a practiced capacity developed through structured experience. Critical thinking, in its full original meaning (<em>kritikos</em>: "able to discern"), integrates both analytical skills and dispositional qualities.</p>
-        
-        <div class="key-insight">
-            <p><strong>Skills can be automated. Judgment cannot.</strong></p>
-            <p style="font-size: 1rem; margin-top: 0.75rem; opacity: 0.9;">The SAIL promise: Not just AI-literate graduates. Graduates with judgment.</p>
-        </div>
-        
-        <div class="references">
-            <h3>References</h3>
-            <p>Facione, P. A. (1990). <em>Critical thinking: A statement of expert consensus for purposes of educational assessment and instruction (The Delphi Report)</em>. California Academic Press.</p>
-            <p>Kahneman, D. (2011). <em>Thinking, fast and slow</em>. Farrar, Straus and Giroux.</p>
-            <p>Kosmyna, N., et al. (2025). Your brain on ChatGPT: Accumulation of cognitive debt when using an AI assistant for essay writing task. <em>arXiv preprint arXiv:2506.08872</em>. MIT Media Lab.</p>
-            <p>Rosen, S. (2025). Scaffolding SAIL in Strategic Management. Suffolk University, Sawyer Business School.</p>
-        </div>
-        
-        <div class="references" style="margin-top: 1.5rem; background: white; border: 1px solid var(--color-border);">
-            <h3>About SAIL</h3>
-            <p style="padding-left: 0; text-indent: 0;">The SAIL Collaborative at Suffolk University's Sawyer Business School develops frameworks, curricula, and credentials for AI-ready business education.</p>
-            <p style="padding-left: 0; text-indent: 0;"><strong>Project Lead:</strong> Hasan Arslan, PhD, Chief AI Officer & Associate Professor</p>
-            <p style="padding-left: 0; text-indent: 0;"><strong>Contact:</strong> harslan@suffolk.edu</p>
-        </div>
-        
-        <div style="margin-top: 2rem; padding: 1.5rem; background: var(--color-navy); border-radius: 8px; text-align: center;">
-            <p style="color: white; margin-bottom: 1rem; font-family: var(--font-sans); font-weight: 600;">Downloads</p>
-            <p style="margin-bottom: 0;">
-                <a href="downloads/SAIL-Critical-Thinking-Framework.pdf" style="color: var(--color-gold); text-decoration: none; margin-right: 2rem;">📄 Full Document (PDF)</a>
-                <a href="downloads/SAIL-Framework-Executive-Summary.pdf" style="color: var(--color-gold); text-decoration: none;">📋 Executive Summary (PDF)</a>
-            </p>
-            <p style="margin-top: 1rem; margin-bottom: 0;">
-                <a href="executive-summary.html" style="color: rgba(255,255,255,0.8); text-decoration: none; font-size: 0.9rem;">View Executive Summary →</a>
-            </p>
-        </div>
-    </article>
-
-    <footer class="footer">
-        <p class="logo">SAIL Collaborative</p>
-        <p class="tagline">Suffolk University · Sawyer Business School</p>
-    </footer>
-</body>
+	<head>
+		<meta charset="UTF-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<link id="__remotion_favicon" rel="icon" type="image/png" href="/favicon.ico" />
+		<title>Remotion Bundle</title>
+	</head>
+	<body>
+		<script>window.remotion_numberOfAudioTags = 0;</script>
+		<script>window.remotion_audioLatencyHint = "interactive";</script>
+		
+		<script>window.remotion_staticBase = "/public";</script>
+		<script>window.remotion_editorName = null;</script>
+		<script>window.remotion_projectName = "sail-promo-video";</script>
+		<script>window.remotion_publicPath = "/";</script>
+		<script>window.remotion_audioEnabled = true;</script>
+		<script>window.remotion_videoEnabled = true;</script>
+		<script>window.remotion_renderDefaults = {"darkMode":false,"jpegQuality":80,"scale":1,"logLevel":"info","codec":"h264","concurrency":8,"maxConcurrency":16,"minConcurrency":1,"stillImageFormat":"png","videoImageFormat":"jpeg","muted":false,"enforceAudioTrack":false,"proResProfile":null,"x264Preset":"medium","pixelFormat":"yuv420p","audioBitrate":null,"videoBitrate":null,"encodingBufferSize":null,"encodingMaxRate":null,"everyNthFrame":1,"delayRenderTimeout":30000,"audioCodec":null,"disableWebSecurity":false,"headless":true,"ignoreCertificateErrors":false,"openGlRenderer":null,"offthreadVideoCacheSizeInBytes":null,"offthreadVideoThreads":null,"colorSpace":"default","multiProcessOnLinux":true,"userAgent":null,"repro":false,"numberOfGifLoops":null,"beepOnFinish":false,"forSeamlessAacConcatenation":false,"hardwareAcceleration":"disable","chromeMode":"headless-shell","mediaCacheSizeInBytes":null,"publicLicenseKey":null};</script>
+		<script>window.remotion_cwd = "/Users/barut/projects/sail-promo-video";</script>
+		<script>window.remotion_studioServerCommand = null;</script>
+		
+		
+		
+		<script>window.remotion_gitSource = {"name":"sail-promo-video","org":"harslan","ref":"main","type":"github","relativeFromGitRoot":""};</script>
+		
+		<script>window.remotion_staticFiles = [{"name":"audio/ambient-pad-new.mp3","lastModified":1770911481880,"sizeInBytes":9240540,"src":"/public/audio/ambient-pad-new.mp3"},{"name":"audio/ambient-pad-old.mp3","lastModified":1770907458629,"sizeInBytes":4830022,"src":"/public/audio/ambient-pad-old.mp3"},{"name":"audio/ambient-pad.mp3","lastModified":1770911495167,"sizeInBytes":9092583,"src":"/public/audio/ambient-pad.mp3"},{"name":"audio/AUDIO-GUIDE.md","lastModified":1770907299250,"sizeInBytes":3261,"src":"/public/audio/AUDIO-GUIDE.md"},{"name":"audio/bass-drop.mp3","lastModified":1770907526475,"sizeInBytes":51270,"src":"/public/audio/bass-drop.mp3"},{"name":"audio/heartbeat.mp3","lastModified":1770907593044,"sizeInBytes":385256,"src":"/public/audio/heartbeat.mp3"}]</script>
+		<script>window.remotion_installedPackages = null</script>
+		<script>window.remotion_packageManager = "unknown"</script>
+		<script>window.remotion_publicFolderExists = "/public";</script>
+		<script>
+				window.siteVersion = '11';
+				window.remotion_version = '4.0.421';
+		</script>
+		
+		<div id="video-container"></div>
+		<div id="__remotion-studio-container"></div>
+		<div id="menuportal-0"></div>
+		<div id="menuportal-1"></div>
+		<div id="menuportal-2"></div>
+		<div id="menuportal-3"></div>
+		<div id="menuportal-4"></div>
+		<div id="menuportal-5"></div>
+		<div id="remotion-error-overlay"></div>
+		<div id="server-disconnected-overlay"></div>
+		<script src="/bundle.js"></script>
+	</body>
 </html>
