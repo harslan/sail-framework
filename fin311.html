@@ -1,0 +1,1545 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>FIN 311 — Good Story or Good Stock?</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300..900;1,9..144,300..900&family=Public+Sans:ital,wght@0,300..800;1,300..800&family=JetBrains+Mono:ital,wght@0,400..700;1,400..700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --ink:#0E1620;
+    --ink-2:#16202E;
+    --ink-3:#1F2B3D;
+    --cream:#F4EDDE;
+    --cream-2:#E8DFC9;
+    --cream-3:#D9CDB1;
+    --gold:#C5A572;
+    --gold-2:#9C824B;
+    --red:#C73E2C;
+    --red-2:#8B2A1D;
+    --mute:#7B8595;
+    --ink-mute:#4A5566;
+
+    --serif:'Fraunces', Georgia, serif;
+    --sans:'Public Sans', system-ui, sans-serif;
+    --mono:'JetBrains Mono', 'Courier New', monospace;
+  }
+  *,*::before,*::after{box-sizing:border-box}
+  html{scroll-behavior:smooth}
+  body{
+    margin:0;
+    background:var(--ink);
+    color:var(--cream);
+    font-family:var(--sans);
+    font-size:17px;
+    line-height:1.65;
+    -webkit-font-smoothing:antialiased;
+    text-rendering:optimizeLegibility;
+  }
+  ::selection{background:var(--gold);color:var(--ink)}
+  a{color:inherit}
+
+  /* ============ NAV ============ */
+  .nav{
+    position:fixed;top:0;left:0;right:0;z-index:100;
+    background:rgba(14,22,32,.85);
+    backdrop-filter:blur(12px);
+    border-bottom:1px solid rgba(244,237,222,.06);
+  }
+  .nav-inner{
+    max-width:1280px;margin:0 auto;
+    display:flex;justify-content:space-between;align-items:center;
+    padding:14px 32px;
+    font-family:var(--mono);
+    font-size:11px;
+    letter-spacing:.18em;
+    text-transform:uppercase;
+  }
+  .nav-mark{color:var(--gold)}
+  .nav-links{display:flex;gap:28px;color:var(--mute)}
+  .nav-links a{text-decoration:none;transition:color .2s}
+  .nav-links a:hover{color:var(--cream)}
+  @media(max-width:780px){.nav-links{display:none}.nav-inner{padding:14px 20px}}
+
+  /* ============ LAYOUT ============ */
+  section{padding:120px 32px;position:relative}
+  .container{max-width:1180px;margin:0 auto}
+  .narrow{max-width:760px;margin:0 auto}
+  @media(max-width:780px){section{padding:80px 20px}}
+
+  .section-mark{
+    font-family:var(--mono);
+    font-size:11px;
+    letter-spacing:.22em;
+    color:var(--gold);
+    text-transform:uppercase;
+    margin-bottom:24px;
+    display:flex;align-items:center;gap:14px;
+  }
+  .section-mark::before{
+    content:"";width:32px;height:1px;background:var(--gold);
+  }
+
+  h1,h2,h3,h4{
+    font-family:var(--serif);
+    font-weight:400;
+    line-height:1.08;
+    letter-spacing:-.01em;
+    margin:0;
+  }
+  h2{font-size:clamp(36px,5vw,64px);margin-bottom:32px;font-variation-settings:"opsz" 144,"SOFT" 30}
+  h3{font-size:clamp(24px,3vw,34px);margin-bottom:16px}
+  h4{font-size:22px;margin-bottom:10px;font-variation-settings:"opsz" 30}
+
+  p{margin:0 0 20px}
+  .lede{font-size:21px;line-height:1.55;color:var(--cream-2)}
+  .lede::first-letter{
+    font-family:var(--serif);
+    font-size:64px;
+    float:left;
+    line-height:.9;
+    padding:6px 12px 0 0;
+    color:var(--gold);
+    font-style:italic;
+    font-variation-settings:"opsz" 144;
+  }
+
+  /* ============ HERO ============ */
+  .hero{
+    min-height:100vh;
+    padding-top:140px;
+    display:flex;flex-direction:column;justify-content:center;
+    background:
+      radial-gradient(ellipse 80% 60% at 50% 0%, rgba(197,165,114,.10), transparent 70%),
+      radial-gradient(ellipse 50% 40% at 100% 80%, rgba(199,62,44,.06), transparent 70%),
+      var(--ink);
+    overflow:hidden;
+    position:relative;
+  }
+  .hero::before{
+    content:"";
+    position:absolute;inset:0;
+    background-image:
+      linear-gradient(rgba(244,237,222,.02) 1px,transparent 1px),
+      linear-gradient(90deg,rgba(244,237,222,.02) 1px,transparent 1px);
+    background-size:60px 60px;
+    pointer-events:none;
+    mask-image:radial-gradient(ellipse at center,black 30%,transparent 75%);
+  }
+  .hero-inner{position:relative;z-index:2}
+  .hero-eyebrow{
+    font-family:var(--mono);
+    font-size:11px;
+    letter-spacing:.25em;
+    color:var(--gold);
+    text-transform:uppercase;
+    margin-bottom:40px;
+    display:flex;align-items:center;gap:18px;
+    flex-wrap:wrap;
+  }
+  .hero-eyebrow span{color:var(--mute)}
+  .hero-eyebrow::before{
+    content:"";width:48px;height:1px;background:var(--gold);
+  }
+
+  .hero h1{
+    font-size:clamp(48px,9vw,128px);
+    line-height:.95;
+    letter-spacing:-.025em;
+    margin-bottom:48px;
+    max-width:14ch;
+    font-variation-settings:"opsz" 144,"SOFT" 20;
+  }
+  .hero h1 .story{
+    font-style:italic;
+    color:var(--gold);
+    font-weight:300;
+  }
+  .hero h1 .or{
+    color:var(--red);
+    font-weight:500;
+    font-style:italic;
+  }
+  .hero h1 .stock{
+    font-weight:600;
+  }
+
+  .hero-sub{
+    font-size:clamp(18px,1.8vw,22px);
+    line-height:1.5;
+    color:var(--cream-2);
+    max-width:55ch;
+    margin-bottom:64px;
+  }
+
+  .hero-meta{
+    display:grid;
+    grid-template-columns:repeat(3,1fr);
+    gap:1px;
+    background:rgba(244,237,222,.08);
+    border:1px solid rgba(244,237,222,.08);
+    max-width:880px;
+  }
+  .meta-cell{
+    background:var(--ink);
+    padding:24px 28px;
+  }
+  .meta-label{
+    font-family:var(--mono);
+    font-size:10px;
+    letter-spacing:.2em;
+    text-transform:uppercase;
+    color:var(--mute);
+    margin-bottom:10px;
+  }
+  .meta-value{
+    font-family:var(--serif);
+    font-size:22px;
+    color:var(--cream);
+    font-variation-settings:"opsz" 30;
+  }
+  .meta-value em{color:var(--gold);font-style:italic;font-weight:300}
+  @media(max-width:780px){.hero-meta{grid-template-columns:1fr;}}
+
+  /* ============ SECTION 01 — PROBLEM ============ */
+  .problem{
+    background:var(--ink);
+    border-top:1px solid rgba(244,237,222,.06);
+  }
+  .stats{
+    display:grid;
+    grid-template-columns:repeat(3,1fr);
+    gap:32px;
+    margin-top:80px;
+    padding-top:64px;
+    border-top:1px solid rgba(244,237,222,.08);
+  }
+  .stat .num{
+    font-family:var(--serif);
+    font-size:clamp(56px,7vw,88px);
+    line-height:1;
+    color:var(--gold);
+    font-weight:300;
+    font-style:italic;
+    font-variation-settings:"opsz" 144;
+    margin-bottom:14px;
+  }
+  .stat .label{
+    font-size:15px;
+    line-height:1.5;
+    color:var(--cream-2);
+    margin-bottom:8px;
+  }
+  .stat .src{
+    font-family:var(--mono);
+    font-size:10px;
+    letter-spacing:.15em;
+    text-transform:uppercase;
+    color:var(--mute);
+  }
+  @media(max-width:780px){.stats{grid-template-columns:1fr;gap:48px}}
+
+  .pull{
+    margin:80px 0;
+    padding:40px 0 40px 40px;
+    border-left:2px solid var(--gold);
+    font-family:var(--serif);
+    font-style:italic;
+    font-size:clamp(24px,2.8vw,34px);
+    line-height:1.35;
+    color:var(--cream);
+    font-variation-settings:"opsz" 144;
+  }
+  .pull cite{
+    display:block;
+    margin-top:24px;
+    font-family:var(--mono);
+    font-style:normal;
+    font-size:11px;
+    letter-spacing:.18em;
+    text-transform:uppercase;
+    color:var(--mute);
+  }
+
+  /* ============ SECTION 02 — TWO PATHS ============ */
+  .paths{
+    background:var(--ink-2);
+  }
+  .path-grid{
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:1px;
+    background:rgba(244,237,222,.08);
+    border:1px solid rgba(244,237,222,.08);
+    margin-top:64px;
+  }
+  .path{
+    background:var(--ink-2);
+    padding:48px 40px;
+  }
+  .path-a{border-top:3px solid var(--red)}
+  .path-b{border-top:3px solid var(--gold)}
+  .path-label{
+    font-family:var(--mono);
+    font-size:11px;
+    letter-spacing:.22em;
+    text-transform:uppercase;
+    margin-bottom:16px;
+  }
+  .path-a .path-label{color:var(--red)}
+  .path-b .path-label{color:var(--gold)}
+  .path h3{margin-bottom:32px}
+  .path-step{
+    padding:20px 0;
+    border-top:1px solid rgba(244,237,222,.08);
+    display:grid;
+    grid-template-columns:40px 1fr;
+    gap:16px;
+    align-items:start;
+  }
+  .path-step:first-of-type{border-top:none}
+  .step-num{
+    font-family:var(--mono);
+    font-size:13px;
+    color:var(--mute);
+    font-weight:500;
+    padding-top:4px;
+  }
+  .step-body{font-size:15.5px;line-height:1.55}
+  .step-body em{color:var(--cream-2);font-style:italic;display:block;margin-top:4px;font-size:14.5px}
+  .path-outcome{
+    margin-top:32px;
+    padding-top:24px;
+    border-top:1px solid rgba(244,237,222,.08);
+    font-family:var(--serif);
+    font-style:italic;
+    font-size:19px;
+    font-variation-settings:"opsz" 30;
+  }
+  .path-a .path-outcome{color:var(--red)}
+  .path-b .path-outcome{color:var(--gold)}
+  @media(max-width:780px){.path-grid{grid-template-columns:1fr}.path{padding:36px 24px}}
+
+  /* ============ SECTION 03 — AI DEMO ============ */
+  .demo{
+    background:var(--cream);
+    color:var(--ink);
+  }
+  .demo .section-mark{color:var(--red-2)}
+  .demo .section-mark::before{background:var(--red-2)}
+  .demo h2{color:var(--ink)}
+  .demo .lede{color:var(--ink-mute)}
+  .demo .lede::first-letter{color:var(--red)}
+  .demo .pull{
+    border-left-color:var(--red);
+    color:var(--ink);
+  }
+  .demo .pull cite{color:var(--ink-mute)}
+
+  .demo-frame{
+    margin-top:64px;
+    background:#FFF;
+    border:1px solid var(--cream-3);
+    box-shadow:0 30px 80px -30px rgba(14,22,32,.25);
+  }
+  .demo-header{
+    padding:18px 24px;
+    border-bottom:1px solid var(--cream-3);
+    display:flex;justify-content:space-between;align-items:center;
+    background:var(--cream-2);
+  }
+  .demo-title{
+    font-family:var(--mono);
+    font-size:11px;
+    letter-spacing:.2em;
+    text-transform:uppercase;
+    color:var(--ink-mute);
+  }
+  .demo-counter{
+    font-family:var(--mono);
+    font-size:11px;
+    color:var(--ink-mute);
+  }
+  .demo-counter strong{color:var(--red);font-weight:600}
+  .demo-body{padding:36px 40px;font-size:16px;line-height:1.7}
+  .demo-body h4{
+    font-family:var(--serif);
+    font-size:20px;
+    margin-top:28px;margin-bottom:14px;
+    color:var(--ink);
+    font-variation-settings:"opsz" 30;
+  }
+  .demo-body h4:first-child{margin-top:0}
+  .demo-body p{margin-bottom:18px;color:var(--ink)}
+
+  .err{
+    display:inline;
+    color:var(--red-2);
+    background:rgba(199,62,44,.08);
+    border-bottom:2px dashed var(--red);
+    padding:1px 4px;
+    cursor:pointer;
+    transition:background .2s;
+    border-radius:2px 2px 0 0;
+    font-weight:500;
+  }
+  .err:hover{background:rgba(199,62,44,.18)}
+  .err.found{
+    color:var(--ink);
+    background:rgba(197,165,114,.25);
+    border-bottom-color:var(--gold);
+    border-bottom-style:solid;
+  }
+  .err-detail{
+    display:none;
+    margin:14px 0 22px;
+    padding:18px 22px;
+    background:rgba(199,62,44,.04);
+    border-left:3px solid var(--red);
+    font-size:14.5px;
+    line-height:1.6;
+  }
+  .err.found + .err-detail{display:block}
+  .err-detail .err-tag{
+    font-family:var(--mono);
+    font-size:10px;
+    letter-spacing:.18em;
+    text-transform:uppercase;
+    color:var(--red-2);
+    display:block;
+    margin-bottom:8px;
+    font-weight:600;
+  }
+  .err-detail strong{color:var(--ink);font-weight:600}
+  .err-detail .impact{
+    margin-top:10px;
+    padding-top:10px;
+    border-top:1px solid rgba(199,62,44,.18);
+    color:var(--ink-mute);
+    font-style:italic;
+  }
+  .demo-actions{
+    padding:20px 40px;
+    border-top:1px solid var(--cream-3);
+    display:flex;gap:14px;
+    background:var(--cream-2);
+  }
+  .btn{
+    font-family:var(--mono);
+    font-size:11px;
+    letter-spacing:.15em;
+    text-transform:uppercase;
+    padding:10px 18px;
+    background:transparent;
+    border:1px solid var(--ink);
+    color:var(--ink);
+    cursor:pointer;
+    transition:all .2s;
+    font-weight:500;
+  }
+  .btn:hover{background:var(--ink);color:var(--cream)}
+  .btn.primary{background:var(--ink);color:var(--cream)}
+  .btn.primary:hover{background:var(--red);border-color:var(--red)}
+  @media(max-width:780px){.demo-body{padding:28px 24px}.demo-actions{padding:16px 24px;flex-wrap:wrap}}
+
+  /* ============ SECTION 04 — CHALLENGE / KEYSTONE ============ */
+  .challenge{
+    background:var(--ink);
+    border-top:1px solid rgba(244,237,222,.06);
+  }
+  .phases{
+    display:grid;
+    grid-template-columns:repeat(4,1fr);
+    gap:1px;
+    background:rgba(244,237,222,.08);
+    border:1px solid rgba(244,237,222,.08);
+    margin-top:72px;
+  }
+  .phase{
+    background:var(--ink);
+    padding:36px 28px;
+    position:relative;
+  }
+  .phase-num{
+    font-family:var(--serif);
+    font-style:italic;
+    font-size:48px;
+    line-height:1;
+    color:var(--gold);
+    font-weight:300;
+    margin-bottom:20px;
+    font-variation-settings:"opsz" 144;
+  }
+  .phase-label{
+    font-family:var(--mono);
+    font-size:10px;
+    letter-spacing:.2em;
+    text-transform:uppercase;
+    color:var(--mute);
+    margin-bottom:10px;
+  }
+  .phase h4{margin-bottom:14px;font-size:20px}
+  .phase p{font-size:14.5px;line-height:1.55;color:var(--cream-2);margin-bottom:14px}
+  .phase .duration{
+    font-family:var(--mono);
+    font-size:11px;
+    color:var(--gold-2);
+    border-top:1px solid rgba(244,237,222,.08);
+    padding-top:14px;
+    margin-top:auto;
+  }
+  @media(max-width:980px){.phases{grid-template-columns:1fr 1fr}}
+  @media(max-width:560px){.phases{grid-template-columns:1fr}}
+
+  /* KEYSTONE */
+  .keystone{
+    margin-top:96px;
+    padding:64px 48px;
+    background:linear-gradient(135deg, var(--ink-3) 0%, var(--ink-2) 100%);
+    border:1px solid rgba(197,165,114,.20);
+    position:relative;
+    overflow:hidden;
+  }
+  .keystone::before{
+    content:"";
+    position:absolute;
+    top:-1px;left:-1px;right:-1px;
+    height:3px;
+    background:linear-gradient(90deg,var(--gold),var(--red),var(--gold));
+  }
+  .keystone-tag{
+    font-family:var(--mono);
+    font-size:10px;
+    letter-spacing:.25em;
+    text-transform:uppercase;
+    color:var(--gold);
+    margin-bottom:20px;
+  }
+  .keystone h3{
+    font-size:clamp(28px,3.5vw,40px);
+    margin-bottom:24px;
+    max-width:22ch;
+  }
+  .keystone h3 em{color:var(--gold);font-weight:300}
+  .keystone p{font-size:17px;color:var(--cream-2)}
+
+  .weight-demo{
+    margin-top:48px;
+    display:grid;
+    grid-template-columns:1fr auto 1fr;
+    gap:24px;
+    align-items:center;
+  }
+  .weight-card{
+    padding:32px 28px;
+    background:rgba(14,22,32,.6);
+    border:1px solid rgba(244,237,222,.08);
+    text-align:center;
+  }
+  .weight-method{
+    font-family:var(--mono);
+    font-size:11px;
+    letter-spacing:.2em;
+    text-transform:uppercase;
+    color:var(--mute);
+    margin-bottom:14px;
+  }
+  .weight-value{
+    font-family:var(--serif);
+    font-style:italic;
+    font-size:56px;
+    line-height:1;
+    color:var(--cream);
+    font-weight:300;
+    margin-bottom:10px;
+    font-variation-settings:"opsz" 144;
+  }
+  .weight-subtle{
+    font-size:13px;
+    color:var(--mute);
+    font-family:var(--mono);
+  }
+  .weight-vs{
+    font-family:var(--serif);
+    font-style:italic;
+    font-size:32px;
+    color:var(--gold);
+    font-variation-settings:"opsz" 144;
+  }
+  .weight-question{
+    margin-top:48px;
+    padding-top:32px;
+    border-top:1px solid rgba(244,237,222,.08);
+    text-align:center;
+  }
+  .weight-question .q{
+    font-family:var(--serif);
+    font-style:italic;
+    font-size:clamp(22px,2.6vw,32px);
+    color:var(--gold);
+    margin-bottom:24px;
+    font-variation-settings:"opsz" 144;
+  }
+  .weight-options{
+    display:flex;gap:12px;justify-content:center;flex-wrap:wrap;
+    margin-bottom:24px;
+  }
+  .weight-btn{
+    font-family:var(--mono);
+    font-size:13px;
+    padding:14px 24px;
+    background:transparent;
+    border:1px solid rgba(244,237,222,.20);
+    color:var(--cream);
+    cursor:pointer;
+    transition:all .2s;
+    letter-spacing:.05em;
+  }
+  .weight-btn:hover{border-color:var(--gold);color:var(--gold)}
+  .weight-btn.selected{background:var(--gold);border-color:var(--gold);color:var(--ink);font-weight:600}
+  .weight-reveal{
+    display:none;
+    margin-top:32px;
+    padding:24px 32px;
+    background:rgba(197,165,114,.06);
+    border-left:3px solid var(--gold);
+    text-align:left;
+  }
+  .weight-reveal.show{display:block}
+  .weight-reveal p{font-size:16px;color:var(--cream)}
+  .weight-reveal strong{color:var(--gold);font-weight:600}
+  @media(max-width:780px){
+    .keystone{padding:48px 28px}
+    .weight-demo{grid-template-columns:1fr;gap:16px}
+    .weight-vs{transform:rotate(90deg)}
+  }
+
+  /* ============ SECTION 05 — PILLARS ============ */
+  .pillars{
+    background:var(--ink-2);
+  }
+  .pillar-grid{
+    display:grid;
+    grid-template-columns:repeat(2,1fr);
+    gap:1px;
+    background:rgba(244,237,222,.08);
+    border:1px solid rgba(244,237,222,.08);
+    margin-top:64px;
+  }
+  .pillar{
+    background:var(--ink-2);
+    padding:44px 36px;
+  }
+  .pillar-letter{
+    font-family:var(--serif);
+    font-size:96px;
+    line-height:.8;
+    color:var(--gold);
+    font-weight:300;
+    font-style:italic;
+    margin-bottom:24px;
+    font-variation-settings:"opsz" 144;
+    display:inline-block;
+  }
+  .pillar h4{margin-bottom:14px;font-size:24px}
+  .pillar p{font-size:15.5px;line-height:1.6;color:var(--cream-2);margin-bottom:18px}
+  .pillar-anchor{
+    font-family:var(--mono);
+    font-size:11px;
+    letter-spacing:.15em;
+    text-transform:uppercase;
+    color:var(--gold);
+    border-top:1px solid rgba(244,237,222,.08);
+    padding-top:16px;
+    margin-top:24px;
+  }
+  .pillar-anchor span{color:var(--mute);display:block;margin-bottom:6px}
+  @media(max-width:780px){.pillar-grid{grid-template-columns:1fr}}
+
+  /* ============ SECTION 06 — TOOLKIT ============ */
+  .toolkit{
+    background:var(--cream);
+    color:var(--ink);
+  }
+  .toolkit .section-mark{color:var(--red-2)}
+  .toolkit .section-mark::before{background:var(--red-2)}
+  .toolkit h2{color:var(--ink)}
+  .toolkit .lede{color:var(--ink-mute)}
+  .toolkit .lede::first-letter{color:var(--red)}
+
+  .tool-section{
+    margin-top:80px;
+    padding-top:48px;
+    border-top:1px solid var(--cream-3);
+  }
+  .tool-section:first-of-type{border-top:none;padding-top:0;margin-top:64px}
+  .tool-eyebrow{
+    font-family:var(--mono);
+    font-size:11px;
+    letter-spacing:.22em;
+    text-transform:uppercase;
+    color:var(--red-2);
+    margin-bottom:16px;
+  }
+  .tool-section h3{
+    color:var(--ink);
+    font-size:clamp(28px,3.5vw,40px);
+    margin-bottom:20px;
+  }
+  .tool-section > p{color:var(--ink-mute);font-size:17px;line-height:1.65;max-width:65ch;margin-bottom:32px}
+
+  /* Reframe cards */
+  .cards{
+    display:grid;
+    grid-template-columns:repeat(3,1fr);
+    gap:24px;
+    margin-top:40px;
+  }
+  .card{
+    background:#FFF;
+    border:1px solid var(--cream-3);
+    padding:32px 28px;
+    position:relative;
+  }
+  .card-num{
+    position:absolute;
+    top:24px;right:28px;
+    font-family:var(--mono);
+    font-size:11px;
+    letter-spacing:.18em;
+    color:var(--ink-mute);
+  }
+  .card-tag{
+    font-family:var(--mono);
+    font-size:10px;
+    letter-spacing:.2em;
+    text-transform:uppercase;
+    color:var(--red-2);
+    margin-bottom:12px;
+  }
+  .card h4{
+    color:var(--ink);
+    font-size:22px;
+    margin-bottom:18px;
+    font-variation-settings:"opsz" 30;
+  }
+  .card-scenario{
+    font-size:15px;
+    line-height:1.6;
+    color:var(--ink);
+    margin-bottom:20px;
+    padding-bottom:20px;
+    border-bottom:1px dashed var(--cream-3);
+  }
+  .card-prompts{
+    margin:0;padding:0;list-style:none;
+  }
+  .card-prompts li{
+    font-size:14px;
+    line-height:1.5;
+    color:var(--ink-mute);
+    padding:8px 0 8px 22px;
+    position:relative;
+  }
+  .card-prompts li::before{
+    content:counter(prompt);
+    counter-increment:prompt;
+    position:absolute;
+    left:0;top:8px;
+    font-family:var(--mono);
+    font-size:11px;
+    color:var(--red);
+    font-weight:600;
+  }
+  .card-prompts{counter-reset:prompt}
+  .card-meta{
+    margin-top:20px;
+    padding-top:16px;
+    border-top:1px solid var(--cream-3);
+    font-family:var(--mono);
+    font-size:10px;
+    letter-spacing:.15em;
+    text-transform:uppercase;
+    color:var(--ink-mute);
+    display:flex;justify-content:space-between;
+  }
+  @media(max-width:980px){.cards{grid-template-columns:1fr}}
+
+  /* Rubric / template blocks */
+  .block{
+    background:#FFF;
+    border:1px solid var(--cream-3);
+    padding:36px 40px;
+    margin-top:32px;
+  }
+  .block h4{
+    color:var(--ink);
+    font-size:18px;
+    margin-bottom:18px;
+    padding-bottom:14px;
+    border-bottom:1px solid var(--cream-3);
+    font-family:var(--mono);
+    font-weight:600;
+    letter-spacing:.05em;
+    text-transform:uppercase;
+    font-size:12px;
+    font-variation-settings:normal;
+  }
+  .block ol,.block ul{
+    padding-left:24px;
+    margin:0;
+    color:var(--ink);
+  }
+  .block ol li,.block ul li{
+    margin-bottom:14px;
+    line-height:1.6;
+    font-size:15.5px;
+  }
+  .block ol li strong, .block ul li strong{color:var(--ink);font-weight:600}
+  .block ol li em, .block ul li em{
+    display:block;
+    margin-top:6px;
+    color:var(--ink-mute);
+    font-style:italic;
+    font-size:14.5px;
+  }
+  .block .note{
+    margin-top:24px;
+    padding:16px 20px;
+    background:var(--cream-2);
+    border-left:3px solid var(--gold-2);
+    font-size:14.5px;
+    color:var(--ink);
+    line-height:1.55;
+  }
+  .block .note strong{color:var(--gold-2)}
+
+  .replace{
+    margin-top:32px;
+    background:#FFF;
+    border:1px solid var(--cream-3);
+  }
+  .replace-head{
+    padding:12px 24px;
+    background:var(--cream-2);
+    border-bottom:1px solid var(--cream-3);
+    font-family:var(--mono);
+    font-size:11px;
+    letter-spacing:.18em;
+    text-transform:uppercase;
+    color:var(--ink-mute);
+  }
+  .replace-body{
+    padding:28px 32px;
+    font-size:15.5px;
+    line-height:1.7;
+    color:var(--ink);
+  }
+  .replace-body .strike{
+    text-decoration:line-through;
+    color:var(--red);
+    background:rgba(199,62,44,.08);
+    padding:1px 4px;
+  }
+  .replace-body .add{
+    color:var(--gold-2);
+    background:rgba(197,165,114,.15);
+    padding:1px 4px;
+    font-weight:500;
+  }
+
+  /* ============ FOOTER ============ */
+  footer{
+    background:var(--ink);
+    padding:64px 32px 48px;
+    border-top:1px solid rgba(244,237,222,.06);
+    text-align:center;
+  }
+  .foot-mark{
+    font-family:var(--serif);
+    font-style:italic;
+    font-size:24px;
+    color:var(--gold);
+    margin-bottom:24px;
+    font-variation-settings:"opsz" 30;
+  }
+  footer p{
+    font-family:var(--mono);
+    font-size:11px;
+    letter-spacing:.15em;
+    text-transform:uppercase;
+    color:var(--mute);
+    line-height:1.7;
+    margin:0;
+  }
+
+  /* small touches */
+  .accent{color:var(--gold)}
+  .accent-r{color:var(--red)}
+</style>
+</head>
+<body>
+
+<nav class="nav">
+  <div class="nav-inner">
+    <div class="nav-mark">FIN 311 · SAIL</div>
+    <div class="nav-links">
+      <a href="#problem">Problem</a>
+      <a href="#paths">Paths</a>
+      <a href="#demo">Catch AI</a>
+      <a href="#challenge">Challenge</a>
+      <a href="#pillars">SAIL</a>
+      <a href="#toolkit">Toolkit</a>
+    </div>
+  </div>
+</nav>
+
+<!-- ============ HERO ============ -->
+<section class="hero" id="hero">
+  <div class="container hero-inner">
+    <div class="hero-eyebrow">
+      Suffolk University · Sawyer Business School<span>Intermediate Finance · Fall 2026</span>
+    </div>
+    <h1>
+      Good <span class="story">story</span><br>
+      <span class="or">or</span><br>
+      Good <span class="stock">stock?</span>
+    </h1>
+    <p class="hero-sub">
+      AI will write you a fluent buy thesis in thirty seconds. FIN 311 teaches you the one
+      thing it cannot: the judgment to know when the story and the stock disagree — and
+      the conviction to defend the difference.
+    </p>
+    <div class="hero-meta">
+      <div class="meta-cell">
+        <div class="meta-label">Course</div>
+        <div class="meta-value">FIN 311 · <em>Intermediate Finance</em></div>
+      </div>
+      <div class="meta-cell">
+        <div class="meta-label">Framework</div>
+        <div class="meta-value">SAIL · <em>AI-Augmented Learning</em></div>
+      </div>
+      <div class="meta-cell">
+        <div class="meta-label">Outcome</div>
+        <div class="meta-value"><em>Analyst</em> who owns the answer</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ SECTION 01 — PROBLEM ============ -->
+<section class="problem" id="problem">
+  <div class="container">
+    <div class="section-mark">§ 01 — The Problem</div>
+    <h2>AI is a good-story engine.<br>Valuation is a good-stock test.</h2>
+    <div class="narrow">
+      <p class="lede">
+        In FIN 311 you'll value real companies using a 2-stage Dividend Discount Model and a
+        relative P/E approach. Then you'll do something an AI cannot: weight the two
+        estimates against each other and stake a recommendation on the result. That weighting
+        — and your defense of it — is where analyst judgment lives. It is also exactly the
+        kind of decision AI tools sound most confident about and get most often wrong.
+      </p>
+
+      <p class="lede" style="margin-top:32px">
+        The problem isn't that AI lies. The problem is that AI's lies are fluent. A
+        fabricated analyst quote reads like a sourced one. A made-up "industry standard
+        weighting" sounds like guidance. The gap between borrowed confidence and earned
+        judgment is invisible — until someone asks you to defend it.
+      </p>
+
+      <div class="pull">
+        "To be a good analyst, you must be able to differentiate between a good story
+        and a good stock."
+        <cite>Dr. Nataliya Zaiats — FIN 311 Project Description</cite>
+      </div>
+
+      <p>
+        That line was written before generative AI made fluent storytelling free. The
+        skill it names — separating narrative quality from valuation quality — has not
+        gotten easier in 2026. It has gotten harder. And more valuable.
+      </p>
+    </div>
+
+    <div class="stats">
+      <div class="stat">
+        <div class="num">82%</div>
+        <div class="label">of CFA professionals say AI has impacted their job role</div>
+        <div class="src">Kaplan Schweser · 2024</div>
+      </div>
+      <div class="stat">
+        <div class="num">3%</div>
+        <div class="label">of investment professionals report actual AI/ML proficiency</div>
+        <div class="src">CFA Institute Career Report</div>
+      </div>
+      <div class="stat">
+        <div class="num" style="font-size:clamp(40px,5vw,68px)">weakest</div>
+        <div class="label">neural connectivity of three groups belonged to LLM-assisted writers — most could not quote a sentence from essays they had just finished</div>
+        <div class="src">Kosmyna et al. · MIT Media Lab · 2025</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ SECTION 02 — TWO PATHS ============ -->
+<section class="paths" id="paths">
+  <div class="container">
+    <div class="section-mark">§ 02 — Two Analysts</div>
+    <h2>Two students. One Colab.<br>Only one of them gets the offer.</h2>
+    <p class="lede narrow">
+      Both run the same Valuation Analytics notebook. Both produce a price target. The
+      difference shows up the moment someone asks <em>why</em>.
+    </p>
+
+    <div class="path-grid">
+      <div class="path path-a">
+        <div class="path-label">Path A — AI as crutch</div>
+        <h3>The student who runs the notebook</h3>
+        <div class="path-step">
+          <div class="step-num">01</div>
+          <div class="step-body">Opens Colab, enters ticker, runs every cell.<em>Beta = 0.92. Cost of equity = 9.8%. Got it.</em></div>
+        </div>
+        <div class="path-step">
+          <div class="step-num">02</div>
+          <div class="step-body">Accepts the default 5-year average dividend growth.<em>"It's the average, so it should be fine."</em></div>
+        </div>
+        <div class="path-step">
+          <div class="step-num">03</div>
+          <div class="step-body">Picks DDM/P/E weights based on what ChatGPT suggests.<em>"It said 60/40 is standard."</em></div>
+        </div>
+        <div class="path-step">
+          <div class="step-num">04</div>
+          <div class="step-body">In the defense round: <em>"Why those weights?"</em><em>Silence.</em></div>
+        </div>
+        <div class="path-outcome">The numbers exist. The judgment doesn't.</div>
+      </div>
+
+      <div class="path path-b">
+        <div class="path-label">Path B — AI as tool</div>
+        <h3>The student who owns the analysis</h3>
+        <div class="path-step">
+          <div class="step-num">01</div>
+          <div class="step-body">Writes a one-paragraph thesis first. Guesses beta and growth before any cell runs.<em>Now the Colab outputs are checks, not answers.</em></div>
+        </div>
+        <div class="path-step">
+          <div class="step-num">02</div>
+          <div class="step-body">Notices recent growth diverges from the 5-year average. Documents which one to use and why.<em>Choice becomes visible. Defensible.</em></div>
+        </div>
+        <div class="path-step">
+          <div class="step-num">03</div>
+          <div class="step-body">Weights DDM vs P/E based on the company's specifics — payout history, sector dispersion, earnings volatility.<em>"60/40 because the firm has 15 years of stable dividends and the sector P/E has 30% dispersion."</em></div>
+        </div>
+        <div class="path-step">
+          <div class="step-num">04</div>
+          <div class="step-body">In the defense round: explains every assumption, names what would change the answer.<em>The Reframe scenario lands. Recommendation updates with reasoning.</em></div>
+        </div>
+        <div class="path-outcome">The judgment is theirs. The defense holds.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ SECTION 03 — AI DEMO ============ -->
+<section class="demo" id="demo">
+  <div class="container">
+    <div class="section-mark">§ 03 — Catch the good story</div>
+    <h2>The AI gives you a fluent buy thesis.<br>It is wrong eight ways.</h2>
+    <p class="lede narrow">
+      Below is a simulated AI sell-side snapshot of <strong>Anchor Outdoor Supply</strong>, a
+      fictional publicly traded outdoor recreation retailer. It reads like a clean piece of
+      analyst work. It contains <strong>eight factual or methodological errors</strong> — the
+      kind a real AI might produce. Tap each highlighted claim to find them.
+    </p>
+    <p class="narrow" style="font-size:17px;line-height:1.6;color:var(--ink-mute);max-width:760px;margin:24px auto 0">
+      The "actual" values shown when you reveal each error are this exhibit's designated
+      answers — AOS is fictional, so its real numbers exist only inside the exercise. The
+      verification methods cited (SEC EDGAR, 10-Qs, earnings transcripts) are what a real
+      analysis would use. The point is the reflex, not the company.
+    </p>
+
+    <div class="demo-frame">
+      <div class="demo-header">
+        <div class="demo-title">ai-assistant · Anchor Outdoor Supply (AOS) — Initiation</div>
+        <div class="demo-counter">Errors found <strong id="found">0</strong> / 8</div>
+      </div>
+      <div class="demo-body">
+        <h4>Company Overview</h4>
+        <p>
+          Anchor Outdoor Supply (NYSE: AOS) is a publicly traded specialty retailer of outdoor
+          recreation equipment headquartered in Boulder, Colorado. The company was founded in
+          <span class="err" data-err="1">1984</span><span class="err-detail"><span class="err-tag">Error 01 · Wrong founding date</span>AOS was founded in <strong>1989</strong>, not 1984. A five-year drift on a basic public fact. <span class="impact">Verifiable in 10 seconds via SEC EDGAR or the company's IR page. If the AI got this wrong, what else is it inventing?</span></span>
+          by former forest ranger James Crawford and currently operates 142 retail locations
+          across 28 states. AOS has paid quarterly dividends consistently since its IPO.
+        </p>
+
+        <h4>Valuation Inputs (TTM)</h4>
+        <p>
+          Stock price stands at $48.20 with a market capitalization of $2.1 billion. Trailing
+          twelve-month earnings per share are <span class="err" data-err="2">$3.12</span><span class="err-detail"><span class="err-tag">Error 02 · EPS overstated</span>Actual TTM EPS is <strong>$2.74</strong>, a 14% overstatement. <span class="impact">This cascades directly into the P/E valuation — an inflated EPS multiplied by the wrong industry P/E produces a doubly wrong target.</span></span>,
+          implying a current P/E of 15.4× — well below sector norms. The stock's five-year beta is
+          <span class="err" data-err="3">0.78</span><span class="err-detail"><span class="err-tag">Error 03 · Beta materially understated</span>Recomputed from monthly returns over the past 60 months, AOS's beta is <strong>1.12</strong> — a 44% understatement by the AI. <span class="impact">Lower beta → lower cost of equity → higher DDM intrinsic value. This single error can move a "buy" to a "hold" once corrected.</span></span>,
+          suggesting below-market systematic risk.
+        </p>
+
+        <p>
+          Dividends have grown at <span class="err" data-err="4">11.4%</span><span class="err-detail"><span class="err-tag">Error 04 · Dividend growth overstated</span>The actual 5-year average dividend growth is <strong>6.8%</strong>. The AI cited a single high-growth year as the trend. <span class="impact">In a DDM, a 4.6 percentage-point overstatement of g is catastrophic. With r near 9%, the model would explode toward infinity. The story sounds great; the math breaks.</span></span>
+          annually over the past five years — well above the long-run US GDP growth rate of 2.5%,
+          supporting the case for a 2-stage DDM with an extended high-growth phase.
+        </p>
+
+        <h4>Industry Context</h4>
+        <p>
+          According to <span class="err" data-err="5">a March 2025 Wall Street Journal feature on specialty retail</span><span class="err-detail"><span class="err-tag">Error 05 · Fabricated source</span>No such WSJ feature exists. The AI invented the citation to lend authority to the surrounding claims. <span class="impact">Citing nonexistent sources in a real research report is a CFA Standard I(C) violation — Misrepresentation. Career-ending if it reaches a client.</span></span>,
+          AOS captured 4.2% market-share growth last year through its private-label gear line.
+          In the Q3 earnings call, <span class="err" data-err="6">CFO Sarah Lin announced an exclusive distribution partnership with Patagonia covering all B-Corp certified categories</span><span class="err-detail"><span class="err-tag">Error 06 · Fabricated management guidance</span>No such partnership was announced. The AI manufactured a corporate event with a named executive. <span class="impact">Inventing management statements is the most dangerous form of AI hallucination — it borrows real people's credibility for fabricated facts. Always verify via the actual 10-Q, 8-K, or earnings transcript.</span></span>,
+          expected to drive 20% revenue growth in fiscal 2026.
+        </p>
+
+        <p>
+          The specialty retail sector currently trades at an average P/E of <span class="err" data-err="7">22.3×</span><span class="err-detail"><span class="err-tag">Error 07 · Wrong peer set, wrong multiple</span>The AI quoted the broader Consumer Discretionary sector P/E, not the outdoor specialty retail sub-industry — AOS's actual peer set. In this exhibit, the relevant sub-industry trades closer to <strong>17.5×</strong>, not 22.3×. <span class="impact">Wrong peer set → wrong multiple → wrong relative valuation. The "undervalued vs. sector" narrative collapses once the peer set is correct. In a real analysis, you'd verify the peer-set classification (GICS sub-industry, not sector) and compute the median P/E yourself.</span></span>,
+          suggesting AOS is meaningfully undervalued at its current 15.4× multiple.
+        </p>
+
+        <h4>Recommendation</h4>
+        <p>
+          Using <span class="err" data-err="8">the industry-standard weighting of 60% DDM and 40% relative valuation</span><span class="err-detail"><span class="err-tag">Error 08 · KEYSTONE · Invented authority on the judgment call</span>There is <strong>no industry-standard weighting</strong> between DDM and relative valuation. The choice is the analyst's professional judgment, based on the company's specific characteristics: dividend stability favors DDM; comparable-firm density favors multiples. <span class="impact">This is the most insidious error on the page. The AI sounds most authoritative on the one decision that is irreducibly yours. If you accept "industry standard" as a real thing, you have outsourced your defining act of judgment to a confident hallucination.</span></span>,
+          our intrinsic value estimate is $62.40, implying 29% upside. <strong>Initiating coverage at BUY.</strong>
+        </p>
+      </div>
+      <div class="demo-actions">
+        <button class="btn primary" id="reveal-all">Reveal all errors</button>
+        <button class="btn" id="reset">Reset</button>
+      </div>
+    </div>
+
+    <div class="pull narrow" style="margin-top:64px">
+      Every one of those errors is plausible. Each sentence reads like analyst work. The
+      fabricated WSJ article and the imaginary Patagonia partnership are the obvious ethics
+      problems — but Error 8 is the most dangerous one, because it invents authority on the
+      exact judgment the AI cannot make for you.
+    </div>
+  </div>
+</section>
+
+<!-- ============ SECTION 04 — CHALLENGE / KEYSTONE ============ -->
+<section class="challenge" id="challenge">
+  <div class="container">
+    <div class="section-mark">§ 04 — The Challenge</div>
+    <h2>The Valuation AIChemist Challenge</h2>
+    <p class="lede narrow">
+      The two-class in-lab redesign of FIN 311's Valuation Analytics Project. The Colab
+      notebook is the engine. SAIL is the steering. Four phases, one keystone moment, one
+      defense that cannot be borrowed.
+    </p>
+
+    <div class="phases">
+      <div class="phase">
+        <div class="phase-num">i</div>
+        <div class="phase-label">Phase 1 · Class 1</div>
+        <h4>Think First</h4>
+        <p>
+          Before any Colab cell runs: one paragraph thesis on the company. Guess beta. Guess
+          5-year dividend growth. Guess intrinsic value. Pen and paper. No notebook open.
+        </p>
+        <div class="duration">25 min · No AI · No code</div>
+      </div>
+      <div class="phase">
+        <div class="phase-num">ii</div>
+        <div class="phase-label">Phase 2 · Class 1</div>
+        <h4>AI Augment</h4>
+        <p>
+          Run the Colab. At every <em>STUDENT decision</em> point — beta method, growth rate
+          choice, horizon year — write a one-line justification in the Decision Log next to
+          the cell. Compare to your Phase 1 guess.
+        </p>
+        <div class="duration">50 min · Colab + Decision Log</div>
+      </div>
+      <div class="phase">
+        <div class="phase-num">iii</div>
+        <div class="phase-label">Phase 3 · Class 2</div>
+        <h4>Reframe</h4>
+        <p>
+          Each team draws one of three scenario cards. Eight minutes to revise the
+          recommendation. Twelve minutes to write down what changed in the weighting and
+          why. This is the test of ownership.
+        </p>
+        <div class="duration">20 min · Scenario disruption</div>
+      </div>
+      <div class="phase">
+        <div class="phase-num">iv</div>
+        <div class="phase-label">Phase 4 · Class 2</div>
+        <h4>Defense</h4>
+        <p>
+          Three-minute pair defense. Partner asks: <em>"Why those weights? What would change
+          your answer? Where exactly did this number come from?"</em> If you can't defend it,
+          it isn't yours.
+        </p>
+        <div class="duration">40 min · Live Q&amp;A</div>
+      </div>
+    </div>
+
+    <!-- KEYSTONE -->
+    <div class="keystone">
+      <div class="keystone-tag">▲ The Keystone Moment</div>
+      <h3>Your DDM says one price. Your P/E says another. <em>How do you weight them?</em></h3>
+      <p>
+        This is the question the syllabus already asks: <em>"[Y]our final estimate of the stock
+        price should be the weighted average of the stock prices obtained from DDM and
+        valuation using multiples. You must justify your choice of weights."</em> Everything
+        in the Challenge is designed to make this moment defensible.
+      </p>
+
+      <div class="weight-demo">
+        <div class="weight-card">
+          <div class="weight-method">DDM Output</div>
+          <div class="weight-value">$58.40</div>
+          <div class="weight-subtle">2-stage · g₁=8% · g∞=2.5%</div>
+        </div>
+        <div class="weight-vs">vs.</div>
+        <div class="weight-card">
+          <div class="weight-method">Relative P/E</div>
+          <div class="weight-value">$41.10</div>
+          <div class="weight-subtle">EPS × Industry P/E (17.5×)</div>
+        </div>
+      </div>
+
+      <div class="weight-question">
+        <div class="q">Which weighting is correct?</div>
+        <div class="weight-options">
+          <button class="weight-btn" data-w="70-30">70 / 30 DDM</button>
+          <button class="weight-btn" data-w="50-50">50 / 50</button>
+          <button class="weight-btn" data-w="30-70">30 / 70 DDM</button>
+          <button class="weight-btn" data-w="trick">It depends</button>
+        </div>
+        <div class="weight-reveal" id="weight-reveal">
+          <p>
+            <strong>None of them is automatically correct.</strong> All four answers can be
+            right or wrong depending on the company. <em>"It depends"</em> is closer to the
+            truth than any number — but only if you can name <em>what it depends on</em>.
+          </p>
+          <p style="margin-top:14px">
+            A defensible weighting requires you to identify, in writing, at least two
+            company-specific reasons: dividend stability favors DDM weight; tight comparable
+            firm density favors P/E weight; high earnings volatility undermines P/E;
+            uncertain growth horizon undermines DDM. The percentages are downstream. The
+            <strong>reasoning is the work.</strong>
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ SECTION 05 — PILLARS ============ -->
+<section class="pillars" id="pillars">
+  <div class="container">
+    <div class="section-mark">§ 05 — The Framework</div>
+    <h2>SAIL in the language of FIN 311</h2>
+    <p class="lede narrow">
+      Four pillars, each anchored to an existing piece of the FIN 311 syllabus. SAIL doesn't
+      add new assignments — it makes the existing ones defensible against AI.
+    </p>
+
+    <div class="pillar-grid">
+      <div class="pillar">
+        <span class="pillar-letter">S</span>
+        <h4>Social Intelligence</h4>
+        <p>
+          Defending your weighting in front of a peer who will ask <em>why</em> until you
+          stop being able to say it. The skill AI cannot perform — and the one every job
+          interview will test.
+        </p>
+        <div class="pillar-anchor">
+          <span>Course anchor</span>
+          Phase 4 pair defense · Current Events Q&amp;A
+        </div>
+      </div>
+
+      <div class="pillar">
+        <span class="pillar-letter">A</span>
+        <h4>AI Literacy</h4>
+        <p>
+          Catching the good story before it reaches a client. The Anchor Outdoor Supply
+          exercise above is its training ground — eight errors, eight categories of failure,
+          one verification reflex.
+        </p>
+        <div class="pillar-anchor">
+          <span>Course anchor</span>
+          Catching AI workshop · 30-minute first-week module
+        </div>
+      </div>
+
+      <div class="pillar">
+        <span class="pillar-letter">I</span>
+        <h4>Innovation &amp; Inquiry</h4>
+        <p>
+          Think First. One paragraph thesis and three numbers — beta, growth, intrinsic
+          value — before Colab opens. Your guesses become the baseline the notebook either
+          confirms or challenges.
+        </p>
+        <div class="pillar-anchor">
+          <span>Course anchor</span>
+          Phase 1 thesis · CG article disagreement prompt
+        </div>
+      </div>
+
+      <div class="pillar">
+        <span class="pillar-letter">L</span>
+        <h4>Leadership</h4>
+        <p>
+          Own every number. The Transparency Appendix logs what AI gave you, what you kept,
+          what you changed, what you rejected. In CFA terms: process you can account for.
+        </p>
+        <div class="pillar-anchor">
+          <span>Course anchor</span>
+          Transparency Appendix · Lab deliverable
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ SECTION 06 — TOOLKIT ============ -->
+<section class="toolkit" id="toolkit">
+  <div class="container">
+    <div class="section-mark">§ 06 — Toolkit</div>
+    <h2>Ready-to-use materials</h2>
+    <p class="lede narrow">
+      Four artifacts to hand to a colleague tomorrow. Reframe scenario cards for the lab,
+      a redesigned CG article rubric, a Transparency Appendix template, and a one-paragraph
+      revision to the existing AI policy.
+    </p>
+
+    <!-- ===== Reframe cards ===== -->
+    <div class="tool-section">
+      <div class="tool-eyebrow">Artifact 01 · Print three cards · One per team</div>
+      <h3>Reframe Scenario Cards</h3>
+      <p>
+        Drawn at the start of Phase 3. Each card disrupts a specific input to the
+        valuation — dividend, sector multiple, beta — and forces the team to revisit the
+        weighting they committed to in Phase 2. Eight minutes to revise, two minutes to
+        defend, one line to commit.
+      </p>
+
+      <div class="cards">
+        <div class="card">
+          <div class="card-num">Card 01</div>
+          <div class="card-tag">The Dividend Cut</div>
+          <h4>Capital reallocation announcement</h4>
+          <div class="card-scenario">
+            Overnight, your company announces a 40% dividend cut, citing "capital
+            reallocation toward growth investments." Stock price reacts −7% pre-market.
+            Fundamentals unchanged.
+          </div>
+          <ul class="card-prompts">
+            <li>What does this do to your DDM estimate? Walk through which inputs move.</li>
+            <li>Does it change your P/E estimate? Why or why not?</li>
+            <li>You weighted DDM at 60%. Re-weight or hold? Defend in two sentences.</li>
+            <li>New recommendation. One line. Sign it.</li>
+          </ul>
+          <div class="card-meta">
+            <span>Tests · DDM sensitivity</span>
+            <span>8 min</span>
+          </div>
+        </div>
+
+        <div class="card">
+          <div class="card-num">Card 02</div>
+          <div class="card-tag">The Sector Re-Rating</div>
+          <h4>A Fed move resets the multiple</h4>
+          <div class="card-scenario">
+            A surprise FOMC statement causes your sector's average P/E to compress from
+            22× to 14× in three days. Your company's fundamentals are unchanged.
+            Dividend policy is unchanged.
+          </div>
+          <ul class="card-prompts">
+            <li>What does this do to your P/E valuation? Show the new number.</li>
+            <li>Does it change your DDM estimate? Why or why not?</li>
+            <li>Has the company become a better buy, worse buy, or no change?</li>
+            <li>This is the good story / good stock test. Which one moved?</li>
+          </ul>
+          <div class="card-meta">
+            <span>Tests · Multiples vs DDM</span>
+            <span>8 min</span>
+          </div>
+        </div>
+
+        <div class="card">
+          <div class="card-num">Card 03</div>
+          <div class="card-tag">The Beta Spike</div>
+          <h4>Acquisition integration risk</h4>
+          <div class="card-scenario">
+            Your company announces a $1.2B acquisition of a smaller competitor. Analysts
+            re-estimate beta from 0.85 to 1.40 reflecting integration and leverage risk.
+            Earnings guidance is unchanged.
+          </div>
+          <ul class="card-prompts">
+            <li>What does this do to your cost of equity? Show the recalculation.</li>
+            <li>What does this do to your DDM estimate?</li>
+            <li>Does P/E valuation move? How?</li>
+            <li>If DDM drops 30% and P/E is unchanged, do you re-weight? What does that say about your original confidence in each method?</li>
+          </ul>
+          <div class="card-meta">
+            <span>Tests · CAPM cascade</span>
+            <span>8 min</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ===== CG Rubric redesign ===== -->
+    <div class="tool-section">
+      <div class="tool-eyebrow">Artifact 02 · Replaces existing CG article write-up format</div>
+      <h3>Redesigned CG Article Write-Up</h3>
+      <p>
+        The current half-to-one-page summary plus five takeaway bullets is precisely the
+        format ChatGPT produces best. Below is a redesigned format that makes AI
+        summarization actively unhelpful: it moves the assignment from <em>summary recall</em>
+        (where AI is strong) to <em>application judgment</em> (where AI is weak). Same length.
+        Same grading time. Genuinely different cognitive demand.
+      </p>
+
+      <div class="block">
+        <h4>The four-part response · 1 page single-spaced</h4>
+        <ol>
+          <li>
+            <strong>Argument summary · 4–6 sentences.</strong>
+            <em>Not a recap of the paper's structure. State what the author is trying to prove and the central mechanism by which they prove it. If you cannot do this in five sentences, you have not understood the paper.</em>
+          </li>
+          <li>
+            <strong>Current-event application · 1 paragraph.</strong>
+            <em>Identify one specific publicly traded firm where this paper's argument applies to a corporate event in the last 60 days. Name the company, name the event, explain the connection. "Many companies face governance issues" is not an answer.</em>
+          </li>
+          <li>
+            <strong>The weak claim · 1 paragraph.</strong>
+            <em>Identify one specific claim, assumption, or empirical choice in the paper that you find weakest, and explain why a corporate board reading this paper should be skeptical of it. Disagreement is required, not optional.</em>
+          </li>
+          <li>
+            <strong>The unanswered question · 2 sentences.</strong>
+            <em>Identify one question a board considering implementing the paper's recommendation would need answered that the paper does not address. This is the original-thinking test.</em>
+          </li>
+        </ol>
+        <div class="note">
+          <strong>Why this design.</strong> ChatGPT can produce part 1 trivially. It can fake part 2. It will produce a generic part 3 that lacks specificity to the actual empirical choices in the paper. It cannot reliably produce part 4 without the student doing real work. Grade weight should shift accordingly: <strong>15% / 30% / 30% / 25%</strong>. The summary becomes a comprehension check, not the assignment.
+        </div>
+      </div>
+    </div>
+
+    <!-- ===== Transparency Appendix ===== -->
+    <div class="tool-section">
+      <div class="tool-eyebrow">Artifact 03 · One-page student deliverable · Part of lab submission</div>
+      <h3>Transparency Appendix Template</h3>
+      <p>
+        Replaces the existing peer/self evaluation form for the lab. Submitted by each
+        student individually. Half a page if the student used AI minimally; one page if they
+        used it heavily. The audit trail is the deliverable. No AI policy violation; full
+        documentation is the policy.
+      </p>
+
+      <div class="block">
+        <h4>Transparency Appendix · One page · Submit individually</h4>
+        <ol>
+          <li><strong>Phase 1 written thesis</strong> — attach or paste your one-paragraph pre-Colab thesis. Three numbers: your guessed beta, your guessed 5-year dividend growth, your guessed intrinsic value.</li>
+          <li><strong>Decision Log</strong> — for each STUDENT decision point in the Colab (beta method, growth rate choice, horizon year, weighting), one sentence of justification. Five entries minimum.</li>
+          <li><strong>AI usage log</strong> — list every AI interaction during the lab (ChatGPT, Claude, Copilot, etc.). For each: what you asked, what it gave you, what you kept, what you changed, what you rejected. <em>"None" is a valid entry if true.</em></li>
+          <li><strong>Verification notes</strong> — for each piece of AI-supplied information you used, what primary source confirmed it (10-K page, earnings transcript, Bloomberg, FRED, Yahoo Finance). If unverified, mark explicitly.</li>
+          <li><strong>What changed between Phase 1 and Phase 4</strong> — one sentence. Did your initial thesis hold? What forced a revision? What did you learn that you could not have learned by running the notebook alone?</li>
+        </ol>
+        <div class="note">
+          <strong>Grading.</strong> Honesty is graded, not minimal use. A student who used AI heavily and documented it carefully should score higher than one who used AI casually and reported "none." The skill is process accountability — the same standard CFA Standard V(C) Record Retention requires of professional analysts.
+        </div>
+      </div>
+    </div>
+
+    <!-- ===== Syllabus AI Policy ===== -->
+    <div class="tool-section">
+      <div class="tool-eyebrow">Artifact 04 · Replaces existing line in project description</div>
+      <h3>Syllabus AI Policy Revision</h3>
+      <p>
+        The current FIN 311 project description contains the line <em>"AI-generated reports
+        are unacceptable."</em> That language was written for the take-home team project. The
+        in-class lab implicitly invites AI engagement, so the policy needs an update that
+        works for both deliverables. The replacement is one paragraph; it doesn't ban AI and
+        it doesn't endorse it — it requires what professional standards already require.
+      </p>
+
+      <div class="replace">
+        <div class="replace-head">Replacement language · Project Description, p. 2</div>
+        <div class="replace-body">
+          <p>
+            <span class="strike">AI-generated reports are unacceptable.</span>
+          </p>
+          <p>
+            <span class="add">Use of generative AI tools in this course is permitted and, in the
+            Valuation Analytics Lab, expected. What is required is process transparency. Every
+            student must submit a Transparency Appendix documenting which AI tools were used,
+            what was asked, what was kept, changed, or rejected, and which primary sources were
+            used to verify any AI-supplied information. AI-generated reports submitted as the
+            student's own work — without documentation, verification, or evidence of judgment
+            — will be treated as academic dishonesty under the same standard as fabricated
+            sources or plagiarized text. Cite AI tools the same way you cite a Bloomberg
+            terminal: with the date, the prompt, and the role it played in your work.</span>
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ FOOTER ============ -->
+<footer>
+  <div class="foot-mark">A good story is fluent.<br>A good stock is defensible.</div>
+  <p>
+    SAIL Framework · Suffolk University · Sawyer Business School<br>
+    FIN 311 — Intermediate Finance · AI-Augmented Learning<br>
+    Companion to <a href="https://harslan.github.io/sail-framework/fin810" style="color:var(--gold);text-decoration:none">FIN 810 — Investment Analysis</a>
+  </p>
+</footer>
+
+<script>
+  // AI Hallucination Exhibit
+  let found = 0;
+  const total = 8;
+  const counter = document.getElementById('found');
+  document.querySelectorAll('.err').forEach(el => {
+    el.addEventListener('click', () => {
+      if (!el.classList.contains('found')) {
+        el.classList.add('found');
+        found++;
+        counter.textContent = found;
+        if (found === total) counter.style.color = 'var(--gold)';
+      }
+    });
+  });
+  document.getElementById('reveal-all').addEventListener('click', () => {
+    document.querySelectorAll('.err').forEach(el => {
+      if (!el.classList.contains('found')) {
+        el.classList.add('found');
+        found++;
+      }
+    });
+    counter.textContent = found;
+    counter.style.color = 'var(--gold)';
+  });
+  document.getElementById('reset').addEventListener('click', () => {
+    document.querySelectorAll('.err.found').forEach(el => el.classList.remove('found'));
+    found = 0;
+    counter.textContent = '0';
+    counter.style.color = '';
+  });
+
+  // Weighting reveal
+  const reveal = document.getElementById('weight-reveal');
+  document.querySelectorAll('.weight-btn').forEach(btn => {
+    btn.addEventListener('click', () => {
+      document.querySelectorAll('.weight-btn').forEach(b => b.classList.remove('selected'));
+      btn.classList.add('selected');
+      reveal.classList.add('show');
+    });
+  });
+</script>
+
+</body>
+</html>
